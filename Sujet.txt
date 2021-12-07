@@ -1,0 +1,13 @@
+Partie applicative :
+
+
+
+Partie plate-forme :
+	* Couche Services
+		- Gestion des freeze bees
+		- Gestion des ingredients
+		- Gestion des communications
+	* Couche Composants (Plugins)
+	* Couche Data
+		* Contient toutes les données (MongoDB)
+		* Système de supervision (TODO)

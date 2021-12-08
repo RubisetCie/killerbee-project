@@ -1,0 +1,33 @@
+{
+  "name": "api-freezebee",
+  "description": "API to interact with freezebee models.",
+  "version": "1.0.0",
+  "keywords": [
+    "js",
+    "node",
+    "express"
+  ],
+  "author": "Matthieu 'Rubisetcie' Carteron",
+  "contributors": [
+    "Andréa Landemarre"
+  ],
+  "license": "ISC",
+  "main": "main.js",
+  "scripts": {
+    "start": "nodemon main.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongodb": "^4.2.1",
+    "morgan": "^1.10.0",
+    "jsonwebtoken": "^8.5.1",
+    "swagger-ui-express": "^4.2.0",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

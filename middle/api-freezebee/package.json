@@ -1,6 +1,6 @@
 {
   "name": "api-freezebee",
-  "description": "API to interact with freezebee models.",
+  "description": "API to interact with freezebee models, ingredients and recipes.",
   "version": "1.0.0",
   "keywords": [
     "js",

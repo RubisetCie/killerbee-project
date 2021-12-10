@@ -1,0 +1,1017 @@
+swagger: '2.0'
+info:
+  description: The API that retrieves data in from the platform for the application.
+  version: 1.0.0
+  title: Killerbee API
+  contact:
+    email: matthieu.carteron@viacesi.fr
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'www.killerbee.fr'
+schemes:
+  - http
+  - https
+paths:
+  /model:
+    get:
+      summary: Get model data
+      description: Retrieve all model data
+      operationId: getModel
+      tags:
+        - Model
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelArrayResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+    post:
+      summary: Add model data
+      description: Create new model data
+      operationId: postModel
+      tags:
+        - Model
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Request body
+          required: true
+          schema:
+            $ref: '#/definitions/Model'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelResponse'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+  /model/{id}:
+    get:
+      summary: Get model data by ID
+      description: Retrieve model data by ID
+      operationId: getModelById
+      tags:
+        - Model
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          description: Model ID
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Model'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '404':
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update model data by ID
+      description: Update model data by ID
+      operationId: putModelById
+      tags:
+        - Model
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          description: Model ID
+        - in: body
+          name: Request body
+          required: true
+          schema:
+            $ref: '#/definitions/Model'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Model'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '404':
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete model data by ID
+      description: Delete model data by ID
+      operationId: deleteModelById
+      tags:
+        - Model
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          description: Model ID
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '404':
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+  /model/query:
+    get:
+      summary: Get model data using query
+      description: Retrieve filtered list of model data
+      operationId: getModelQuery
+      tags:
+        - Model
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Request body
+          required: true
+          schema:
+            $ref: '#/definitions/ModelQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelArrayResponse'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+  /ingredient:
+    get:
+      summary: Get ingredient data
+      description: Retrieve all ingredient data
+      operationId: getIngredient
+      tags:
+        - Ingredient
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/IngredientArrayResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+    post:
+      summary: Add ingredient data
+      description: Create new ingredient data
+      operationId: postIngredient
+      tags:
+        - Ingredient
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Request body
+          required: true
+          schema:
+            $ref: '#/definitions/Ingredient'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/IngredientResponse'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+  /ingredient/{id}:
+    get:
+      summary: Get ingredient data by ID
+      description: Retrieve ingredient data by ID
+      operationId: getIngredientById
+      tags:
+        - Ingredient
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          description: Ingredient ID
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Ingredient'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '404':
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update ingredient data by ID
+      description: Update ingredient data by ID
+      operationId: putIngredientById
+      tags:
+        - Ingredient
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          description: Ingredient ID
+        - in: body
+          name: Request body
+          required: true
+          schema:
+            $ref: '#/definitions/Ingredient'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Ingredient'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '404':
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete ingredient data by ID
+      description: Delete ingredient data by ID
+      operationId: deleteIngredientById
+      tags:
+        - Ingredient
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          description: Ingredient ID
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '404':
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+  /ingredient/query:
+    get:
+      summary: Get ingredient data using query
+      description: Retrieve filtered list of ingredient data
+      operationId: getIngredientQuery
+      tags:
+        - Ingredient
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Request body
+          required: true
+          schema:
+            $ref: '#/definitions/IngredientQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/IngredientArrayResponse'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+  /method:
+    get:
+      summary: Get method data
+      description: Retrieve all method data
+      operationId: getMethod
+      tags:
+        - Method
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MethodArrayResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+    post:
+      summary: Add method data
+      description: Create new method data
+      operationId: postMethod
+      tags:
+        - Method
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Request body
+          required: true
+          schema:
+            $ref: '#/definitions/Method'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MethodResponse'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+  /method/{id}:
+    get:
+      summary: Get method data by ID
+      description: Retrieve method data by ID
+      operationId: getMethodById
+      tags:
+        - Method
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          description: Method ID
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Method'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '404':
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+    put:
+      summary: Update method data by ID
+      description: Update method data by ID
+      operationId: putMethodById
+      tags:
+        - Method
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          description: Method ID
+        - in: body
+          name: Request body
+          required: true
+          schema:
+            $ref: '#/definitions/Method'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Method'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '404':
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+    delete:
+      summary: Delete method data by ID
+      description: Delete method data by ID
+      operationId: deleteMethodById
+      tags:
+        - Method
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          description: Method ID
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '404':
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+  /method/query:
+    get:
+      summary: Get method data using query
+      description: Retrieve filtered list of method data
+      operationId: getMethodQuery
+      tags:
+        - Method
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Request body
+          required: true
+          schema:
+            $ref: '#/definitions/MethodQuery'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MethodArrayResponse'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - BearerAuth: []
+  /login/:
+    post:
+      summary: Log-in user
+      description: Log-in an user
+      operationId: login
+      tags:
+        - Authentication
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Request body
+          description: Log-in informations
+          required: true
+          schema:
+            $ref: '#/definitions/LoginRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal error
+  /logout/:
+    post:
+      summary: Log-out user
+      description: Log-out an user and remove its stored authentication tokens
+      operationId: logout
+      tags:
+        - Authentication
+      parameters:
+        - in: body
+          name: Request body
+          description: Log-out informations
+          required: true
+          schema:
+            $ref: '#/definitions/LogoutRequest'
+      responses:
+        '204':
+          description: OK
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal error
+  /token/:
+    post:
+      summary: Refresh token
+      description: Refresh an user's token
+      operationId: token
+      tags:
+        - Authentication
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Request body
+          description: Token informations
+          required: true
+          schema:
+            $ref: '#/definitions/TokenRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TokenResponse'
+        '400':
+          description: Invalid input
+        '500':
+          description: Internal error
+securityDefinitions:
+  BearerAuth:
+    type: basic
+definitions:
+  Model:
+    type: object
+    properties:
+      name:
+        type: string
+        description: The name of the model
+      reference:
+        type: string
+        description: The reference of the model
+      description:
+        type: string
+        description: A description of the model
+      variety:
+        type: string
+        description: The variety of the model
+      color:
+        $ref: '#/definitions/Color'
+      price:
+        type: number
+        format: float
+        description: The unit price tax-exclusive of the model
+      dimensions:
+        $ref: '#/definitions/Dimensions'
+      mass:
+        type: number
+        format: float
+        description: The mass of the model
+      lift:
+        type: number
+        format: float
+        description: The lift coefficient of the model
+      needs:
+        type: object
+        properties:
+          dosing:
+            type: number
+            format: float
+          ingredient:
+            $ref: '#/definitions/Ingredient'
+    required:
+      - name
+      - reference
+      - price
+  Ingredient:
+    type: object
+    properties:
+      name:
+        type: string
+        description: The name of the ingredient
+      description:
+        type: string
+        description: A description of the ingredient
+      brand:
+        type: string
+        description: The name of the producer (if exists)
+      type:
+        type: string
+        description: The type of the ingredient (material, etc)
+      color:
+        $ref: '#/definitions/Color'
+      price:
+        type: number
+        format: float
+        description: The price per kilogram of the ingredient
+      density:
+        type: number
+        format: float
+        description: The density of the ingredient
+      young:
+        type: number
+        format: float
+        description: The young’s modulus
+    required:
+      - name
+      - type
+      - price
+  Method:
+    type: object
+    properties:
+      name:
+        type: string
+        description: The name of the method
+      description:
+        type: string
+        description: The description of the method
+      model:
+        $ref: '#/definitions/Model'
+      steps:
+        type: array
+        description: The description of each step of the method
+        items:
+          $ref: '#/definitions/Step'
+    required:
+      - name
+      - description
+      - steps
+  Color:
+    type: object
+    properties:
+      r:
+        type: integer
+        format: int8
+      g:
+        type: integer
+        format: int8
+      b:
+        type: integer
+        format: int8
+    required:
+      - r
+      - g
+      - b
+  Dimensions:
+    type: object
+    properties:
+      width:
+        type: number
+        format: float
+      length:
+        type: number
+        format: float
+      height:
+        type: number
+        format: float
+    required:
+      - width
+      - length
+      - height
+  Step:
+    type: object
+    properties:
+      description:
+        type: string
+      validation:
+        type: string
+    required:
+      - description
+  ModelQuery:
+    type: object
+    properties:
+      name:
+        type: string
+      reference:
+        type: string
+      variety:
+        type: string
+  ModelPost:
+    type: object
+    properties:
+      name:
+        type: string
+        description: The name of the model
+      reference:
+        type: string
+        description: The reference of the model
+      description:
+        type: string
+        description: A description of the model
+      variety:
+        type: string
+        description: The variety of the model
+      color:
+        $ref: '#/definitions/Color'
+      price:
+        type: number
+        format: float
+        description: The unit price tax-exclusive of the model
+      dimensions:
+        $ref: '#/definitions/Dimensions'
+      mass:
+        type: number
+        format: float
+        description: The mass of the model
+      lift:
+        type: number
+        format: float
+        description: The lift coefficient of the model
+      needs:
+        type: object
+        properties:
+          dosing:
+            type: number
+            format: float
+          ingredientId:
+            type: integer
+            format: int64
+    required:
+      - name
+      - reference
+      - price
+  ModelResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      model:
+        $ref: '#/definitions/Model'
+  ModelArrayResponse:
+    type: object
+    properties:
+      models:
+        type: array
+        items:
+          $ref: '#/definitions/ModelResponse'
+  IngredientQuery:
+    type: object
+    properties:
+      name:
+        type: string
+      brand:
+        type: string
+      type:
+        type: string
+  IngredientResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      model:
+        $ref: '#/definitions/Ingredient'
+  IngredientArrayResponse:
+    type: object
+    properties:
+      models:
+        type: array
+        items:
+          $ref: '#/definitions/IngredientResponse'
+  MethodQuery:
+    type: object
+    properties:
+      name:
+        type: string
+  MethodPost:
+    type: object
+    properties:
+      name:
+        type: string
+        description: The name of the method
+      description:
+        type: string
+        description: The description of the method
+      modelId:
+        type: integer
+        format: int64
+      steps:
+        type: array
+        description: The description of each step of the method
+        items:
+          $ref: '#/definitions/Step'
+    required:
+      - name
+      - description
+      - steps
+  MethodResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      model:
+        $ref: '#/definitions/Method'
+  MethodArrayResponse:
+    type: object
+    properties:
+      models:
+        type: array
+        items:
+          $ref: '#/definitions/MethodResponse'
+  LoginRequest:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+        format: password
+    required:
+      - email
+      - password
+  LoginResponse:
+    type: object
+    properties:
+      accessToken:
+        type: string
+      refreshToken:
+        type: string
+  LogoutRequest:
+    type: object
+    properties:
+      token:
+        type: string
+    required:
+      - token
+  TokenRequest:
+    type: object
+    properties:
+      token:
+        type: string
+    required:
+      - token
+  TokenResponse:
+    type: object
+    properties:
+      accessToken:
+        type: string
+  ErrorResponse:
+    type: object
+    properties:
+      message:
+        type: string
+externalDocs:
+  description: Project repository
+  url: 'https://github.com/RubisetCie/killerbee-project'

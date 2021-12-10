@@ -10,7 +10,9 @@ const cors = require("cors");
 const fs = require("fs");
 
 // Internal modules
-const router = require("./route/mainRoute");
+const routerModel = require("./route/modelRoute");
+const routerMethod = require("./route/methodRoute");
+const routerIngredient = require("./route/ingredientRoute");
 const authentication = require("./controller/authController");
 
 // Environment configuration
@@ -36,7 +38,9 @@ app.post("/token", authentication.token);
 
 app.use(authentication.authentication);
 
-app.use("/", router);
+app.use("/model", routerModel);
+app.use("/method", routerMethod);
+app.use("/ingredient", routerIngredient);
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port: ${PORT}`);

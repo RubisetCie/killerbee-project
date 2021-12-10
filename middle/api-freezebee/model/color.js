@@ -14,6 +14,14 @@ class Color {
         json["b"] = this.b;
         return json;
     }
+    
+    static fromJson = function(json) {
+        const object = Color;
+        object.r = json["r"];
+        object.g = json["g"];
+        object.b = json["b"];
+        return object;
+    }
 }
 
 module.exports = Color;

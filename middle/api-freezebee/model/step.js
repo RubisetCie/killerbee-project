@@ -8,11 +8,16 @@ class Step {
     
     toJson = function() {
         const json = {};
-        
         json["description"] = this.description;
         json["validation"] = this.validation;
-        
         return json;
+    }
+    
+    static fromJson = function(json) {
+        const object = Step;
+        object.description = json["description"];
+        object.validation = json["validation"];
+        return object;
     }
 }
 

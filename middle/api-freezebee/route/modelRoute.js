@@ -5,8 +5,11 @@
 const router = require("express").Router();
 const controller = require("../controller/modelController");
 
-router.get("/", controller.getAll);
-router.get("/restaurant/:id", controller.getByRestaurantId);
+router.post("/", controller.post);
+router.get("/", controller.get);
 router.get("/:id", controller.getById);
+router.get("/:name", controller.getByName);
+router.put("/:id", controller.putById);
+router.delete("/:id", controller.deleteById);
 
 module.exports = router;

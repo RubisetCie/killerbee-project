@@ -50,7 +50,7 @@ paths:
           name: Request body
           required: true
           schema:
-            $ref: '#/definitions/Model'
+            $ref: '#/definitions/ModelPost'
       responses:
         '200':
           description: OK
@@ -126,7 +126,7 @@ paths:
           name: Request body
           required: true
           schema:
-            $ref: '#/definitions/Model'
+            $ref: '#/definitions/ModelPost'
       responses:
         '200':
           description: OK
@@ -458,7 +458,7 @@ paths:
           name: Request body
           required: true
           schema:
-            $ref: '#/definitions/Method'
+            $ref: '#/definitions/MethodPost'
       responses:
         '200':
           description: OK
@@ -539,7 +539,7 @@ paths:
         '200':
           description: OK
           schema:
-            $ref: '#/definitions/Method'
+            $ref: '#/definitions/MethodPost'
         '400':
           description: Invalid input
           schema:
@@ -920,12 +920,12 @@ definitions:
       id:
         type: integer
         format: int64
-      model:
+      ingredient:
         $ref: '#/definitions/Ingredient'
   IngredientArrayResponse:
     type: object
     properties:
-      models:
+      ingredients:
         type: array
         items:
           $ref: '#/definitions/IngredientResponse'
@@ -961,25 +961,25 @@ definitions:
       id:
         type: integer
         format: int64
-      model:
+      method:
         $ref: '#/definitions/Method'
   MethodArrayResponse:
     type: object
     properties:
-      models:
+      methods:
         type: array
         items:
           $ref: '#/definitions/MethodResponse'
   LoginRequest:
     type: object
     properties:
-      email:
+      username:
         type: string
       password:
         type: string
         format: password
     required:
-      - email
+      - username
       - password
   LoginResponse:
     type: object

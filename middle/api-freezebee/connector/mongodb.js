@@ -6,7 +6,6 @@
 const MongoClient = require("mongodb").MongoClient;
 
 // Model components
-// TODO
 
 const ApiError = require("../exception/apiError");
 

@@ -1,10 +1,10 @@
 /****************************************************************
- * The object representing a freezebee model.
+ * The object representing a model without external references.
  ****************************************************************/
 
-const Color = require("./color");
-const Dimensions = require("./dimensions");
-const Need = require("./need");
+const Color = require("../color");
+const Dimensions = require("../dimensions");
+const NeedPost = require("./needPost");
 
 class Model {
     name;
@@ -16,7 +16,7 @@ class Model {
     dimensions;     // Reference to a Dimensions object
     mass;
     lift;
-    needs = [];     // Reference to a list of Need objects
+    needs = [];     // Reference to a list of NeedPost objects
     
     toJson = function() {
         const json = {};
@@ -54,7 +54,7 @@ class Model {
         
         if (json["needs"]) {
             json["needs"].forEach((entry) => {
-                object.needs.push(Need.fromJson(entry));
+                object.needs.push(NeedPost.fromJson(entry));
             });
         }
 

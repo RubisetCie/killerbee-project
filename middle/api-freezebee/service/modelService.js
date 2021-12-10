@@ -20,9 +20,9 @@ module.exports.getById = function(id) {
     return connector.selectModelById(id);
 };
 
-// Retrieve model data by name
-module.exports.getByName = function(name) {
-    return connector.selectModelByName(name);
+// Retrieve model data by query
+module.exports.getQuery = function(query) {
+    return connector.selectModelByName(query);
 };
 
 // Update model data by ID

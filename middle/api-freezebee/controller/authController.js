@@ -6,8 +6,19 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+// Internal modules
+const service = require("../service/authService");
+
 // Utils functions
 const handleError = require("../utils/apiUtils").handleError;
+
+// Model classes
+const LoginRequest = require("../model/request/loginRequest");
+const LogoutRequest = require("../model/request/logoutRequest");
+const TokenRequest = require("../model/request/tokenRequest");
+const LoginResponse = require("../model/response/loginResponse");
+const TokenResponse = require("../model/response/tokenResponse");
+const ResponseError = require("../model/response/errorResponse");
 
 // Exception class
 const ApiError = require("../exception/apiError");
@@ -17,28 +28,29 @@ const ACCESSTOKENSECRET = process.env.AUTH_ACCESSTOKENSECRET;
 const REFRESHTOKENSECRET = process.env.AUTH_REFRESHTOKENSECRET;
 const TOKENEXPIRATION = process.env.AUTH_TOKENEXPIRATION || "20m";
 
+// Store for the refresh tokens
 var refreshTokens = [];
 
 // User login
 module.exports.login = function(req, res) {
     try {
         if (!req.body)
-            throw new ApiError("Request body is undefined", 400);
+            throw new ApiError("The request must come with a body", 400);
         
-        const email = req.body["email"];
-        const password = req.body["password"];
+        const request = LoginRequest.fromJson(req.body);
 
         // Paramters verification
-        if (!email)     throw new ApiError("Missing mandatory parameter: email", 400);
-        if (!password)  throw new ApiError("Missing mandatory parameter: password", 400);
+        if (!request.username)  throw new ApiError("Missing mandatory parameter: username", 400);
+        if (!request.password)  throw new ApiError("Missing mandatory parameter: password", 400);
         
-        service.getUserByEmail(email).then(async function(user) {
-            if (await bcrypt.compare(password, user.password)) {
+        service.getByUsername(request).then(async function(user) {
+            if (await bcrypt.compare(request.password, user.password)) {
+
                 // Access token generation
                 const accessToken = jwt.sign({
                     id: user.id,
                     username: user.username,
-                    role: user.usertype
+                    role: user.role
                 }, ACCESSTOKENSECRET, { expiresIn: TOKENEXPIRATION });
                 
                 // Refresh token generation
@@ -48,17 +60,21 @@ module.exports.login = function(req, res) {
                     role: user.usertype
                 }, REFRESHTOKENSECRET);
                 
-                refreshTokens.push(refreshToken);
+                const response = LoginResponse;
                 
-                res.json({ accessToken, refreshToken });
+                refreshTokens.push(refreshToken);
+                response.accessToken = accessToken;
+                response.refreshToken = refreshToken;
+                
+                res.json(response.toJson());
             } else {
-                res.status(400).send("Password mismatch");
+                throw new ApiError("Password mismatch", 400);
             }
         }).catch((error) => {
-            handleError(error, res, "logging in");
+            handleError(error, res, "authController.login");
         });
     } catch (err) {
-        handleError(err, res, "logging in");
+        handleError(err, res, "authController.login");
     }
 };
 
@@ -66,17 +82,18 @@ module.exports.login = function(req, res) {
 module.exports.logout = function(req, res) {
     try {
         if (!req.body)
-            throw new ApiError("Request body is undefined", 400);
+            throw new ApiError("The request must come with a body", 400);
         
-        const token = req.body["token"];
-        if (!token)
-            throw new ApiError("Missing mandatory parameter: token", 401);
+        const request = LogoutRequest.fromJson(req.body);
+        if (!request.token)
+            throw new ApiError("Missing mandatory parameter: token", 400);
         
-        refreshTokens = refreshTokens.filter((t) => { t !== token; });
+        // Remove refresh token from the store
+        refreshTokens = refreshTokens.filter((t) => { t !== request.token; });
 
         res.status(204).send();
     } catch (err) {
-        handleError(err, res, "logging out");
+        handleError(err, res, "authController.logout");
     }
 };
 
@@ -84,11 +101,11 @@ module.exports.logout = function(req, res) {
 module.exports.token = function(req, res) {
     try {
         if (!req.body)
-            throw new ApiError("Request body is undefined", 400);
+            throw new ApiError("The request must come with a body", 400);
         
-        const token = req.body["token"];
-        if (!token)
-            throw new ApiError("Missing mandatory parameter: token", 401);
+        const request = TokenRequest.fromJson(req.body);
+        if (!request.token)
+            throw new ApiError("Missing mandatory parameter: token", 400);
         
         // Check if the token is contained in the generated refresh token list
         if (!refreshTokens.includes(token))
@@ -103,35 +120,36 @@ module.exports.token = function(req, res) {
                 username: user.username,
                 role: user.usertype
             }, ACCESSTOKENSECRET, { expiresIn: TOKENEXPIRATION });
+            
+            const response = TokenResponse;
+            response.accessToken = accessToken;
 
-            res.json({ accessToken });
+            res.json(response.toJson());
         });
     } catch (err) {
-        handleError(err, res, "refreshing token");
+        handleError(err, res, "authController.token");
     }
 };
 
 // Middleware that handles authentication using JWT
-module.exports.authentication = function(req, res, next) {
+module.exports.authenticate = function(req, res, next) {
     try {
         const authHeader = req.headers.authorization;
         if (authHeader) {
             const bearer = authHeader.split(' ')[1]; // Get the bearer
-            jwt.verify(bearer, ACCESSTOKENSECRET, (err, token) => {
+            jwt.verify(bearer, ACCESSTOKENSECRET, (err) => {
                 if (err)
                     throw new ApiError("Wrong access token", 403);
 
-                // Passing the token to the request
-                req.token = token;
-                
-                // Continuing the route
                 next();
             });
         } else {
            throw new ApiError("An authorization is required for this request", 401);
         }
     } catch (err) {
+        const response = ResponseError;
+        response.message = err.message;
         console.error("Authentication error:", err);
-        res.status(err instanceof ApiError ? err.code : 500).send(err.message);
+        res.status(err instanceof ApiError ? err.code : 500).json(response.toJson());
     }
 };

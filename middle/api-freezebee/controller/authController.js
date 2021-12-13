@@ -43,7 +43,7 @@ module.exports.login = function(req, res) {
         if (!request.username)  throw new ApiError("Missing mandatory parameter: username", 400);
         if (!request.password)  throw new ApiError("Missing mandatory parameter: password", 400);
         
-        service.getByUsername(request).then(async function(user) {
+        service.getByUsername(request.username).then(async function(user) {
             if (await bcrypt.compare(request.password, user.password)) {
 
                 // Access token generation
@@ -60,7 +60,7 @@ module.exports.login = function(req, res) {
                     role: user.usertype
                 }, REFRESHTOKENSECRET);
                 
-                const response = LoginResponse;
+                const response = new LoginResponse;
                 
                 refreshTokens.push(refreshToken);
                 response.accessToken = accessToken;
@@ -108,10 +108,10 @@ module.exports.token = function(req, res) {
             throw new ApiError("Missing mandatory parameter: token", 400);
         
         // Check if the token is contained in the generated refresh token list
-        if (!refreshTokens.includes(token))
+        if (!refreshTokens.includes(request.token))
             throw new ApiError("Wrong refresh token", 403);
         
-        jwt.verify(token, REFRESHTOKENSECRET, (err, user) => {
+        jwt.verify(request.token, REFRESHTOKENSECRET, (err, user) => {
             if (err)
                 throw new ApiError("Wrong refresh token", 403);
 
@@ -121,7 +121,7 @@ module.exports.token = function(req, res) {
                 role: user.usertype
             }, ACCESSTOKENSECRET, { expiresIn: TOKENEXPIRATION });
             
-            const response = TokenResponse;
+            const response = new TokenResponse;
             response.accessToken = accessToken;
 
             res.json(response.toJson());
@@ -147,7 +147,7 @@ module.exports.authenticate = function(req, res, next) {
            throw new ApiError("An authorization is required for this request", 401);
         }
     } catch (err) {
-        const response = ResponseError;
+        const response = new ResponseError;
         response.message = err.message;
         console.error("Authentication error:", err);
         res.status(err instanceof ApiError ? err.code : 500).json(response.toJson());

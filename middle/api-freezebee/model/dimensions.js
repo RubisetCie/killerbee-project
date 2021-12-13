@@ -16,7 +16,7 @@ class Dimensions {
     }
     
     static fromJson = function(json) {
-        const object = Dimensions;
+        const object = new Dimensions;
         object.width = json["width"];
         object.length = json["length"];
         object.height = json["height"];

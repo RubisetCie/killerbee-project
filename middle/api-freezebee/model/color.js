@@ -16,7 +16,7 @@ class Color {
     }
     
     static fromJson = function(json) {
-        const object = Color;
+        const object = new Color;
         object.r = json["r"];
         object.g = json["g"];
         object.b = json["b"];

@@ -29,6 +29,7 @@ const swaggerOptions = {
 // App creation
 const app = express();
 
+app.use(require('body-parser').json());
 app.use(cors());
 app.use("/docs", swagger.serve, swagger.setup(swaggerDocument, swaggerOptions));
 app.use(morgan("common", {stream: fs.createWriteStream(__dirname + "/access.log", { flags: "a" })}));

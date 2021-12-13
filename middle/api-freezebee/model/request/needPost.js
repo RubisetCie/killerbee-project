@@ -7,7 +7,7 @@ class NeedPost {
     ingredientId;
     
     static fromJson = function(json) {
-        const object = NeedPost;
+        const object = new NeedPost;
         object.dosing = json["dosing"];
         object.ingredientId = json["ingredientId"];
         return object;

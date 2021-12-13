@@ -11,7 +11,7 @@ class MethodPost {
     steps = [];     // Reference to a list of Step objects
     
     static fromJson = function(json) {
-        const object = MethodPost;
+        const object = new MethodPost;
         
         object.name = json["name"];
         object.description = json["description"];

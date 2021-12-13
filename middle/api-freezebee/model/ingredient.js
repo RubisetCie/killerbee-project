@@ -21,7 +21,9 @@ class Ingredient {
         json["description"] = this.description;
         json["brand"] = this.brand;
         json["type"] = this.type;
-        json["color"] = this.color ? this.color.toJson() : null;
+        if (this.color) {
+            json["color"] = this.color;
+        }
         json["price"] = this.price;
         json["density"] = this.density;
         json["young"] = this.young;
@@ -30,7 +32,7 @@ class Ingredient {
     }
     
     static fromJson = function(json) {
-        const object = Ingredient;
+        const object = new Ingredient;
 
         object.name = json["name"];
         object.description = json["description"];

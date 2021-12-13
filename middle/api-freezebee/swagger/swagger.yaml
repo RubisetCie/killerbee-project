@@ -197,7 +197,7 @@ paths:
           name: Request body
           required: true
           schema:
-            $ref: '#/definitions/ModelQuery'
+            $ref: '#/definitions/DefaultTextQuery'
       responses:
         '200':
           description: OK
@@ -401,7 +401,7 @@ paths:
           name: Request body
           required: true
           schema:
-            $ref: '#/definitions/IngredientQuery'
+            $ref: '#/definitions/DefaultTextQuery'
       responses:
         '200':
           description: OK
@@ -605,7 +605,7 @@ paths:
           name: Request body
           required: true
           schema:
-            $ref: '#/definitions/MethodQuery'
+            $ref: '#/definitions/DefaultTextQuery'
       responses:
         '200':
           description: OK
@@ -837,15 +837,6 @@ definitions:
         type: string
     required:
       - description
-  ModelQuery:
-    type: object
-    properties:
-      name:
-        type: string
-      reference:
-        type: string
-      variety:
-        type: string
   ModelPost:
     type: object
     properties:
@@ -905,15 +896,6 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/ModelResponse'
-  IngredientQuery:
-    type: object
-    properties:
-      name:
-        type: string
-      brand:
-        type: string
-      type:
-        type: string
   IngredientResponse:
     type: object
     properties:
@@ -929,11 +911,6 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/IngredientResponse'
-  MethodQuery:
-    type: object
-    properties:
-      name:
-        type: string
   MethodPost:
     type: object
     properties:
@@ -1006,6 +983,11 @@ definitions:
     type: object
     properties:
       accessToken:
+        type: string
+  DefaultTextQuery:
+    type: object
+    properties:
+      query:
         type: string
   ErrorResponse:
     type: object

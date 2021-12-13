@@ -25,22 +25,28 @@ class Model {
         json["reference"] = this.reference;
         json["description"] = this.description;
         json["variety"] = this.variety;
-        json["color"] = this.color ? this.color.toJson() : null;
+        if (this.color) {
+            json["color"] = this.color;
+        }
         json["price"] = this.price;
-        json["dimensions"] = this.dimensions ? this.dimensions.toJson() : null;
+        if (this.dimensions) {
+            json["dimensions"] = this.dimensions;
+        }
         json["mass"] = this.mass;
         json["lift"] = this.lift;
         
-        json["needs"] = [];
-        this.ingredients.forEach((obj) => {
-            json["needs"].push(obj.toJson());
-        });
+        if (this.needs) {
+            json["needs"] = [];
+            this.needs.forEach((obj) => {
+                json["needs"].push(obj.toJson());
+            });
+        }
         
         return json;
     }
     
     static fromJson = function(json) {
-        const object = Model;
+        const object = new Model;
 
         object.name = json["name"];
         object.reference = json["reference"];
@@ -51,12 +57,6 @@ class Model {
         object.dimensions = json["dimensions"] ? Dimensions.fromJson(json["dimensions"]) : null;
         object.mass = json["mass"];
         object.lift = json["lift"];
-        
-        if (json["needs"]) {
-            json["needs"].forEach((entry) => {
-                object.needs.push(Need.fromJson(entry));
-            });
-        }
 
         return object;
     }

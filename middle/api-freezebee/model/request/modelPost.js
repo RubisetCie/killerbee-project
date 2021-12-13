@@ -40,7 +40,7 @@ class Model {
     }
     
     static fromJson = function(json) {
-        const object = Model;
+        const object = new Model;
 
         object.name = json["name"];
         object.reference = json["reference"];

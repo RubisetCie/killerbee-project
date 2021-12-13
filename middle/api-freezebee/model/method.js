@@ -27,7 +27,7 @@ class Method {
     }
     
     static fromJson = function(json) {
-        const object = Method;
+        const object = new Method;
 
         object.name = json["name"];
         object.description = json["description"];

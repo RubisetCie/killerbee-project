@@ -14,7 +14,7 @@ class Step {
     }
     
     static fromJson = function(json) {
-        const object = Step;
+        const object = new Step;
         object.description = json["description"];
         object.validation = json["validation"];
         return object;

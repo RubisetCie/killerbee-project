@@ -1,0 +1,46 @@
+{
+	"_id": { "$oid": "61b718f69b68412f5ea27432" },
+	"name": "Plastique rouge",
+	"description": "Matériau plastique fondu de teinte rouge.",
+	"type": "material",
+	"color": { "r": 255, "g": 217, "b": 0 },
+	"price": 2.10,
+	"density": 2.11,
+	"young": 1.98
+}
+{
+	"_id": { "$oid": "61b718ef000dccbcbe7f6a8e" },
+	"name": "Plastique vert",
+	"description": "Matériau plastique fondu de teinte verte.",
+	"type": "material",
+	"color": { "r": 0, "g": 217, "b": 33 },
+	"price": 2.09,
+	"density": 2.17,
+	"young": 2.35
+}
+{
+	"_id": { "$oid": "61b718ea048aa0a126f7bcd9" },
+	"name": "Plastique bleu",
+	"description": "Matériau plastique fondu de teinte bleue.",
+	"type": "material",
+	"color": { "r": 45, "g": 98, "b": 255 },
+	"price": 2.10,
+	"density": 2.15,
+	"young": 2.40
+}
+{
+	"_id": { "$oid": "61b718e4f721e33a35e18ce5" },
+	"name": "Autocollant Rockwell",
+	"description": "Autocollant décoratif accessible.",
+	"brand": "Rockwell",
+	"type": "object",
+	"price": 4.55
+}
+{
+	"_id": { "$oid": "61b718ddf0aab239606512f0" },
+	"name": "Autocollant Tyrell",
+	"description": "Autocollant décoratif cher.",
+	"brand": "Tyrell",
+	"type": "object",
+	"price": 8.99
+}

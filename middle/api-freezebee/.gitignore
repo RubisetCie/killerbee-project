@@ -36,6 +36,9 @@ node_modules/
 # TernJS port file
 .tern-port
 
+# Package.lock
+package-lock.json
+
 # Project files
 nbproject
 

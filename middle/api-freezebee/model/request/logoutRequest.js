@@ -6,7 +6,7 @@ class LogoutRequest {
     token;
     
     static fromJson = function(json) {
-        const object = LogoutRequest;
+        const object = new LogoutRequest;
         object.token = json["token"];
         return object;
     }

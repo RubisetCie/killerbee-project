@@ -1,15 +1,15 @@
 /****************************************************************
- * The object representing a method query.
+ * The object representing a default search by text query.
  ****************************************************************/
 
-class MethodQuery {
-    name;
+class DefaultTextQuery {
+    query;
     
     static fromJson = function(json) {
-        const object = MethodQuery;
-        object.name = json["name"];
+        const object = new ModelQuery;
+        object.query = json["query"];
         return object;
     }
 }
 
-module.exports = MethodQuery;
+module.exports = DefaultTextQuery;

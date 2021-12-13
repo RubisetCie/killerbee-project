@@ -6,10 +6,13 @@
 // TODO
 
 // Retrieve a single user by username
-module.exports.getByUsername = function(username) {
-    return {
-        username: username,
-        password: "0000",
-        role: 0
-    };
+module.exports.getByUsername = async function(username) {
+    return new Promise((resolve) => {
+        const result = {
+            username: username,
+            password: "$2y$10$LKhmvcn3p/KRTV2DvKDd/.FgTJvhLu5.0SVNo4gGekWOG0ecbedka",
+            role: 0
+        };
+        resolve(result);
+    });
 };

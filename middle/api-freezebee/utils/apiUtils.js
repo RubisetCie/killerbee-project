@@ -8,7 +8,7 @@ const ResponseError = require("../model/response/errorResponse");
 
 // Handle exceptions caught in during a request
 module.exports.handleError = function(err, res, action) {
-    const response = ResponseError;
+    const response = new ResponseError;
     response.message = err.message;
     
     if (err instanceof ApiError) {

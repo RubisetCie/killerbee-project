@@ -14,13 +14,6 @@ class Need {
         json["ingredient"] = this.ingredient ? this.ingredient.toJson() : null;
         return json;
     }
-    
-    static fromJson = function(json) {
-        const object = Need;
-        object.dosing = json["dosing"];
-        object.ingredient = json["ingredient"] ? Ingredient.fromJson(json["color"]) : null;
-        return object;
-    }
 }
 
 module.exports = Need;

@@ -13,7 +13,7 @@ const handleError = require("../utils/apiUtils").handleError;
 
 // Model classes
 const ModelPost = require("../model/request/modelPost");
-const ModelQuery = require("../model/request/modelQuery");
+const DefaultTextQuery = require("../model/request/defaultTextQuery");
 
 // Exception class
 const ApiError = require("../exception/apiError");
@@ -42,7 +42,7 @@ module.exports.post = function(req, res) {
 };
 
 // Retrieve all model data
-module.exports.get = function(res) {
+module.exports.get = function(_, res) {
     try {
         service.get().then((result) => {
             res.json(result.toJson());
@@ -80,7 +80,7 @@ module.exports.getQuery = function(req, res) {
         if (!req.body)
             throw new ApiError("The request must come with a body", 400);
         
-        service.getQuery(ModelQuery.fromJson(req.body)).then((result) => {
+        service.getQuery(DefaultTextQuery.fromJson(req.body)).then((result) => {
             res.json(result.toJson());
         }).catch((error) => {
             handleError(error, res, "modelController.getQuery");

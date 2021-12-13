@@ -7,7 +7,7 @@ class LoginRequest {
     password;
     
     static fromJson = function(json) {
-        const object = LoginRequest;
+        const object = new LoginRequest;
         object.username = json["username"];
         object.password = json["password"];
         return object;

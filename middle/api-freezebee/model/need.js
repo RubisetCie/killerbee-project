@@ -10,7 +10,8 @@ class Need {
 
     toJson = function() {
         const json = {};
-        json["dosing"] = this.dosing;
+        if (this.dosing)
+            json["dosing"] = this.dosing;
         json["ingredient"] = this.ingredient ? this.ingredient.toJson() : null;
         return json;
     }

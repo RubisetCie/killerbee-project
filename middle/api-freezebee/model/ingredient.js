@@ -3,6 +3,7 @@
  ****************************************************************/
 
 const Color = require("./color");
+const ApiError = require("../exception/apiError");
 
 class Ingredient {
     name;
@@ -14,6 +15,14 @@ class Ingredient {
     density;
     young;
     
+    check = function() {
+        if (this.name === null)     throw new ApiError("Missing mandatory parameter: name", 400);
+        if (this.type === null)     throw new ApiError("Missing mandatory parameter: type", 400);
+        if (this.price === null)    throw new ApiError("Missing mandatory parameter: price", 400);
+        
+        if (this.color !== null)    this.color.check();
+    }
+    
     toJson = function() {
         const json = {};
         
@@ -21,8 +30,8 @@ class Ingredient {
         json["description"] = this.description;
         json["brand"] = this.brand;
         json["type"] = this.type;
-        if (this.color) {
-            json["color"] = this.color;
+        if (this.color !== null) {
+            json["color"] = this.color.toJson();
         }
         json["price"] = this.price;
         json["density"] = this.density;

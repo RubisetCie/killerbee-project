@@ -27,11 +27,8 @@ module.exports.post = function(req, res) {
         
         const request = ModelPost.fromJson(req.body);
         
-        if (!request.name)      throw new ApiError("Missing mandatory parameter: name", 400);
-        if (!request.reference) throw new ApiError("Missing mandatory parameter: reference", 400);
-        if (!request.price)     throw new ApiError("Missing mandatory parameter: price", 400);
-        
-        service.getQuery(request).then((result) => {
+        request.check();
+        service.post(request).then((result) => {
             res.json(result.toJson());
         }).catch((error) => {
             handleError(error, res, "modelController.post");
@@ -102,13 +99,10 @@ module.exports.putById = function(req, res) {
             throw new ApiError("The request must come with a body", 400);
         
         const request = ModelPost.fromJson(req.body);
-        
-        if (!request.name)      throw new ApiError("Missing mandatory parameter: name", 400);
-        if (!request.reference) throw new ApiError("Missing mandatory parameter: reference", 400);
-        if (!request.price)     throw new ApiError("Missing mandatory parameter: price", 400);
-        
-        service.put(id, request).then((result) => {
-            res.json(result.toJson());
+
+        request.checkWeak();
+        service.putById(id, request).then(() => {
+            res.status(204).send();
         }).catch((error) => {
             handleError(error, res, "modelController.putById");
         });

@@ -10,20 +10,39 @@ const Model = require("../model/model");
 const Ingredient = require("../model/ingredient");
 const Need = require("../model/need");
 
-//const TextQuery = require("../model/request/modelQuery");
-
+const InsertResponse = require("../model/response/insertResponse");
 const ModelResponse = require("../model/response/modelResponse");
 const ModelArrayResponse = require("../model/response/modelArrayResponse");
 
 const ApiError = require("../exception/apiError");
 
-const HOST = process.env.MONGO_HOST;
 const DATABASE = process.env.MONGO_DATABASE;
 
-const client = new MongoClient(HOST, {
+const client = new MongoClient(process.env.MONGO_HOST, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
+
+// Insert model
+module.exports.insertModel = function(model) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        
+        db.collection("model").insertOne(model.toJson(), function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const response = new InsertResponse;
+                response.insertedId = result["insertedId"];
+                console.log(result["insertedCount"] + " rows inserted");
+                resolve(response);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
 
 // Select model
 module.exports.selectModel = function() {
@@ -33,8 +52,25 @@ module.exports.selectModel = function() {
             {
                 $lookup: {
                     from: "ingredient",
-                    localField: "needs.ingredient._id",
-                    foreignField: "_id",
+                    let: { ingredientId: "$needs.ingredient._id" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: { "$in": [ "$_id", "$$ingredientId" ] }
+                            }
+                        },
+                        {
+                            $addFields: {
+                                sort: { $indexOfArray: [ "$$ingredientId", "$_id" ]}
+                            }
+                        },
+                        {
+                            $sort: { "sort": 1 }
+                        },
+                        {
+                            $addFields: { "sort": "$$REMOVE" }
+                        }
+                    ],
                     as: "lookup"
                 }
             },
@@ -61,6 +97,7 @@ module.exports.selectModel = function() {
                     
                     // Deserializing the lookup result
                     if (res["needs"]) {
+                        model.model.needs = [];
                         const len = res["needs"].length;
                         for (let i = 0; i < len; i++) {
                             const need = new Need;
@@ -94,8 +131,25 @@ module.exports.selectModelById = function(id) {
             {
                 $lookup: {
                     from: "ingredient",
-                    localField: "needs.ingredient._id",
-                    foreignField: "_id",
+                    let: { ingredientId: "$needs.ingredient._id" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: { "$in": [ "$_id", "$$ingredientId" ] }
+                            }
+                        },
+                        {
+                            $addFields: {
+                                sort: { $indexOfArray: [ "$$ingredientId", "$_id" ]}
+                            }
+                        },
+                        {
+                            $sort: { "sort": 1 }
+                        },
+                        {
+                            $addFields: { "sort": "$$REMOVE" }
+                        }
+                    ],
                     as: "lookup"
                 }
             }
@@ -117,6 +171,7 @@ module.exports.selectModelById = function(id) {
                 
                 // Deserializing the lookup result
                 if (res["needs"]) {
+                    model.model.needs = [];
                     const len = res["needs"].length;
                     for (let i = 0; i < len; i++) {
                         const need = new Need;
@@ -141,9 +196,6 @@ module.exports.selectModelByQuery = function(request) {
         const db = client.db(DATABASE);
         const query = [
             {
-                $text: { $search: "java coffee shop" }
-            },
-            {
                 $lookup: {
                     from: "ingredient",
                     localField: "needs.ingredient._id",
@@ -157,9 +209,13 @@ module.exports.selectModelByQuery = function(request) {
         ];
         
         // Append the query if exists
-        /*if (request.query) {
-            query.
-        }*/
+        if (request.query) {
+            query.unshift({
+                $match: {
+                    $text: { $search: request.query }
+                }
+            });
+        }
         
         db.collection("model").aggregate(query, async function(err, result) {
             try {
@@ -179,6 +235,7 @@ module.exports.selectModelByQuery = function(request) {
                     
                     // Deserializing the lookup result
                     if (res["needs"]) {
+                        model.model.needs = [];
                         const len = res["needs"].length;
                         for (let i = 0; i < len; i++) {
                             const need = new Need;
@@ -194,6 +251,52 @@ module.exports.selectModelByQuery = function(request) {
                 
                 console.log(count + " rows returned");
                 resolve(response);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Update model by ID
+module.exports.updateModelById = function(id, model) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        db.collection("model").updateOne({ _id: id }, {$set: model.toJsonWeak()}, function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const count = result["modifiedCount"];
+                if (count <= 0) {
+                    throw new ApiError("Query affected nothing", 400);
+                }
+                
+                console.log(count + " rows modified");
+                resolve();
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Delete model by ID
+module.exports.deleteModelById = function(id) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        db.collection("model").deleteOne({ _id: id }, function(err, result) {
+            try {
+                if (err)
+                    throw err;
+
+                const count = result["deletedCount"];
+                if (count <= 0) {
+                    throw new ApiError("Query affected nothing", 400);
+                }
+
+                console.log(count + " rows deleted");
+                resolve();
             } catch (err) {
                 reject(err);
             }

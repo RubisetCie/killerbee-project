@@ -2,10 +2,18 @@
  * The object representing a dimensions.
  ****************************************************************/
 
+const ApiError = require("../exception/apiError");
+
 class Dimensions {
     width;
     length;
     height;
+    
+    check = function() {
+        if (this.width === null)    throw new ApiError("Missing mandatory parameter: color.width", 400);
+        if (this.length === null)   throw new ApiError("Missing mandatory parameter: color.length", 400);
+        if (this.height === null)   throw new ApiError("Missing mandatory parameter: color.height", 400);
+    }
     
     toJson = function() {
         const json = {};

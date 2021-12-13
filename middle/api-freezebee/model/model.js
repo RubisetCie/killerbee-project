@@ -5,6 +5,7 @@
 const Color = require("./color");
 const Dimensions = require("./dimensions");
 const Need = require("./need");
+const ApiError = require("../exception/apiError");
 
 class Model {
     name;
@@ -16,26 +17,31 @@ class Model {
     dimensions;     // Reference to a Dimensions object
     mass;
     lift;
-    needs = [];     // Reference to a list of Need objects
+    needs;          // Reference to a list of Need objects
+
+    check = function() {
+        if (this.name === null)         throw new ApiError("Missing mandatory parameter: name", 400);
+        if (this.reference === null)    throw new ApiError("Missing mandatory parameter: reference", 400);
+        if (this.price === null)        throw new ApiError("Missing mandatory parameter: price", 400);
+        
+        if (this.color !== null)        this.color.check();
+        if (this.dimensions !== null)   this.dimensions.check();
+    }
     
     toJson = function() {
         const json = {};
 
         json["name"] = this.name;
         json["reference"] = this.reference;
-        json["description"] = this.description;
-        json["variety"] = this.variety;
-        if (this.color) {
-            json["color"] = this.color;
-        }
+        if (this.description !== null)  json["description"] = this.description;
+        if (this.variety !== null)      json["variety"] = this.variety;
+        if (this.color !== null)        json["color"] = this.color.toJson();
         json["price"] = this.price;
-        if (this.dimensions) {
-            json["dimensions"] = this.dimensions;
-        }
-        json["mass"] = this.mass;
-        json["lift"] = this.lift;
+        if (this.dimensions !== null)   json["dimensions"] = this.dimensions.toJson();
+        if (this.mass !== null)         json["mass"] = this.mass;
+        if (this.lift !== null)         json["lift"] = this.lift;
         
-        if (this.needs) {
+        if (this.needs !== null) {
             json["needs"] = [];
             this.needs.forEach((obj) => {
                 json["needs"].push(obj.toJson());
@@ -44,19 +50,19 @@ class Model {
         
         return json;
     }
-    
+
     static fromJson = function(json) {
         const object = new Model;
 
         object.name = json["name"];
         object.reference = json["reference"];
-        object.description = json["description"];
-        object.variety = json["variety"];
-        object.color = json["color"] ? Color.fromJson(json["color"]) : null;
+        if (json["description"] !== null)   object.description = json["description"];
+        if (json["variety"] !== null)       object.variety = json["variety"];
+        if (json["color"] !== null)         object.color = Color.fromJson(json["color"]);
         object.price = json["price"];
-        object.dimensions = json["dimensions"] ? Dimensions.fromJson(json["dimensions"]) : null;
-        object.mass = json["mass"];
-        object.lift = json["lift"];
+        if (json["dimensions"] !== null)    object.dimensions = Dimensions.fromJson(json["dimensions"]);
+        if (json["mass"] !== null)          object.mass = json["mass"];
+        if (json["lift"] !== null)          object.lift = json["lift"];
 
         return object;
     }

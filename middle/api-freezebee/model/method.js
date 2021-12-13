@@ -4,12 +4,25 @@
 
 const Model = require("./model");
 const Step = require("./step");
+const ApiError = require("../exception/apiError");
 
 class Method {
     name;
     description;
     model;          // Reference to a Model object
     steps = [];     // Reference to a list of Step objects
+    
+    check = function() {
+        if (this.name === null) {
+            throw new ApiError("Missing mandatory parameter: name", 400);
+        }
+
+        if (this.steps !== null) {
+            this.steps.forEach((obj) => { obj.check(); });
+        } else {
+            throw new ApiError("Missing mandatory parameter: steps", 400);
+        }
+    }
     
     toJson = function() {
         const json = {};

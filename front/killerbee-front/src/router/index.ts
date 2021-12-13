@@ -2,10 +2,16 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 import Authentification from '../views/Authentification.vue'
+import Applications from '../views/Applications.vue'
 
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
+  {
+    path: '/',
+    name: 'Applications',
+    component: Applications
+  },
   {
     path: '/login',
     name: 'Authentification',

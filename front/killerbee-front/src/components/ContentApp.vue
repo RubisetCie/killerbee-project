@@ -1,21 +1,31 @@
 <template>
     <v-container>
         <div class="text">
-            <h2>BIENVENUE</h2>
+            <h1>BIENVENUE</h1>
         </div>
         <div class="image">
-            <!--<v-img :src="srcPicture"></v-img>-->
+            <v-img :src="srcPicture" id="image"></v-img>
         </div>
     </v-container>
 </template>
 
 <script>
 
-export default defineComponent({
+export default ({
     data(){
         return{
-            srcPicture: require("../assets/img/49351.png"),
+            srcPicture: require("../assets/img/téléchargement.jpeg"),
         }
     }
 })
 </script>
+
+<style>
+    .text{
+        text-align: center;
+    }
+    #image{
+        width: auto;
+        height: auto;
+    }
+</style>

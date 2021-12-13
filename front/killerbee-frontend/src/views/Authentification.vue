@@ -11,90 +11,102 @@
         </div>
         <div id="ContentAuthentification" class="col-md-12">
             <div class="card card-container">
-                <img id="profile-img" :src="sourceImgProfile" class="profile-img-card"/>
-                <Form @submit="handleLogin" :validation-schema="schema">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <Field name="username" type="text" class="form-control" />
-                        <ErrorMessage name="username" class="error-feedback" />
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <Field name="password" type="password" class="form-control" />
-                        <ErrorMessage name="password" class="error-feedback" />
-                    </div>
-
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-block" :disabled="loading">
-                            <span
-                            v-show="loading"
-                            class="spinner-border spinner-border-sm"
-                            ></span>
-                            <span>Login</span>
-                        </button>
-                    </div>
-
-                    <div class="form-group">
-                        <div v-if="message" class="alert alert-danger" role="alert">
-                            {{ message }}
-                        </div>
-                    </div>
-                </Form>
+                <img id="profile-img" :src="srcPicture" class="profile-img-card"/>
+                <v-col cols="4" class="zone">
+                    <h2 class="title">LOGIN</h2>
+                    <validation-observer ref="observer">
+                        <v-form @submit.prevent="submit">
+                            <validation-provider  v-slot="{ errors }" name="Email" rules="required|email">
+                                <v-text-field v-model="email" class="zone" :error-messages="errors" label="Email" required outlined dark filled dense></v-text-field>
+                            </validation-provider>
+                            <validation-provider color="#087A57" v-slot="{ errors }" name="Password" rules="required">
+                                <v-text-field v-model="password" class="zone" :error-messages="errors" label="Password" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'" @click:append="showPass = !showPass" required outlined dense dark filled :type="showPass ? 'text' : 'password'"></v-text-field>
+                            </validation-provider>
+                            <div class="text-center">
+                                <v-btn class="signin-btn" type="submit" rounded color="#087A57" dark>
+                                    Sign In
+                                </v-btn>
+                            </div>
+                        </v-form>
+                    </validation-observer>
+                </v-col>
             </div>
         </div>  
     </v-container>
 </template>
 
 <script>
-    import { Form, Field, ErrorMessage } from "vee-validate";
-    import * as yup from "yup";
-    export default({
-        name: "Authentification",
-        components: {
-            Form,
-            Field,
-            ErrorMessage,
-        },
-        data(){
-            const schema = yup.object().shape({
-                email: yup.string().required("Email is required!"),
-                password: yup.string().required("Password is required!"),
-            });
-            return{
-                sourceImgProfile: require("../assets/img/account-circle (1).png"),
-                loading: false,
-                message: "",
-                schema
-            }
-        },
-        computed: {
-            loggedIn() {
-            return this.$store.state.auth.status.loggedIn;
-            }
-        },
-        methods: {
-            handleLogin(user) {
-                this.loading = true;
-                this.$store.dispatch("auth/login", user).then(
-                    () => {
-                    this.$router.push("/profile");
-                    },
-                    (error) => {
-                        this.loading = false;
-                        this.message =
-                            (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                            error.message ||
-                            error.toString();
-                    }
-                )
-            }
+    import { required, email } from "vee-validate/dist/rules";
+import {extend, ValidationProvider, setInteractionMode, ValidationObserver,} from "vee-validate";
+
+setInteractionMode("eager");
+
+extend("required", {
+  ...required,
+  message: "{_field_} can not be empty",
+});
+
+extend("email", {
+  ...email,
+  message: "Email must be valid",
+});
+
+export default {
+  name: "Login",
+  components: {
+    ValidationProvider,
+    ValidationObserver,
+  },
+  data: () => ({
+    email: "",
+    password: null,
+    showPass: false,
+    srcPicture: require("../assets/img/account-circle (1).png"),
+  }),
+  computed: {
+    params() {
+      return {
+        email: this.email,
+        password: this.password,
+      };
+    },
+  },
+  methods: {
+    async submit() {
+      const valid = await this.$refs.observer.validate();
+      if (valid) {
+        this.login(this.params);
+      }
+    },
+    clear() {
+      this.email = "";
+      this.password = null;
+      this.$refs.observer.reset();
+    },
+    login(params) {
+      this.$store.dispatch("login", params).then((res) => {
+        if (res) {
+          this.$router.push({ name: "Home" });
+        } else {
+          document.getElementsByClassName("error-login-msg")[0].style.display =
+            "block";
         }
-    })
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>
+.title{
+    text-align: center;
+    color: #087A57;
+}
+.zone{
+    color: #087A57;
+    width: auto;
+    height: auto;
+}
 label {
   display: block;
   margin-top: 10px;
@@ -104,7 +116,7 @@ label {
   padding: 40px 40px;
 }
 .card {
-  background-color: #f7f7f7;
+  background-color: #CBCFCE;
   padding: 20px 25px 30px;
   margin: 0 auto 25px;
   margin-top: 50px;

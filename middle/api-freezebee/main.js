@@ -9,15 +9,16 @@ const morgan = require("morgan");
 const cors = require("cors");
 const fs = require("fs");
 
-// Internal modules
-const routerModel = require("./route/modelRoute");
-const routerMethod = require("./route/methodRoute");
-const routerIngredient = require("./route/ingredientRoute");
-const authentication = require("./controller/authController");
-
 // Environment configuration
 require("dotenv").config();
+
 const PORT = process.env.PORT || 3000;
+
+// Internal modules
+const routerModel = require("./route/modelRoute");
+/*const routerMethod = require("./route/methodRoute");
+const routerIngredient = require("./route/ingredientRoute");*/
+const authentication = require("./controller/authController");
 
 // Loading the documentation
 const swaggerDocument = require("yamljs").load("./swagger/swagger.yaml");
@@ -36,11 +37,11 @@ app.post("/login", authentication.login);
 app.post("/logout", authentication.logout);
 app.post("/token", authentication.token);
 
-app.use(authentication.authentication);
+app.use(authentication.authenticate);
 
 app.use("/model", routerModel);
-app.use("/method", routerMethod);
-app.use("/ingredient", routerIngredient);
+/*app.use("/method", routerMethod);
+app.use("/ingredient", routerIngredient);*/
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port: ${PORT}`);

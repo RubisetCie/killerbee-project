@@ -1,0 +1,357 @@
+{
+	"info": {
+		"_postman_id": "235a4fa0-b824-4d0d-8c83-990a5bfbe74d",
+		"name": "Models",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"accessToken\", jsonData.accessToken);\r",
+							"pm.collectionVariables.set(\"refreshToken\", jsonData.refreshToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"zozo\",\r\n    \"password\": \"0000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"accessToken\", jsonData.accessToken);\r",
+							"pm.collectionVariables.set(\"refreshToken\", jsonData.refreshToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\": \"{{refreshToken}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/logout",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"accessToken\", jsonData.accessToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\": \"{{refreshToken}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/token",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/model/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"model",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET By ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/model/61b7159c16ddae18887e8b01",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"model",
+						"61b7159c16ddae18887e8b01"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Query",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": \"Wham\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/model/query",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"model",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"O-Pak Dulce\",\r\n\t\"reference\": \"594568\",\r\n\t\"description\": \"Un freeze-bee violet.\",\r\n\t\"variety\": \"low\",\r\n\t\"color\": { \"r\": 189, \"g\": 13, \"b\": 181 },\r\n\t\"price\": 20.0,\r\n\t\"dimensions\": {\r\n\t\t\"width\": 0.27,\r\n\t\t\"length\": 0.27,\r\n\t\t\"height\": 0.038\r\n\t},\r\n\t\"mass\": 0.35,\r\n\t\"lift\": 2.81,\r\n\t\"needs\": [\r\n\t\t{ \"ingredient\": \"61b718f69b68412f5ea27432\", \"dosing\": 1.35 },\r\n\t\t{ \"ingredient\": \"61b718ea048aa0a126f7bcd9\", \"dosing\": 1.31 },\r\n\t\t{ \"ingredient\": \"61b718e4f721e33a35e18ce5\" }\r\n\t]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/model/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"model",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"Zozo\",\r\n\t\"reference\": \"696969\",\r\n\t\"description\": \"Cortex.\",\r\n\t\"variety\": \"ultra\",\r\n\t\"color\": { \"r\": 255, \"g\": 0, \"b\": 255 },\r\n\t\"price\": 420.0,\r\n\t\"dimensions\": {\r\n\t\t\"width\": 0.1,\r\n\t\t\"length\": 0.25,\r\n\t\t\"height\": 0.038\r\n\t},\r\n\t\"mass\": 0.42,\r\n\t\"lift\": 9.81,\r\n\t\"needs\": [\r\n\t\t{ \"ingredient\": \"61b718f69b68412f5ea27432\", \"dosing\": 0.35 },\r\n\t\t{ \"ingredient\": \"61b718ea048aa0a126f7bcd9\", \"dosing\": 0.31 },\r\n\t\t{ \"ingredient\": \"61b718e4f721e33a35e18ce5\" }\r\n\t]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/model/61b764f69d87f51ff08f6ee6",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"model",
+						"61b764f69d87f51ff08f6ee6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/model/61b764f69d87f51ff08f6ee6",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"model",
+						"61b764f69d87f51ff08f6ee6"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:3000"
+		},
+		{
+			"key": "accessToken",
+			"value": ""
+		},
+		{
+			"key": "refreshToken",
+			"value": ""
+		}
+	]
+}

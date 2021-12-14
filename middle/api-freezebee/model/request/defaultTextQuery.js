@@ -6,7 +6,7 @@ class DefaultTextQuery {
     query;
     
     static fromJson = function(json) {
-        const object = new ModelQuery;
+        const object = new DefaultTextQuery;
         object.query = json["query"];
         return object;
     }

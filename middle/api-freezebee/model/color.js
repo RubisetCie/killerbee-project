@@ -2,10 +2,20 @@
  * The object representing a color.
  ****************************************************************/
 
+const ApiError = require("../exception/apiError");
+
+const { isUndefined } = require("../utils/memUtils");
+
 class Color {
     r;
     g;
     b;
+    
+    check = function() {
+        if (isUndefined(this.r))    throw new ApiError("Missing mandatory parameter: color.r", 400);
+        if (isUndefined(this.g))    throw new ApiError("Missing mandatory parameter: color.g", 400);
+        if (isUndefined(this.b))    throw new ApiError("Missing mandatory parameter: color.b", 400);
+    }
     
     toJson = function() {
         const json = {};

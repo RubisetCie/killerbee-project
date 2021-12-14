@@ -1,5 +1,5 @@
 /****************************************************************
- * Collection of utils functions 
+ * Collection of API utils functions.
  ****************************************************************/
 
 // Importing the ApiError exception class

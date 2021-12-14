@@ -39,10 +39,7 @@ module.exports.login = function(req, res) {
         
         const request = LoginRequest.fromJson(req.body);
 
-        // Paramters verification
-        if (!request.username)  throw new ApiError("Missing mandatory parameter: username", 400);
-        if (!request.password)  throw new ApiError("Missing mandatory parameter: password", 400);
-        
+        request.check();
         service.getByUsername(request.username).then(async function(user) {
             if (await bcrypt.compare(request.password, user.password)) {
 

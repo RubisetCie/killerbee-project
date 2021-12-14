@@ -1,0 +1,81 @@
+{
+	"_id": { "$oid": "61b71590b3b427c01015026c" },
+	"name": "Wham-O Pro-Classic",
+	"reference": "483458",
+	"description": "Mixte, Aléatoire Jaune ou Bleu ou Fuchsia.",
+	"variety": "low",
+	"color": { "r": 255, "g": 217, "b": 0 },
+	"price": 8.47,
+	"dimensions": {
+		"width": 0.26,
+		"length": 0.26,
+		"height": 0.04
+	},
+	"mass": 0.34,
+	"lift": 2.93,
+	"needs": [
+		{ "ingredient": { "_id": { "$oid": "61b718f69b68412f5ea27432" }}, "dosing": 1.25 },
+		{ "ingredient": { "_id": { "$oid": "61b718ef000dccbcbe7f6a8e" }}, "dosing": 1.26 },
+		{ "ingredient": { "_id": { "$oid": "61b718e4f721e33a35e18ce5" }}}
+	]
+}
+{
+	"_id": { "$oid": "61b7159c16ddae18887e8b01" },
+	"name": "Load Entreprises",
+	"reference": "794012",
+	"description": "Frisbee bleu qui conviendra à toutes les ambiences de fête ( ͡° ͜ʖ ͡°).",
+	"variety": "mid",
+	"color": { "r": 45, "g": 98, "b": 255 },
+	"price": 11.78,
+	"dimensions": {
+		"width": 0.27,
+		"length": 0.27,
+		"height": 0.035
+	},
+	"mass": 0.32,
+	"lift": 3.05,
+	"needs": [
+		{ "ingredient": { "_id": { "$oid": "61b718ea048aa0a126f7bcd9" }}, "dosing": 1.66 },
+		{ "ingredient": { "_id": { "$oid": "61b718e4f721e33a35e18ce5" }}}
+	]
+}
+{
+	"_id": { "$oid": "61b715a3143ebd84d24e2363" },
+	"name": "Kong Flyer",
+	"reference": "234258",
+	"description": "Frisbee grand modèle pour chien.",
+	"variety": "mid",
+	"color": { "r": 207, "g": 1, "b": 68 },
+	"price": 10.98,
+	"dimensions": {
+		"width": 0.30,
+		"length": 0.30,
+		"height": 0.036
+	},
+	"mass": 0.39,
+	"lift": 2.97,
+	"needs": [
+		{ "ingredient": { "_id": { "$oid": "61b718f69b68412f5ea27432" }}, "dosing": 1.97 }
+	]
+}
+{
+	"_id": { "$oid": "61b715b0d08a41a086d977bc" },
+	"name": "Werbeartikel Frisbee",
+	"reference": "999744",
+	"description": "Un disque de luxe ultra-portant.",
+	"variety": "high",
+	"color": { "r": 4, "g": 224, "b": 255 },
+	"price": 42.69,
+	"dimensions": {
+		"width": 0.23,
+		"length": 0.23,
+		"height": 0.025
+	},
+	"mass": 0.30,
+	"lift": 3.40,
+	"needs": [
+		{ "ingredient": { "_id": { "$oid": "61b718f69b68412f5ea27432" }}, "dosing": 1.50 },
+		{ "ingredient": { "_id": { "$oid": "61b718ef000dccbcbe7f6a8e" }}, "dosing": 1.58 },
+		{ "ingredient": { "_id": { "$oid": "61b718ddf0aab239606512f0" }}}
+	]
+}

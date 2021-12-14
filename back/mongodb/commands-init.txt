@@ -1,0 +1,42 @@
+# Database
+use killerbee
+
+# Role creation
+db.createRole({
+	role: "full-ctrl",
+	privileges: [
+		{ resource: { db: "killerbee", collection: "" }, actions: [ "find", "update", "insert", "remove" ] }
+	],
+	roles: []
+})
+db.createRole({
+	role: "read-only",
+	privileges: [
+		{ resource: { db: "killerbee", collection: "" }, actions: [ "find" ] }
+	],
+	roles: []
+})
+
+# User creation
+db.createUser({
+	user: "full-ctrl-usr",
+	pwd: passwordPrompt(),
+	roles: [ "full-ctrl" ],
+	passwordDigestor: "server"
+})
+db.createUser({
+	user: "read-only-usr",
+	pwd: passwordPrompt(),
+	roles: [ "read-only" ],
+	passwordDigestor: "server"
+})
+
+# Data importing
+mongoimport --config=config.yaml --db=killerbee --collection=model models.json
+mongoimport --config=config.yaml --db=killerbee --collection=ingredient ingredients.json
+mongoimport --config=config.yaml --db=killerbee --collection=method methods.json
+
+# Index creation
+db.model.createIndex({ name: "text", description: "text" })
+db.ingredient.createIndex({ name: "text", description: "text" })
+db.method.createIndex({ name: "text", description: "text" })

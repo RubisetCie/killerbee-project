@@ -15,9 +15,15 @@ require("dotenv").config();
 const PORT = process.env.PORT || 3000;
 
 // Internal modules
+//! if (deployModel) {
 const routerModel = require("./route/modelRoute");
-/*const routerMethod = require("./route/methodRoute");
-const routerIngredient = require("./route/ingredientRoute");*/
+//! }
+//! if (deployMethod) {
+const routerMethod = require("./route/methodRoute");
+//! }
+//! if (deployIngredient) {
+const routerIngredient = require("./route/ingredientRoute");
+//! }
 const authentication = require("./controller/authController");
 
 // Loading the documentation
@@ -40,9 +46,15 @@ app.post("/token", authentication.token);
 
 app.use(authentication.authenticate);
 
+//! if (deployModel) {
 app.use("/model", routerModel);
-/*app.use("/method", routerMethod);
-app.use("/ingredient", routerIngredient);*/
+//! }
+//! if (deployMethod) {
+app.use("/method", routerMethod);
+//! }
+//! if (deployIngredient) {
+app.use("/ingredient", routerIngredient);
+//! }
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port: ${PORT}`);

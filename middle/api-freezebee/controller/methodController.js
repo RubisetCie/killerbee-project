@@ -1,57 +1,57 @@
 /****************************************************************
- * The controller associated to model requests.
+ * The controller associated to method requests.
  ****************************************************************/
 
 // External modules
 const ObjectID = require("mongodb").ObjectID;
 
 // Internal modules
-const service = require("../service/modelService");
+const service = require("../service/methodService");
 
 // Utils functions
 const handleError = require("../utils/apiUtils").handleError;
 
 // Model classes
-const ModelPost = require("../model/request/modelPost");
+const MethodPost = require("../model/request/methodPost");
 const DefaultTextQuery = require("../model/request/defaultTextQuery");
 
 // Exception class
 const ApiError = require("../exception/apiError");
 
-// Create new model data
+// Create new method data
 module.exports.post = function(req, res) {
     try {
         // Paramters verification
         if (!req.body)
             throw new ApiError("The request must come with a body", 400);
         
-        const request = ModelPost.fromJson(req.body);
+        const request = MethodPost.fromJson(req.body);
         
         request.check();
         service.post(request).then((result) => {
             res.json(result.toJson());
         }).catch((error) => {
-            handleError(error, res, "modelController.post");
+            handleError(error, res, "methodController.post");
         });
     } catch (err) {
-        handleError(err, res, "modelController.post");
+        handleError(err, res, "methodController.post");
     }
 };
 
-// Retrieve all model data
+// Retrieve all method data
 module.exports.get = function(_, res) {
     try {
         service.get().then((result) => {
             res.json(result.toJson());
         }).catch((error) => {
-            handleError(error, res, "modelController.get");
+            handleError(error, res, "methodController.get");
         });
     } catch (err) {
-        handleError(err, res, "modelController.get");
+        handleError(err, res, "methodController.get");
     }
 };
 
-// Retrieve model data by ID
+// Retrieve method data by ID
 module.exports.getById = function(req, res) {
     try {
         const id = req.params.id ? new ObjectID(req.params.id) : null;
@@ -63,14 +63,14 @@ module.exports.getById = function(req, res) {
         service.getById(id).then((result) => {
             res.json(result.toJson());
         }).catch((error) => {
-            handleError(error, res, "modelController.getById");
+            handleError(error, res, "methodController.getById");
         });
     } catch (err) {
-        handleError(err, res, "modelController.getById");
+        handleError(err, res, "methodController.getById");
     }
 };
 
-// Retrieve model data by query
+// Retrieve method data by query
 module.exports.getQuery = function(req, res) {
     try {
         // Paramters verification
@@ -80,14 +80,14 @@ module.exports.getQuery = function(req, res) {
         service.getQuery(DefaultTextQuery.fromJson(req.body)).then((result) => {
             res.json(result.toJson());
         }).catch((error) => {
-            handleError(error, res, "modelController.getQuery");
+            handleError(error, res, "methodController.getQuery");
         });
     } catch (err) {
-        handleError(err, res, "modelController.getQuery");
+        handleError(err, res, "methodController.getQuery");
     }
 };
 
-// Update model data by ID
+// Update method data by ID
 module.exports.putById = function(req, res) {
     try {
         const id = req.params.id ? new ObjectID(req.params.id) : null;
@@ -98,20 +98,20 @@ module.exports.putById = function(req, res) {
         if (!req.body)
             throw new ApiError("The request must come with a body", 400);
         
-        const request = ModelPost.fromJsonWeak(req.body);
+        const request = MethodPost.fromJson(req.body);
 
         request.checkWeak();
         service.putById(id, request).then(() => {
             res.status(204).send();
         }).catch((error) => {
-            handleError(error, res, "modelController.putById");
+            handleError(error, res, "methodController.putById");
         });
     } catch (err) {
-        handleError(err, res, "modelController.putById");
+        handleError(err, res, "methodController.putById");
     }
 };
 
-// Delete model data by ID
+// Delete method data by ID
 module.exports.deleteById = function(req, res) {
     try {
         const id = req.params.id ? new ObjectID(req.params.id) : null;
@@ -123,9 +123,9 @@ module.exports.deleteById = function(req, res) {
         service.deleteById(id).then(() => {
             res.status(204).send();
         }).catch((error) => {
-            handleError(error, res, "modelController.deleteById");
+            handleError(error, res, "methodController.deleteById");
         });
     } catch (err) {
-        handleError(err, res, "modelController.deleteById");
+        handleError(err, res, "methodController.deleteById");
     }
 };

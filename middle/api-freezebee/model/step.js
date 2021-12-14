@@ -4,12 +4,14 @@
 
 const ApiError = require("../exception/apiError");
 
+const { isUndefined } = require("../utils/memUtils");
+
 class Step {
     description;
     validation;
     
     check = function() {
-        if (this.description === null) {
+        if (isUndefined(this.description)) {
             throw new ApiError("Missing mandatory parameter: steps.description", 400);
         }
     }

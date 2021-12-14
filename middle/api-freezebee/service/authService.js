@@ -11,7 +11,10 @@ module.exports.getByUsername = async function(username) {
         const result = {
             username: username,
             password: "$2y$10$LKhmvcn3p/KRTV2DvKDd/.FgTJvhLu5.0SVNo4gGekWOG0ecbedka",
-            role: 0
+            role: "DBA"
+            // DBA: Database admin
+            // BCK: Back saving
+            // USR: Regular user
         };
         resolve(result);
     });

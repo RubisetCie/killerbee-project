@@ -4,15 +4,17 @@
 
 const ApiError = require("../exception/apiError");
 
+const { isUndefined } = require("../utils/memUtils");
+
 class Dimensions {
     width;
     length;
     height;
     
     check = function() {
-        if (this.width === null)    throw new ApiError("Missing mandatory parameter: color.width", 400);
-        if (this.length === null)   throw new ApiError("Missing mandatory parameter: color.length", 400);
-        if (this.height === null)   throw new ApiError("Missing mandatory parameter: color.height", 400);
+        if (isUndefined(this.width))    throw new ApiError("Missing mandatory parameter: color.width", 400);
+        if (isUndefined(this.length))   throw new ApiError("Missing mandatory parameter: color.length", 400);
+        if (isUndefined(this.height))   throw new ApiError("Missing mandatory parameter: color.height", 400);
     }
     
     toJson = function() {

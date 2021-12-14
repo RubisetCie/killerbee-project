@@ -1,5 +1,5 @@
 /****************************************************************
- * The service calling the main query to the database.
+ * The service calling the model queries to the database.
  ****************************************************************/
 
 // The associated connector

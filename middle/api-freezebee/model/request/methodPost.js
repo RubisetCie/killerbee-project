@@ -3,21 +3,23 @@
  ****************************************************************/
 
 const ObjectID = require("mongodb").ObjectID;
-const Step = require("./step");
+const Step = require("../step");
 const ApiError = require("../../exception/apiError");
+
+const { isUndefined } = require("../../utils/memUtils");
 
 class MethodPost {
     name;
     description;
     model;
-    steps = [];     // Reference to a list of Step objects
+    steps;          // Reference to a list of Step objects
     
     check = function() {
-        if (this.name === null) {
+        if (isUndefined(this.name)) {
             throw new ApiError("Missing mandatory parameter: name", 400);
         }
 
-        if (this.steps !== null) {
+        if (!isUndefined(this.steps)) {
             this.steps.forEach((obj) => { obj.check(); });
         } else {
             throw new ApiError("Missing mandatory parameter: steps", 400);
@@ -28,13 +30,15 @@ class MethodPost {
         const json = {};
         
         json["name"] = this.name;
-        json["description"] = this.description;
-        json["model"] = this.model ? { "_id": new ObjectID(this.model) } : null;
+        if (!isUndefined(this.description)) json["description"] = this.description;
+        if (!isUndefined(this.model))       json["model"] = { "_id": new ObjectID(this.model) };
         
-        json["steps"] = [];
-        this.steps.forEach((obj) => {
-            json["steps"].push(obj.toJson());
-        });
+        if (!isUndefined(this.steps)) {
+            json["steps"] = [];
+            this.steps.forEach((obj) => {
+                json["steps"].push(obj.toJson());
+            });
+        }
 
         return json;
     }
@@ -43,10 +47,11 @@ class MethodPost {
         const object = new MethodPost;
         
         object.name = json["name"];
-        object.description = json["description"];
-        object.model = json["model"];
+        if (!isUndefined(json["description"]))  object.description = json["description"];
+        if (!isUndefined(json["model"]))        object.model = json["model"];
         
-        if (json["steps"]) {
+        if (!isUndefined(json["steps"])) {
+            this.steps = [];
             json["steps"].forEach((entry) => {
                 object.steps.push(Step.fromJson(entry));
             });

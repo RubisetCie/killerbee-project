@@ -6,13 +6,22 @@
 const MongoClient = require("mongodb").MongoClient;
 
 // Model components
+//! if (deployModel) {
 const Model = require("../model/model");
-const Ingredient = require("../model/ingredient");
-const Need = require("../model/need");
-
-const InsertResponse = require("../model/response/insertResponse");
 const ModelResponse = require("../model/response/modelResponse");
 const ModelArrayResponse = require("../model/response/modelArrayResponse");
+const Need = require("../model/need");
+//! }
+//! if (deployMethod) {
+const Method = require("../model/method");
+//! }
+//! if (deployIngredient) {
+const Ingredient = require("../model/ingredient");
+const IngredientResponse = require("../model/response/ingredientResponse");
+const IngredientArrayResponse = require("../model/response/ingredientArrayResponse");
+//! }
+
+const InsertResponse = require("../model/response/insertResponse");
 
 const ApiError = require("../exception/apiError");
 
@@ -23,6 +32,7 @@ const client = new MongoClient(process.env.MONGO_HOST, {
     useUnifiedTopology: true
 });
 
+//! if (deployModel) {
 // Insert model
 module.exports.insertModel = function(model) {
     return new Promise((resolve, reject) => {
@@ -198,8 +208,25 @@ module.exports.selectModelByQuery = function(request) {
             {
                 $lookup: {
                     from: "ingredient",
-                    localField: "needs.ingredient._id",
-                    foreignField: "_id",
+                    let: { ingredientId: "$needs.ingredient._id" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: { "$in": [ "$_id", "$$ingredientId" ] }
+                            }
+                        },
+                        {
+                            $addFields: {
+                                sort: { $indexOfArray: [ "$$ingredientId", "$_id" ]}
+                            }
+                        },
+                        {
+                            $sort: { "sort": 1 }
+                        },
+                        {
+                            $addFields: { "sort": "$$REMOVE" }
+                        }
+                    ],
                     as: "lookup"
                 }
             },
@@ -303,6 +330,189 @@ module.exports.deleteModelById = function(id) {
         });
     });
 };
+//! }
+//! if (deployIngredient) {
+// Insert ingredient
+module.exports.insertIngredient = function(ingredient) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        
+        db.collection("ingredient").insertOne(ingredient.toJson(), function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const response = new InsertResponse;
+                response.insertedId = result["insertedId"];
+                console.log(result["insertedCount"] + " rows inserted");
+                resolve(response);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Select ingredient
+module.exports.selectIngredient = function() {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        const query = [
+            {
+                $sort: { _id: 1 }
+            }
+        ];
+        
+        db.collection("ingredient").aggregate(query, async function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const response = new IngredientArrayResponse;
+                var count = 0;  // Counter for retrieved rows
+
+                while (await result.hasNext())
+                {
+                    const res = await result.next();
+                    const ingredient = new IngredientResponse;
+                    
+                    ingredient.id = res["_id"];
+                    ingredient.ingredient = Ingredient.fromJson(res);
+                    
+                    response.ingredients.push(ingredient);
+                    count++;
+                }
+                
+                console.log(count + " rows returned");
+                resolve(response);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Select ingredient by ID
+module.exports.selectIngredientById = function(id) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+
+        db.collection("ingredient").findOne({ _id: id }, async function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                if (!result)
+                    throw new ApiError("Query returned nothing", 400);
+                
+                const ingredient = new IngredientResponse;
+                
+                ingredient.id = result["_id"];
+                ingredient.ingredient = Ingredient.fromJson(result);
+                
+                console.log("Request finished");
+                resolve(ingredient);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Select ingredient with a query
+module.exports.selectIngredientByQuery = function(request) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        const query = [
+            {
+                $sort: { _id: 1 }
+            }
+        ];
+        
+        // Append the query if exists
+        if (request.query) {
+            query.unshift({
+                $match: {
+                    $text: { $search: request.query }
+                }
+            });
+        }
+        
+        db.collection("ingredient").aggregate(query, async function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const response = new IngredientArrayResponse;
+                var count = 0;  // Counter for retrieved rows
+
+                while (await result.hasNext())
+                {
+                    const res = await result.next();
+                    const ingredient = new IngredientResponse;
+                    
+                    ingredient.id = res["_id"];
+                    ingredient.ingredient = Ingredient.fromJson(res);
+                    
+                    response.ingredients.push(ingredient);
+                    count++;
+                }
+                
+                console.log(count + " rows returned");
+                resolve(response);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Update ingredient by ID
+module.exports.updateIngredientById = function(id, ingredient) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        db.collection("ingredient").updateOne({ _id: id }, {$set: ingredient.toJsonWeak()}, function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const count = result["modifiedCount"];
+                if (count <= 0) {
+                    throw new ApiError("Query affected nothing", 400);
+                }
+                
+                console.log(count + " rows modified");
+                resolve();
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Delete ingredient by ID
+module.exports.deleteIngredientById = function(id) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        db.collection("ingredient").deleteOne({ _id: id }, function(err, result) {
+            try {
+                if (err)
+                    throw err;
+
+                const count = result["deletedCount"];
+                if (count <= 0) {
+                    throw new ApiError("Query affected nothing", 400);
+                }
+
+                console.log(count + " rows deleted");
+                resolve();
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+//! }
 
 // Connection
 client.connect((err) => {

@@ -4,13 +4,15 @@
 
 const ObjectID = require("mongodb").ObjectID;
 
+const { isUndefined } = require("../../utils/memUtils");
+
 class NeedPost {
     dosing;
     ingredient;
     
     toJson = function() {
         const json = {};
-        if (this.dosing !== null)
+        if (!isUndefined(this.dosing))
             json["dosing"] = this.dosing;
         json["ingredient"] = this.ingredient ? { "_id": new ObjectID(this.ingredient) } : null;
         return json;
@@ -18,7 +20,8 @@ class NeedPost {
     
     static fromJson = function(json) {
         const object = new NeedPost;
-        object.dosing = json["dosing"] ? json["dosing"] : null;
+        if (!isUndefined(json["dosing"]))
+            object.dosing = json["dosing"];
         object.ingredient = json["ingredient"];
         return object;
     }

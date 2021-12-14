@@ -7,6 +7,8 @@ const Dimensions = require("../dimensions");
 const NeedPost = require("./needPost");
 const ApiError = require("../../exception/apiError");
 
+const { isUndefined } = require("../../utils/memUtils");
+
 class ModelPost {
     name;
     reference;
@@ -20,17 +22,17 @@ class ModelPost {
     needs;          // Reference to a list of NeedPost objects
     
     check = function() {
-        if (this.name === null)         throw new ApiError("Missing mandatory parameter: name", 400);
-        if (this.reference === null)    throw new ApiError("Missing mandatory parameter: reference", 400);
-        if (this.price === null)        throw new ApiError("Missing mandatory parameter: price", 400);
+        if (isUndefined(this.name))         throw new ApiError("Missing mandatory parameter: name", 400);
+        if (isUndefined(this.reference))    throw new ApiError("Missing mandatory parameter: reference", 400);
+        if (isUndefined(this.price))        throw new ApiError("Missing mandatory parameter: price", 400);
         
-        if (this.color !== null)        this.color.check();
-        if (this.dimensions !== null)   this.dimensions.check();
+        if (!isUndefined(this.color))       this.color.check();
+        if (!isUndefined(this.dimensions))  this.dimensions.check();
     }
     
     checkWeak = function() {
-        if (this.color !== null)        this.color.check();
-        if (this.dimensions !== null)   this.dimensions.check();
+        if (!isUndefined(this.color))       this.color.check();
+        if (!isUndefined(this.dimensions))  this.dimensions.check();
     }
     
     toJson = function() {
@@ -38,15 +40,15 @@ class ModelPost {
 
         json["name"] = this.name;
         json["reference"] = this.reference;
-        if (this.description !== null)  json["description"] = this.description;
-        if (this.variety !== null)      json["variety"] = this.variety;
-        if (this.color !== null)        json["color"] = this.color.toJson();
+        if (!isUndefined(this.description)) json["description"] = this.description;
+        if (!isUndefined(this.variety))     json["variety"] = this.variety;
+        if (!isUndefined(this.color))       json["color"] = this.color.toJson();
         json["price"] = this.price;
-        if (this.dimensions !== null)   json["dimensions"] = this.dimensions.toJson();
-        if (this.mass !== null)         json["mass"] = this.mass;
-        if (this.lift !== null)         json["lift"] = this.lift;
+        if (!isUndefined(this.dimensions))  json["dimensions"] = this.dimensions.toJson();
+        if (!isUndefined(this.mass))        json["mass"] = this.mass;
+        if (!isUndefined(this.lift))        json["lift"] = this.lift;
         
-        if (this.needs !== null) {
+        if (!isUndefined(this.needs)) {
             json["needs"] = [];
             this.needs.forEach((obj) => {
                 json["needs"].push(obj.toJson());
@@ -60,17 +62,17 @@ class ModelPost {
     toJsonWeak = function() {
         const json = {};
 
-        if (this.name !== null)         json["name"] = this.name;
-        if (this.reference !== null)    json["reference"] = this.reference;
-        if (this.description !== null)  json["description"] = this.description;
-        if (this.variety !== null)      json["variety"] = this.variety;
-        if (this.color !== null)        json["color"] = this.color.toJson();
-        if (this.price !== null)        json["price"] = this.price;
-        if (this.dimensions !== null)   json["dimensions"] = this.dimensions.toJson();
-        if (this.mass !== null)         json["mass"] = this.mass;
-        if (this.lift !== null)         json["lift"] = this.lift;
+        if (!isUndefined(this.name))        json["name"] = this.name;
+        if (!isUndefined(this.reference))   json["reference"] = this.reference;
+        if (!isUndefined(this.description)) json["description"] = this.description;
+        if (!isUndefined(this.variety))     json["variety"] = this.variety;
+        if (!isUndefined(this.color))       json["color"] = this.color.toJson();
+        if (!isUndefined(this.price))       json["price"] = this.price;
+        if (!isUndefined(this.dimensions))  json["dimensions"] = this.dimensions.toJson();
+        if (!isUndefined(this.mass))        json["mass"] = this.mass;
+        if (!isUndefined(this.lift))        json["lift"] = this.lift;
         
-        if (this.needs !== null) {
+        if (!isUndefined(this.needs)) {
             json["needs"] = [];
             this.needs.forEach((obj) => {
                 json["needs"].push(obj.toJson());
@@ -85,15 +87,39 @@ class ModelPost {
 
         object.name = json["name"];
         object.reference = json["reference"];
-        object.description = json["description"];
-        object.variety = json["variety"];
-        object.color = json["color"] ? Color.fromJson(json["color"]) : null;
+        if (!isUndefined(json["description"]))  object.description = json["description"];
+        if (!isUndefined(json["variety"]))      object.variety = json["variety"];
+        if (!isUndefined(json["color"]))        object.color = Color.fromJson(json["color"]);
         object.price = json["price"];
-        object.dimensions = json["dimensions"] ? Dimensions.fromJson(json["dimensions"]) : null;
-        object.mass = json["mass"];
-        object.lift = json["lift"];
+        if (!isUndefined(json["dimensions"]))   object.dimensions = Dimensions.fromJson(json["dimensions"]);
+        if (!isUndefined(json["mass"]))         object.mass = json["mass"];
+        if (!isUndefined(json["lift"]))         object.lift = json["lift"];
         
-        if (json["needs"] !== null) {
+        if (!isUndefined(json["needs"])) {
+            object.needs = [];
+            json["needs"].forEach((entry) => {
+                object.needs.push(NeedPost.fromJson(entry));
+            });
+        }
+
+        return object;
+    }
+    
+    // Only deserialize defined fields (used for updating)
+    static fromJsonWeak = function(json) {
+        const object = new ModelPost;
+
+        if (!isUndefined(json["name"]))         object.name = json["name"];
+        if (!isUndefined(json["reference"]))    object.reference = json["reference"];
+        if (!isUndefined(json["description"]))  object.description = json["description"];
+        if (!isUndefined(json["variety"]))      object.variety = json["variety"];
+        if (!isUndefined(json["color"]))        object.color = Color.fromJson(json["color"]);
+        if (!isUndefined(json["price"]))        object.price = json["price"];
+        if (!isUndefined(json["dimensions"]))   object.dimensions = Dimensions.fromJson(json["dimensions"]);
+        if (!isUndefined(json["mass"]))         object.mass = json["mass"];
+        if (!isUndefined(json["lift"]))         object.lift = json["lift"];
+        
+        if (!isUndefined(json["needs"])) {
             object.needs = [];
             json["needs"].forEach((entry) => {
                 object.needs.push(NeedPost.fromJson(entry));

@@ -41,3 +41,6 @@ nbproject
 
 # Environment config file
 .env
+
+# Node package lock
+package-lock.json

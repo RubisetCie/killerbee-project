@@ -4,8 +4,8 @@
 	"description": "Méthode de fabrication du Frisbee bleu qui conviendra à toutes les ambiences de fête ( ͡° ͜ʖ ͡°).",
 	"model": { "_id": { "$oid": "61b7159c16ddae18887e8b01" }},
 	"steps": [
-		{ "description": "Mélangez 150g de plastique bleu pendant 1 heure et laisser reposer.", "valildation": "Vérifiez que le plastique est bien bleu." },
-		{ "description": "Collez-y l'étiquette désirée avec de la colle basique.", "valildation": "Assurez-vous que la surface ne soit pas humide." }
+		{ "description": "Mélangez 150g de plastique bleu pendant 1 heure et laisser reposer.", "validation": "Vérifiez que le plastique est bien bleu." },
+		{ "description": "Collez-y l'étiquette désirée avec de la colle basique.", "validation": "Assurez-vous que la surface ne soit pas humide." }
 	]
 }
 {
@@ -14,6 +14,6 @@
 	"description": "Méthode de fabrication du Kong Flyer pour chien.",
 	"model": { "_id": { "$oid": "61b715a3143ebd84d24e2363" }},
 	"steps": [
-		{ "description": "Mélangez 200g de plastique rouge pendant 4 heure et laisser reposer.", "valildation": "Vérifier sa malléabilité. Le laisser au soleil permet de lui donner une teinte plus foncée." }
+		{ "description": "Mélangez 200g de plastique rouge pendant 4 heure et laisser reposer.", "validation": "Vérifier sa malléabilité. Le laisser au soleil permet de lui donner une teinte plus foncée." }
 	]
 }

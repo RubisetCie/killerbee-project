@@ -75,7 +75,7 @@
         methods: {
             handleLogin(user) {
                 this.loading = true;
-                this.$store.dispatch("auth/login", user).then(
+                this.$store.dispatch(user).then(
                     () => {
                     this.$router.push("/profile");
                     },

@@ -31,7 +31,7 @@
                     <v-list-item-title>MODIFICATION</v-list-item-title>
                 </v-list-item>
 
-                <v-list-item @click="$router.push({ name: 'Logout' }).catch((err) => {})">
+                <v-list-item v-if="session.token && session.refreshtoken && session.id" @click="logout()">
                     <v-list-item-icon>
                     <v-icon>mdi-logout</v-icon>
                     </v-list-item-icon>
@@ -49,5 +49,17 @@ export default {
   data: () => ({
     drawer: false,
   }),
+  methods:{
+      async logout(){
+        this.$store.dispatch("logout", params).then((res) => {
+            if (res) {
+            this.$router.push({ name: "Home" });
+            } else {
+            document.getElementsByClassName("error-login-msg")[0].style.display =
+                "block";
+            }
+        });
+      }
+  }
 };
 </script>

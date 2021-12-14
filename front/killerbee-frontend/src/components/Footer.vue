@@ -12,7 +12,7 @@
       <v-divider></v-divider>
 
       <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <strong>Cesimiam</strong>
+        {{ new Date().getFullYear() }} — <strong>Killerbee Society</strong>
       </v-card-text>
     </v-card>
   </v-footer>

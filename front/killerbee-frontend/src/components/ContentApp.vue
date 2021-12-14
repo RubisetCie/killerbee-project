@@ -25,7 +25,11 @@ export default ({
         text-align: center;
     }
     #image{
-        width: auto;
-        height: auto;
+        max-width: 25%;
+        max-height: 25%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: auto;
+        margin-bottom: auto;
     }
 </style>

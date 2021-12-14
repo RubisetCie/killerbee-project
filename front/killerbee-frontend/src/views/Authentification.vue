@@ -1,24 +1,16 @@
 <template>
     <v-container>
         <div id="Header">
-            <v-app-bar app color="#087A57" dark>
-                <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-                <v-spacer></v-spacer>
-                <h2 style="text-decoration: cursive">LOGIN</h2>
-                <v-spacer></v-spacer>
-                <h2 style="text-decoration: cursive">Killerbee</h2>
-            </v-app-bar>
+            <Header />
         </div>
         <div id="ContentAuthentification">
             <div class="card card-container">
                 <img id="profile-img" :src="srcPicture" class="profile-img-card"/>
-                <v-divider class="mx-4"></v-divider>
                 <h2 class="title">LOGIN</h2>
+                <v-divider class="mx-4"></v-divider>
                 <validation-observer ref="observer">
                     <v-form @submit.prevent="submit">
-                        <validation-provider  v-slot="{ errors }" name="Email" rules="required|email">
-                            <v-text-field v-model="email" class="zone" :error-messages="errors" label="Email" required outlined dark filled dense></v-text-field>
-                        </validation-provider>
+                        <v-text-field v-model="username" class="zone" label="Username" required outlined dark filled dense></v-text-field>
                         <validation-provider color="#087A57" v-slot="{ errors }" name="Password" rules="required">
                             <v-text-field v-model="password" class="zone" :error-messages="errors" label="Password" :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'" @click:append="showPass = !showPass" required outlined dense dark filled :type="showPass ? 'text' : 'password'"></v-text-field>
                         </validation-provider>
@@ -35,9 +27,9 @@
 </template>
 
 <script>
-    import { required, email } from "vee-validate/dist/rules";
+    import { required } from "vee-validate/dist/rules";
 import {extend, ValidationProvider, setInteractionMode, ValidationObserver,} from "vee-validate";
-
+import Header from '../components/HeaderAuthentification.vue'
 setInteractionMode("eager");
 
 extend("required", {
@@ -45,19 +37,16 @@ extend("required", {
   message: "{_field_} can not be empty",
 });
 
-extend("email", {
-  ...email,
-  message: "Email must be valid",
-});
 
 export default {
   name: "Login",
   components: {
     ValidationProvider,
     ValidationObserver,
+    Header
   },
   data: () => ({
-    email: "",
+    username: "",
     password: null,
     showPass: false,
     srcPicture: require("../assets/img/account-circle (1).png"),
@@ -65,7 +54,7 @@ export default {
   computed: {
     params() {
       return {
-        email: this.email,
+        username: this.username,
         password: this.password,
       };
     },
@@ -78,7 +67,7 @@ export default {
       }
     },
     clear() {
-      this.email = "";
+      this.username = "";
       this.password = null;
       this.$refs.observer.reset();
     },
@@ -86,9 +75,6 @@ export default {
       this.$store.dispatch("login", params).then((res) => {
         if (res) {
           this.$router.push({ name: "Home" });
-        } else {
-          document.getElementsByClassName("error-login-msg")[0].style.display =
-            "block";
         }
       });
     },
@@ -96,7 +82,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .title{
     text-align: center;
     color: #087A57;

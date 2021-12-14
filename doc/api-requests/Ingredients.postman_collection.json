@@ -1,0 +1,357 @@
+{
+	"info": {
+		"_postman_id": "65366de4-8a51-458a-ac1f-49b455fe52a7",
+		"name": "Ingredients",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"accessToken\", jsonData.accessToken);\r",
+							"pm.collectionVariables.set(\"refreshToken\", jsonData.refreshToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"zozo\",\r\n    \"password\": \"0000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"accessToken\", jsonData.accessToken);\r",
+							"pm.collectionVariables.set(\"refreshToken\", jsonData.refreshToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\": \"{{refreshToken}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/logout",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"accessToken\", jsonData.accessToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"token\": \"{{refreshToken}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/token",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/ingredient/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ingredient",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET By ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/ingredient/61b718f69b68412f5ea27432",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ingredient",
+						"61b718f69b68412f5ea27432"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Query",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": \"Plastique\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/ingredient/query",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ingredient",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"Un bœuf\",\r\n\t\"description\": \"Confiture de fraise.\",\r\n\t\"brand\": \"JPC\",\r\n    \"type\": \"Nourriture\",\r\n\t\"color\": { \"r\": 168, \"g\": 72, \"b\": 120 },\r\n\t\"price\": 460.0,\r\n\t\"density\": 3.10,\r\n\t\"young\": 0.24\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/ingredient/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ingredient",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"name\": \"Un œuf\",\r\n\t\"description\": \"Confiture de bœuf.\",\r\n\t\"brand\": \"Toujours JPC\",\r\n    \"type\": \"Marie-Curie\",\r\n\t\"color\": { \"r\": 250, \"g\": 253, \"b\": 210 },\r\n\t\"price\": 380.4,\r\n\t\"density\": 1.05,\r\n\t\"young\": 1.23\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/ingredient/61b86bf8c3a67235742c7788",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ingredient",
+						"61b86bf8c3a67235742c7788"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/ingredient/61b86bf8c3a67235742c7788",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ingredient",
+						"61b86bf8c3a67235742c7788"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:3000"
+		},
+		{
+			"key": "accessToken",
+			"value": ""
+		},
+		{
+			"key": "refreshToken",
+			"value": ""
+		}
+	]
+}

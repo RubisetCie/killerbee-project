@@ -26,10 +26,36 @@ class MethodPost {
         }
     }
     
+    checkWeak = function() {
+        if (!isUndefined(this.steps)) {
+            this.steps.forEach((obj) => { obj.check(); });
+        } else {
+            throw new ApiError("Missing mandatory parameter: steps", 400);
+        }
+    }
+    
     toJson = function() {
         const json = {};
         
         json["name"] = this.name;
+        if (!isUndefined(this.description)) json["description"] = this.description;
+        if (!isUndefined(this.model))       json["model"] = { "_id": new ObjectID(this.model) };
+        
+        if (!isUndefined(this.steps)) {
+            json["steps"] = [];
+            this.steps.forEach((obj) => {
+                json["steps"].push(obj.toJson());
+            });
+        }
+
+        return json;
+    }
+    
+    // Only serialize defined fields (used for updating)
+    toJsonWeak = function() {
+        const json = {};
+        
+        if (!isUndefined(this.name))        json["name"] = this.name;
         if (!isUndefined(this.description)) json["description"] = this.description;
         if (!isUndefined(this.model))       json["model"] = { "_id": new ObjectID(this.model) };
         
@@ -51,7 +77,25 @@ class MethodPost {
         if (!isUndefined(json["model"]))        object.model = json["model"];
         
         if (!isUndefined(json["steps"])) {
-            this.steps = [];
+            object.steps = [];
+            json["steps"].forEach((entry) => {
+                object.steps.push(Step.fromJson(entry));
+            });
+        }
+        
+        return object;
+    }
+    
+    // Only deserialize defined fields (used for updating)
+    static fromJsonWeak = function(json) {
+        const object = new MethodPost;
+        
+        if (!isUndefined(json["name"]))         object.name = json["name"];
+        if (!isUndefined(json["description"]))  object.description = json["description"];
+        if (!isUndefined(json["model"]))        object.model = json["model"];
+        
+        if (!isUndefined(json["steps"])) {
+            object.steps = [];
             json["steps"].forEach((entry) => {
                 object.steps.push(Step.fromJson(entry));
             });

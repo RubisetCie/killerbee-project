@@ -14,6 +14,8 @@ const Need = require("../model/need");
 //! }
 //! if (deployMethod) {
 const Method = require("../model/method");
+const MethodResponse = require("../model/response/methodResponse");
+const MethodArrayResponse = require("../model/response/methodArrayResponse");
 //! }
 //! if (deployIngredient) {
 const Ingredient = require("../model/ingredient");
@@ -495,6 +497,227 @@ module.exports.deleteIngredientById = function(id) {
     return new Promise((resolve, reject) => {
         const db = client.db(DATABASE);
         db.collection("ingredient").deleteOne({ _id: id }, function(err, result) {
+            try {
+                if (err)
+                    throw err;
+
+                const count = result["deletedCount"];
+                if (count <= 0) {
+                    throw new ApiError("Query affected nothing", 400);
+                }
+
+                console.log(count + " rows deleted");
+                resolve();
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+//! }
+//! if (deployMethod) {
+// Insert method
+module.exports.insertMethod = function(method) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        
+        db.collection("method").insertOne(method.toJson(), function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const response = new InsertResponse;
+                response.insertedId = result["insertedId"];
+                console.log(result["insertedCount"] + " rows inserted");
+                resolve(response);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Select method
+module.exports.selectMethod = function() {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        const query = [
+            {
+                $lookup: {
+                    from: "model",
+                    localField: "model._id",
+                    foreignField: "_id",
+                    as: "model"
+                }
+            },
+            {
+		$unwind: "$model"
+            },
+            {
+                $sort: { _id: 1 }
+            }
+        ];
+        
+        db.collection("method").aggregate(query, async function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const response = new MethodArrayResponse;
+                var count = 0;  // Counter for retrieved rows
+
+                while (await result.hasNext())
+                {
+                    const res = await result.next();
+                    const method = new MethodResponse;
+                    
+                    method.id = res["_id"];
+                    method.method = Method.fromJson(res);
+                    
+                    response.methods.push(method);
+                    count++;
+                }
+                
+                console.log(count + " rows returned");
+                resolve(response);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Select method by ID
+module.exports.selectMethodById = function(id) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        const query = [
+            {
+                $match: { _id: id }
+            },
+            {
+                $lookup: {
+                    from: "model",
+                    localField: "model._id",
+                    foreignField: "_id",
+                    as: "model"
+                }
+            },
+            {
+		$unwind: "$model"
+            }
+        ];
+
+        db.collection("method").aggregate(query, async function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                if (!await result.hasNext())
+                    throw new ApiError("Query returned nothing", 400);
+                
+                const res = await result.next();
+                const method = new MethodResponse;
+                
+                method.id = res["_id"];
+                method.method = Method.fromJson(res);
+                
+                console.log("Request finished");
+                resolve(method);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Select method with a query
+module.exports.selectMethodByQuery = function(request) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        const query = [
+            {
+                $lookup: {
+                    from: "model",
+                    localField: "model._id",
+                    foreignField: "_id",
+                    as: "model"
+                }
+            },
+            {
+		$unwind: "$model"
+            },
+            {
+                $sort: { _id: 1 }
+            }
+        ];
+        
+        // Append the query if exists
+        if (request.query) {
+            query.unshift({
+                $match: {
+                    $text: { $search: request.query }
+                }
+            });
+        }
+        
+        db.collection("method").aggregate(query, async function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const response = new MethodArrayResponse;
+                var count = 0;  // Counter for retrieved rows
+
+                while (await result.hasNext())
+                {
+                    const res = await result.next();
+                    const method = new MethodResponse;
+                    
+                    method.id = res["_id"];
+                    method.method = Method.fromJson(res);
+                    
+                    response.methods.push(method);
+                    count++;
+                }
+                
+                console.log(count + " rows returned");
+                resolve(response);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Update method by ID
+module.exports.updateMethodById = function(id, method) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        db.collection("method").updateOne({ _id: id }, {$set: method.toJsonWeak()}, function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                const count = result["modifiedCount"];
+                if (count <= 0) {
+                    throw new ApiError("Query affected nothing", 400);
+                }
+                
+                console.log(count + " rows modified");
+                resolve();
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
+// Delete method by ID
+module.exports.deleteMethodById = function(id) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        db.collection("method").deleteOne({ _id: id }, function(err, result) {
             try {
                 if (err)
                     throw err;

@@ -51,7 +51,7 @@ class Method {
         if (!isUndefined(json["model"]))        object.model = Model.fromJson(json["model"]);
         
         if (!isUndefined(json["steps"])) {
-            this.steps = [];
+            object.steps = [];
             json["steps"].forEach((entry) => {
                 object.steps.push(Step.fromJson(entry));
             });

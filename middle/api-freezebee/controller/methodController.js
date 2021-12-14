@@ -98,7 +98,7 @@ module.exports.putById = function(req, res) {
         if (!req.body)
             throw new ApiError("The request must come with a body", 400);
         
-        const request = MethodPost.fromJson(req.body);
+        const request = MethodPost.fromJsonWeak(req.body);
 
         request.checkWeak();
         service.putById(id, request).then(() => {

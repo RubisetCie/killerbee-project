@@ -39,6 +39,7 @@ app.use(require('body-parser').json());
 app.use(cors());
 app.use("/docs", swagger.serve, swagger.setup(swaggerDocument, swaggerOptions));
 app.use(morgan("common", {stream: fs.createWriteStream(__dirname + "/access.log", { flags: "a" })}));
+app.use(morgan("tiny"));
 
 app.post("/login", authentication.login);
 app.post("/logout", authentication.logout);

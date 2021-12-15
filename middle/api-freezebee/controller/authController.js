@@ -146,7 +146,7 @@ module.exports.authenticate = function(req, res, next) {
     } catch (err) {
         const response = new ResponseError;
         response.message = err.message;
-        console.error("Authentication error:", err);
+        console.error("Authentication error : ", err);
         res.status(err instanceof ApiError ? err.code : 500).json(response.toJson());
     }
 };

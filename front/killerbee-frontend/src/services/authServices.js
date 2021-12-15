@@ -10,7 +10,10 @@ export async function login(username, password) {
           password: password
         })
         console.log(response.status)
-        return response.data
+        const res = {status: response.status, body: response.data}
+        console.log("Res:")
+        console.log(res)
+        return res
     } catch (e) {
         console.warn(e)
         return e.response.data

@@ -5,8 +5,7 @@ import { login } from '../services/authServices'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-    
+  state: {    
     session: {
       token: localStorage.token,
       refreshtoken: localStorage.refreshtoken,
@@ -23,7 +22,8 @@ export default new Vuex.Store({
       price: Number,
       dimensions: Object,
       mass: Number,
-      lift: Number 
+      lift: Number,
+      needs:[]
     },
     ingredient:{
       name: String,
@@ -53,28 +53,25 @@ export default new Vuex.Store({
   mutations: {
     // SESSION - Connection of the user
     LOCALSTORAGE(state, res) {
-      if (res.success) {
         //LocalStorage
-        localStorage.id = res.id
-        localStorage.token = res.token
-        localStorage.refreshtoken = res.refreshtoken
-        localStorage.role = res.role
-        localStorage.username = res.username
-        localStorage.password = res.password
+        localStorage.token = res.accessToken
+        localStorage.refreshtoken = res.refreshToken
+        //localStorage.role = res.role
+        localStorage.username = state.username
+        localStorage.password = state.password
 
         console.log("LocalStorage: \n"+ JSON.stringify(localStorage))
 
         //Vuex Store
-        state.session.id = res.id
-        state.session.token = res.tokens
-        state.session.role = res.role
+        //state.session.id = res.id
+        state.session.token = res.accessToken
+        //state.session.role = res.role
         console.log(this.state.session.token)
-        state.session.refreshtoken = res.refreshtoken
-        state.username = res.username // ou mettre localStorage.username
-        state.password = res.password // ou mettre localStorage.password
+        state.session.refreshtoken = res.refreshToken
+        //state.username = res.username // ou mettre localStorage.username
+        //state.password = res.password // ou mettre localStorage.password
         
         console.log("Session: \n"+ JSON.stringify(state.session))
-      }
     },
     //ACCOUNT - get role of user
     /*GETINFOACCOUNT(state, payload) {
@@ -91,6 +88,11 @@ export default new Vuex.Store({
       localStorage.removeItem("role");
       localStorage.removeItem("username");
       localStorage.removeItem("password");
+      localStorage.removeItem("pb_exceptions");
+      localStorage.removeItem("lastUpdatedAt");
+      localStorage.removeItem("pb_user_activity");
+      localStorage.removeItem("loglevel:webpack-dev-server");
+      localStorage.removeItem("pb_forms");
 
       console.log("LocalStorage: \n"+ JSON.stringify(localStorage))
 
@@ -103,21 +105,87 @@ export default new Vuex.Store({
       
       console.log("Session: \n"+ JSON.stringify(state.session))
     },
+    /*
     //MODEL
-    
+    GETALLMODEL(state){
+
+    },
+    GETBYIDMODEL(state){
+
+    },
+    GETQUERYMODEL(state){
+
+    },
+    POSTMODEL(state){
+
+    },
+    PUTMODEL(state){
+
+    },
+    DELETEMODEL(state){
+
+    },
     // INGREDIENT
+    GETALLINGREDIENTS(state){
 
+    },
+    GETBYIDINGREDIENT(state){
+
+    },
+    GETQUERYINGREDIENT(state){
+
+    },
+    POSTINGREDIENT(state){
+
+    },
+    PUTINGREDIENT(state){
+
+    },
+    DELETEINGREDIENT(state){
+      
+    },
     // METHOD
+    GETALLMETHODS(state){
 
+    },
+    GETBYIDMETHOD(state){
+
+    },
+    GETQUERYMETHOD(state){
+
+    },
+    POSTMETHOD(state){
+
+    },
+    PUTMETHOD(state){
+
+    },
+    DELETEMETHOD(state){
+      
+    }
     //STEP
+    */
   },
   actions: {
     // SESSION - Connexion of the user
     login({ commit }, payload) { // ATTENTION, on peut get response.statut pour voir les succès ou non de la connexion
+      commit('LOGOUT')
       try {
         return login(payload.username, payload.password).then(res => {
-            commit('LOCALSTORAGE', res)
-            return res.success
+          console.log("Store:")
+          console.log('Status Request:')
+          console.log(res.status)
+          console.log('Body Request:')
+          console.log(res.body)
+          this.state.session.username = payload.username
+          this.state.session.password = payload.password
+          if(res.status == 200){
+            commit('LOCALSTORAGE', res.body)
+          }
+          else{
+            console.log(" Erreur d'identifiant ou de mot de passe.")
+          }
+            return res.status
         })
       }
       catch (err) {
@@ -140,7 +208,7 @@ export default new Vuex.Store({
         console.warn(err)
       }
     },
-    */
+    *//*
     //ACCOUNT - Disconnect the current acount
     logout({ commit }) {
       try {
@@ -153,8 +221,16 @@ export default new Vuex.Store({
         console.warn(err);
         this.$router.push('Login')
       }
-    },
+    },*/
   },
+  //MODELS
+
+
+  // INGREDIENTS
+
+
+  //METHODS
+
   modules: {
   }
 })

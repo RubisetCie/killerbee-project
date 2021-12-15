@@ -73,7 +73,7 @@ export default {
     },
     login(params) {
       this.$store.dispatch("login", params).then((res) => {
-        if (res) {
+        if (res == 200) {
           this.$router.push({ name: "Home" });
         }
       });

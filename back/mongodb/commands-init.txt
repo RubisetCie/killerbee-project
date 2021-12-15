@@ -1,3 +1,7 @@
+# Open database to IP
+nano /etc/mongod.conf
+set the bindIp
+
 # Database
 use killerbee
 

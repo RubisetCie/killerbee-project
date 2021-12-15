@@ -17,7 +17,7 @@ const Method = require("../model/method");
 const MethodResponse = require("../model/response/methodResponse");
 const MethodArrayResponse = require("../model/response/methodArrayResponse");
 //! }
-//! if (deployModel || deployMethod) {
+//! if (deployModel || deployIngredient) {
 const Ingredient = require("../model/ingredient");
 //! }
 //! if (deployIngredient) {

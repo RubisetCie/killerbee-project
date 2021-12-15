@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import FreezeBee from './Freezebe.vue'
+import FreezeBee from './Freezebe.vue';
 
 export default({
     components:{

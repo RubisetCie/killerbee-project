@@ -1,20 +1,33 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { login } from '../services/authServices'
-
+import { getAllIngredients,getByIdIngredients,getQueryIngredients, putByIdIngredient, deleteByIdIngredient} from '../services/ingredientsServices'
+import { postMethod, getMethods, getByIdMethods, getQueryMethods, putMethod, deleteMethod } from '../services/methodsServices'
+import { postModel, getModels, getByIdModels, getQueryModels, putByIdModel, deleteModel } from '../services/modelsServices'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {    
     session: {
-      token: localStorage.token,
-      refreshtoken: localStorage.refreshtoken,
+      toaccessTokenken: localStorage.accessToken,
+      refreshToken: localStorage.refreshToken,
       username: localStorage.username,
       password: localStorage.password,
       id: localStorage.id,
       role: localStorage.role
     },
     models:{
+      name: String,
+      description: String,
+      variety: String,
+      color: Object,
+      price: Number,
+      dimensions: Object,
+      mass: Number,
+      lift: Number,
+      needs:[]
+    },
+    model:{
       name: String,
       description: String,
       variety: String,
@@ -35,6 +48,22 @@ export default new Vuex.Store({
       density: Number,
       young: Number
     },
+    ingredients:{
+      name: String,
+      description: String,
+      brand: String,
+      type: String,
+      color: Object,
+      price: Number,
+      density: Number,
+      young: Number
+    },
+    methods:{
+      name: String,
+      description: String,
+      modelId: Object,
+      steps:[]
+    },
     method:{
       name: String,
       description: String,
@@ -45,7 +74,8 @@ export default new Vuex.Store({
   },
   getters:{
     account: state => state.account,
-    models: state => state.model,
+    models: state => state.models,
+    model: state => state.model,
     ingredient: state => state.model,
     method: state => state.method,
     step: state => state.step
@@ -54,7 +84,7 @@ export default new Vuex.Store({
     // SESSION - Connection of the user
     LOCALSTORAGE(state, res) {
         //LocalStorage
-        localStorage.token = res.accessToken
+        localStorage.accessToken = res.accessToken
         localStorage.refreshtoken = res.refreshToken
         //localStorage.role = res.role
         localStorage.username = state.username
@@ -64,9 +94,8 @@ export default new Vuex.Store({
 
         //Vuex Store
         //state.session.id = res.id
-        state.session.token = res.accessToken
+        state.session.accessToken = res.accessToken
         //state.session.role = res.role
-        console.log(this.state.session.token)
         state.session.refreshtoken = res.refreshToken
         //state.username = res.username // ou mettre localStorage.username
         //state.password = res.password // ou mettre localStorage.password
@@ -105,66 +134,38 @@ export default new Vuex.Store({
       
       console.log("Session: \n"+ JSON.stringify(state.session))
     },
-    /*
+    
     //MODEL
-    GETALLMODEL(state){
-
+    GETALLMODELS(state, payload){
+      state.models = payload.data
     },
-    GETBYIDMODEL(state){
-
+    GETBYIDMODEL(state, payload){
+      state.model = payload.data
     },
-    GETQUERYMODEL(state){
-
-    },
-    POSTMODEL(state){
-
-    },
-    PUTMODEL(state){
-
-    },
-    DELETEMODEL(state){
-
+    GETQUERYMODEL(state, payload){
+      state.model = payload.data
     },
     // INGREDIENT
-    GETALLINGREDIENTS(state){
-
+    GETALLINGREDIENTS(state, payload){
+      state.ingredients = payload.data
     },
-    GETBYIDINGREDIENT(state){
-
+    GETBYIDINGREDIENT(state, payload){
+      state.ingredient = payload.data
     },
-    GETQUERYINGREDIENT(state){
-
-    },
-    POSTINGREDIENT(state){
-
-    },
-    PUTINGREDIENT(state){
-
-    },
-    DELETEINGREDIENT(state){
-      
+    GETQUERYINGREDIENT(state, payload){
+      state.ingredient = payload.data
     },
     // METHOD
-    GETALLMETHODS(state){
-
+    GETALLMETHODS(state, payload){
+      state.methods = payload.data
     },
-    GETBYIDMETHOD(state){
-
+    GETBYIDMETHOD(state, payload){
+      state.method = payload.data
     },
-    GETQUERYMETHOD(state){
-
-    },
-    POSTMETHOD(state){
-
-    },
-    PUTMETHOD(state){
-
-    },
-    DELETEMETHOD(state){
-      
+    GETQUERYMETHOD(state, payload){
+      state.method = payload.data
     }
     //STEP
-    */
   },
   actions: {
     // SESSION - Connexion of the user
@@ -224,8 +225,24 @@ export default new Vuex.Store({
     },*/
   },
   //MODELS
-
-
+  getAllModels({ commit }){
+    try{
+      return getModels().then(res => {
+        commit('GETALLMODELS', res);
+      })
+    }catch (err) {
+      console.warn(err);
+      this.$router.push('Login')
+    }
+  },
+  getByIdModel({ commit }, id){
+    try{
+      return getByIdModels(id, this.state.session.accessToken)
+    }catch (err) {
+      console.warn(err);
+      this.$router.push('Login')
+    }
+  },
   // INGREDIENTS
 
 

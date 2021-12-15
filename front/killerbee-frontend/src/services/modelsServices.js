@@ -1,7 +1,7 @@
 import axios from 'axios';
 const baseUrl = 'http://localhost:3000/'
 
-export async function postModel(model){// url+'/' et bsn d'un param (body)
+export async function postModel(model, accessToken){// url+'/' et bsn d'un param (body)
     try{
         const response = await axios.post(baseUrl+"model/",
         {
@@ -18,7 +18,7 @@ export async function postModel(model){// url+'/' et bsn d'un param (body)
         },
         {
             headers: { // Faut-il rajouter qqch?
-              Authorization: "Bearer " + token
+              Authorization: "Bearer " + accessToken
             }
         })
         console.log(response.status)
@@ -29,9 +29,13 @@ export async function postModel(model){// url+'/' et bsn d'un param (body)
       }
 }
 
-export async function getModels(){// url+'/'
+export async function getModels(accessToken){// url+'/'
     try{
-        const response = await axios.get(baseUrl+"model/")
+        const response = await axios.get(baseUrl+"model/", {
+            headers: {
+              Authorization: "Bearer " + accessToken
+            }
+        })
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -39,20 +43,12 @@ export async function getModels(){// url+'/'
           return e.response.data
     }
 }
-export async function getByIdMdels(id){// url+'/:id'
+export async function getByIdModels(id, accessToken){// url+'/:id'
     try{
-        const response = await axios.get(baseUrl+"model/"+id)
-        console.log(response.status)
-        return response.data
-      } catch (e) {
-          console.warn(e)
-          return e.response.data
-      }
-}
-export async function getQueryModels(query){// url+'/query' et bsn d'un param (body)
-    try{
-        const response = await axios.get(baseUrl+"model/query",{
-            query: query
+        const response = await axios.get(baseUrl+"model/"+id, {
+            headers: {
+              Authorization: "Bearer " + accessToken
+            }
         })
         console.log(response.status)
         return response.data
@@ -61,7 +57,24 @@ export async function getQueryModels(query){// url+'/query' et bsn d'un param (b
           return e.response.data
       }
 }
-export async function putByIdModel(id, model){// url+'/:id' et bsn d'un param (body)
+export async function getQueryModels(query, accessToken){// url+'/query' et bsn d'un param (body)
+    try{
+        const response = await axios.get(baseUrl+"model/query",{
+            query: query
+        },
+        {
+            headers: {
+              Authorization: "Bearer " + accessToken
+            }
+        })
+        console.log(response.status)
+        return response.data
+      } catch (e) {
+          console.warn(e)
+          return e.response.data
+      }
+}
+export async function putByIdModel(id, model, accessToken){// url+'/:id' et bsn d'un param (body)
     try{
         const response = await axios.put(baseUrl+"model/"+id,
         {
@@ -78,7 +91,7 @@ export async function putByIdModel(id, model){// url+'/:id' et bsn d'un param (b
         },
         {
             headers: {
-              Authorization: "Bearer " + token
+              Authorization: "Bearer " + accessToken
             }
         })
         console.log(response.status)
@@ -88,12 +101,12 @@ export async function putByIdModel(id, model){// url+'/:id' et bsn d'un param (b
           return e.response.data
       }
 }
-export async function deleteModel(id){// url+'/:id'
+export async function deleteModel(id, accessToken){// url+'/:id'
     try{
         const response = await axios.delete(baseUrl+"model/"+id,
         {
             headers: {
-              Authorization: "Bearer " + token
+              Authorization: "Bearer " + accessToken
             }
         })
         console.log(response.status)

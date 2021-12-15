@@ -1,7 +1,7 @@
 import axios from 'axios';
 const baseUrl = 'http://localhost:3000/'
 
-export async function postMethod(method){
+export async function postMethod(method, accessToken){
     try{
         const response = await axios.post(baseUrl+"method/",
         {
@@ -12,7 +12,7 @@ export async function postMethod(method){
         },
         {
             headers: { // Faut-il rajouter qqch?
-              Authorization: "Bearer " + token
+              Authorization: "Bearer " + accessToken
             }
         })
         console.log(response.status)
@@ -55,7 +55,7 @@ export async function getQueryMethods(query){// url+'/query'
           return e.response.data
       }
 }
-export async function putMethod(id, method){// url+'/:id'
+export async function putMethod(id, method, accessToken){// url+'/:id'
     try{
         const response = await axios.put(baseUrl+"method/"+id,
         {
@@ -66,7 +66,7 @@ export async function putMethod(id, method){// url+'/:id'
         },
         {
             headers: {
-              Authorization: "Bearer " + token
+              Authorization: "Bearer " + accessToken
             }
         })
         console.log(response.status)
@@ -76,12 +76,12 @@ export async function putMethod(id, method){// url+'/:id'
           return e.response.data
       }
 }
-export async function deleteMethod(id){// url+'/:id'
+export async function deleteMethod(id, accessToken){// url+'/:id'
     try{
         const response = await axios.delete(baseUrl+"method/"+id,
         {
             headers: {
-              Authorization: "Bearer " + token
+              Authorization: "Bearer " + accessToken
             }
         })
         console.log(response.status)

@@ -34,7 +34,7 @@ export async function getQueryIngredients(query){ // url+'/query'
           return e.response.data
       }
 }
-export async function putByIdIngredient(id, ingredient, payload){ // url+'/:id'
+export async function putByIdIngredient(id, accessToken, ingredient){ // url+'/:id'
     try{
         const response = await axios.put(baseUrl+"ingredient/"+id,
         {
@@ -49,7 +49,7 @@ export async function putByIdIngredient(id, ingredient, payload){ // url+'/:id'
         },
         {
             headers: {
-              Authorization: "Bearer " + token
+              Authorization: "Bearer " + accessToken
             }
         })
         console.log(response.status)
@@ -59,12 +59,12 @@ export async function putByIdIngredient(id, ingredient, payload){ // url+'/:id'
           return e.response.data
       }
 }
-export async function deleteByIdIngredient(id){ // url+'/:id'
+export async function deleteByIdIngredient(id, accessToken){ // url+'/:id'
     try{
         const response = await axios.delete(baseUrl+"ingredient/"+id,
         {
             headers: {
-              Authorization: "Bearer " + token
+              Authorization: "Bearer " + accessToken
             }
         })
         console.log(response.status)
@@ -74,7 +74,7 @@ export async function deleteByIdIngredient(id){ // url+'/:id'
           return e.response.status
       }
 }
-export async function postIngredient(ingredient){ // url+'/'
+export async function postIngredient(ingredient, accessToken){ // url+'/'
     try{
         const response = await axios.post(baseUrl+"ingredient/",
         {
@@ -89,7 +89,7 @@ export async function postIngredient(ingredient){ // url+'/'
         },
         {
             headers: { // Faut-il rajouter qqch?
-              Authorization: "Bearer " + token
+              Authorization: "Bearer " + accessToken
             }
         })
         console.log(response.status)

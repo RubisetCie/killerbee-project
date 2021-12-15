@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { login } from '../services/authServices'
-import { getAllIngredients,getByIdIngredients,getQueryIngredients, putByIdIngredient, deleteByIdIngredient} from '../services/ingredientsServices'
-import { postMethod, getMethods, getByIdMethods, getQueryMethods, putMethod, deleteMethod } from '../services/methodsServices'
-import { postModel, getModels, getByIdModels, getQueryModels, putByIdModel, deleteModel } from '../services/modelsServices'
+import { getAllIngredients,getByIdIngredients,getQueryIngredients} from '../services/ingredientsServices'
+import { getMethods, getByIdMethods, getQueryMethods} from '../services/methodsService'
+import { getModels, getByIdModels, getQueryModels} from '../services/modelsServices'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -227,7 +227,7 @@ export default new Vuex.Store({
   //MODELS
   getAllModels({ commit }){
     try{
-      return getModels().then(res => {
+      return getModels(this.state.session.accessToken).then(res => {
         commit('GETALLMODELS', res);
       })
     }catch (err) {
@@ -237,16 +237,87 @@ export default new Vuex.Store({
   },
   getByIdModel({ commit }, id){
     try{
-      return getByIdModels(id, this.state.session.accessToken)
+      return getByIdModels(id, this.state.session.accessToken).then(res =>{
+        commit('GETBYIDMODELS', res);
+      })
+    }catch (err) {
+      console.warn(err);
+      this.$router.push('Login')
+    }
+  },
+  getQueryModel({ commit }, query){
+    try{
+      return getQueryModels(query, this.state.session.accessToken).then(res =>{
+        commit('GETQUERYMODEL', res);
+      })
     }catch (err) {
       console.warn(err);
       this.$router.push('Login')
     }
   },
   // INGREDIENTS
-
+  getAllIngredients({ commit }){
+    try{
+      return getAllIngredients(this.state.session.accessToken).then(res => {
+        commit('GETALLINGREDIENTS', res);
+      })
+    }catch (err) {
+      console.warn(err);
+      this.$router.push('Login')
+    }
+  },
+  getByIdIngredient({ commit }, id){
+    try{
+      return getByIdIngredients(id, this.state.session.accessToken).then(res =>{
+        commit('GETBYIDINGREDIENT', res);
+      })
+    }catch (err) {
+      console.warn(err);
+      this.$router.push('Login')
+    }
+  },
+  getQueryIngredients({ commit }, query){
+    try{
+      return getQueryIngredients(query, this.state.session.accessToken).then(res =>{
+        commit('GETQUERYINGREDIENT', res);
+      })
+    }catch (err) {
+      console.warn(err);
+      this.$router.push('Login')
+    }
+  },
 
   //METHODS
+  getAllMethods({ commit }){
+    try{
+      return getMethods(this.state.session.accessToken).then(res => {
+        commit('GETALLMETHODS', res);
+      })
+    }catch (err) {
+      console.warn(err);
+      this.$router.push('Login')
+    }
+  },
+  getByIdMethod({ commit }, id){
+    try{
+      return getByIdMethods(id, this.state.session.accessToken).then(res =>{
+        commit('GETBYIDMETHOD', res);
+      })
+    }catch (err) {
+      console.warn(err);
+      this.$router.push('Login')
+    }
+  },
+  getQueryMethod({ commit }, query){
+    try{
+      return getQueryMethods(query, this.state.session.accessToken).then(res =>{
+        commit('GETQUERYMETHOD', res);
+      })
+    }catch (err) {
+      console.warn(err);
+      this.$router.push('Login')
+    }
+  },
 
   modules: {
   }

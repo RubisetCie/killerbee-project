@@ -17,8 +17,10 @@ const Method = require("../model/method");
 const MethodResponse = require("../model/response/methodResponse");
 const MethodArrayResponse = require("../model/response/methodArrayResponse");
 //! }
-//! if (deployIngredient) {
+//! if (deployModel || deployMethod) {
 const Ingredient = require("../model/ingredient");
+//! }
+//! if (deployIngredient) {
 const IngredientResponse = require("../model/response/ingredientResponse");
 const IngredientArrayResponse = require("../model/response/ingredientArrayResponse");
 //! }

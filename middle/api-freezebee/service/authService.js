@@ -10,8 +10,6 @@ const ActiveDirectory = require("activedirectory");
 const adConfig = {
     url: process.env.ACTIVEDIRECTORY_HOST,
     baseDN: process.env.ACTIVEDIRECTORY_BASEDN,
-    username: process.env.ACTIVEDIRECTORY_USERNAME,
-    password: process.env.ACTIVEDIRECTORY_PASSWORD,
     timeout: 20000
 };
 

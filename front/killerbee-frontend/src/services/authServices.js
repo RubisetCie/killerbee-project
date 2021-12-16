@@ -4,15 +4,12 @@ const baseUrl = 'http://localhost:3000/'
 //CONNECTION OF USER
 export async function login(username, password) {
   try {
-        console.log(username)
         const response = await axios.post(baseUrl+"login/", {
           username: username,
           password: password
         })
         console.log(response.status)
         const res = {status: response.status, body: response.data}
-        console.log("Res:")
-        console.log(res)
         return res
     } catch (e) {
         console.warn(e)

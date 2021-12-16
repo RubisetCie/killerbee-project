@@ -16,17 +16,7 @@ export default new Vuex.Store({
       id: localStorage.id,
       role: localStorage.role
     },
-    models:{
-      name: String,
-      description: String,
-      variety: String,
-      color: Object,
-      price: Number,
-      dimensions: Object,
-      mass: Number,
-      lift: Number,
-      needs:[]
-    },
+    models:[],
     model:{
       name: String,
       description: String,
@@ -48,22 +38,8 @@ export default new Vuex.Store({
       density: Number,
       young: Number
     },
-    ingredients:{
-      name: String,
-      description: String,
-      brand: String,
-      type: String,
-      color: Object,
-      price: Number,
-      density: Number,
-      young: Number
-    },
-    methods:{
-      name: String,
-      description: String,
-      modelId: Object,
-      steps:[]
-    },
+    ingredients:[],
+    methods:[],
     method:{
       name: String,
       description: String,
@@ -90,17 +66,15 @@ export default new Vuex.Store({
         localStorage.username = state.username
         localStorage.password = state.password
 
-        console.log("LocalStorage: \n"+ JSON.stringify(localStorage))
+        //console.log("LocalStorage: \n"+ JSON.stringify(localStorage))
 
         //Vuex Store
         //state.session.id = res.id
         state.session.accessToken = res.accessToken
         //state.session.role = res.role
         state.session.refreshtoken = res.refreshToken
-        //state.username = res.username // ou mettre localStorage.username
-        //state.password = res.password // ou mettre localStorage.password
         
-        console.log("Session: \n"+ JSON.stringify(state.session))
+        //console.log("Session: \n"+ JSON.stringify(state.session))
     },
     //ACCOUNT - get role of user
     /*GETINFOACCOUNT(state, payload) {
@@ -137,33 +111,34 @@ export default new Vuex.Store({
     
     //MODEL
     GETALLMODELS(state, payload){
-      state.models = payload.data
+      console.log(payload)
+      state.models = payload.models
     },
     GETBYIDMODEL(state, payload){
-      state.model = payload.data
+      state.model = payload
     },
     GETQUERYMODEL(state, payload){
-      state.model = payload.data
+      state.model = payload
     },
     // INGREDIENT
     GETALLINGREDIENTS(state, payload){
-      state.ingredients = payload.data
+      state.ingredients = payload
     },
     GETBYIDINGREDIENT(state, payload){
-      state.ingredient = payload.data
+      state.ingredient = payload
     },
     GETQUERYINGREDIENT(state, payload){
-      state.ingredient = payload.data
+      state.ingredient = payload
     },
     // METHOD
     GETALLMETHODS(state, payload){
-      state.methods = payload.data
+      state.methods = payload
     },
     GETBYIDMETHOD(state, payload){
-      state.method = payload.data
+      state.method = payload
     },
     GETQUERYMETHOD(state, payload){
-      state.method = payload.data
+      state.method = payload
     }
     //STEP
   },
@@ -173,11 +148,6 @@ export default new Vuex.Store({
       commit('LOGOUT')
       try {
         return login(payload.username, payload.password).then(res => {
-          console.log("Store:")
-          console.log('Status Request:')
-          console.log(res.status)
-          console.log('Body Request:')
-          console.log(res.body)
           this.state.session.username = payload.username
           this.state.session.password = payload.password
           if(res.status == 200){
@@ -223,102 +193,102 @@ export default new Vuex.Store({
         this.$router.push('Login')
       }
     },*/
-  },
   //MODELS
-  getAllModels({ commit }){
-    try{
-      return getModels(this.state.session.accessToken).then(res => {
-        commit('GETALLMODELS', res);
-      })
-    }catch (err) {
-      console.warn(err);
-      this.$router.push('Login')
-    }
-  },
-  getByIdModel({ commit }, id){
-    try{
-      return getByIdModels(id, this.state.session.accessToken).then(res =>{
-        commit('GETBYIDMODELS', res);
-      })
-    }catch (err) {
-      console.warn(err);
-      this.$router.push('Login')
-    }
-  },
-  getQueryModel({ commit }, query){
-    try{
-      return getQueryModels(query, this.state.session.accessToken).then(res =>{
-        commit('GETQUERYMODEL', res);
-      })
-    }catch (err) {
-      console.warn(err);
-      this.$router.push('Login')
-    }
-  },
-  // INGREDIENTS
-  getAllIngredients({ commit }){
-    try{
-      return getAllIngredients(this.state.session.accessToken).then(res => {
-        commit('GETALLINGREDIENTS', res);
-      })
-    }catch (err) {
-      console.warn(err);
-      this.$router.push('Login')
-    }
-  },
-  getByIdIngredient({ commit }, id){
-    try{
-      return getByIdIngredients(id, this.state.session.accessToken).then(res =>{
-        commit('GETBYIDINGREDIENT', res);
-      })
-    }catch (err) {
-      console.warn(err);
-      this.$router.push('Login')
-    }
-  },
-  getQueryIngredients({ commit }, query){
-    try{
-      return getQueryIngredients(query, this.state.session.accessToken).then(res =>{
-        commit('GETQUERYINGREDIENT', res);
-      })
-    }catch (err) {
-      console.warn(err);
-      this.$router.push('Login')
-    }
-  },
+    getAllModels({ commit }){
+      try{
+        console.log('Hello')
+        return getModels(this.state.session.accessToken).then(res => {
+          commit('GETALLMODELS', res);
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
+      }
+    },
+    getByIdModel({ commit }, id){
+      try{
+        return getByIdModels(id, this.state.session.accessToken).then(res =>{
+          commit('GETBYIDMODELS', res);
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
+      }
+    },
+    getQueryModel({ commit }, query){
+      try{
+        return getQueryModels(query, this.state.session.accessToken).then(res =>{
+          commit('GETQUERYMODEL', res);
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
+      }
+    },
+    // INGREDIENTS
+    getAllIngredients({ commit }){
+      try{
+        return getAllIngredients(this.state.session.accessToken).then(res => {
+          commit('GETALLINGREDIENTS', res);
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
+      }
+    },
+    getByIdIngredient({ commit }, id){
+      try{
+        return getByIdIngredients(id, this.state.session.accessToken).then(res =>{
+          commit('GETBYIDINGREDIENT', res);
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
+      }
+    },
+    getQueryIngredients({ commit }, query){
+      try{
+        return getQueryIngredients(query, this.state.session.accessToken).then(res =>{
+          commit('GETQUERYINGREDIENT', res);
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
+      }
+    },
 
-  //METHODS
-  getAllMethods({ commit }){
-    try{
-      return getMethods(this.state.session.accessToken).then(res => {
-        commit('GETALLMETHODS', res);
-      })
-    }catch (err) {
-      console.warn(err);
-      this.$router.push('Login')
+    //METHODS
+    getAllMethods({ commit }){
+      try{
+        return getMethods(this.state.session.accessToken).then(res => {
+          commit('GETALLMETHODS', res);
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
+      }
+    },
+    getByIdMethod({ commit }, id){
+      try{
+        return getByIdMethods(id, this.state.session.accessToken).then(res =>{
+          commit('GETBYIDMETHOD', res);
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
+      }
+    },
+    getQueryMethod({ commit }, query){
+      try{
+        return getQueryMethods(query, this.state.session.accessToken).then(res =>{
+          commit('GETQUERYMETHOD', res);
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
     }
   },
-  getByIdMethod({ commit }, id){
-    try{
-      return getByIdMethods(id, this.state.session.accessToken).then(res =>{
-        commit('GETBYIDMETHOD', res);
-      })
-    }catch (err) {
-      console.warn(err);
-      this.$router.push('Login')
-    }
-  },
-  getQueryMethod({ commit }, query){
-    try{
-      return getQueryMethods(query, this.state.session.accessToken).then(res =>{
-        commit('GETQUERYMETHOD', res);
-      })
-    }catch (err) {
-      console.warn(err);
-      this.$router.push('Login')
-    }
-  },
-
+}, 
   modules: {
   }
 })

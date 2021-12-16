@@ -17,9 +17,12 @@ export default({
         FreezeBee,
         Header
     },
+    mounted(){
+      this.$store.dispatch("getAllModels");
+    },
     computed: {
         models(){
-            return this.$store.state.model;
+            return this.$store.state.models;
         }
     }
 })

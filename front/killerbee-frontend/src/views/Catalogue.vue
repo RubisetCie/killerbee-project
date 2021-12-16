@@ -2,7 +2,7 @@
     <v-container>
         <Header />
         <form id="search">
-            Search: <input name="query" placeholder="modifiez-moi" v-model="query" required/>
+            <h3>Search:</h3><input name="query" placeholder="modifiez-moi" v-model="query" required style="font-style: italic;"/>
             <v-icon v-on:click="searchQuery(query)">mdi-magnify</v-icon>
         </form>
         <br>

@@ -6,22 +6,42 @@
             <v-icon v-on:click="searchQuery(query)">mdi-magnify</v-icon>
         </form>
         <br>
-        <table>
-            <thead>
-                <tr>
-                    <th v-for="title in ingredientsTitle" :key="title">
-                        {{ title | capitalize }}
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="ingredient in ingredients" :key="ingredient.id">
-                    <td v-for="title in ingredientsTitle" :key="title">
-                        {{ingredient.ingredient[title]}}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div v-if="query == ''">
+            <table>
+                <thead>
+                    <tr>
+                        <th v-for="title in ingredientsTitle" :key="title">
+                            {{ title | capitalize }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="ingredient in ingredients" :key="ingredient.id">
+                        <td v-for="title in ingredientsTitle" :key="title">
+                            {{ingredient.ingredient[title]}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div v-else>
+            <table>
+                <thead>
+                    <tr>
+                        <th v-for="title in ingredientsTitle" :key="title">
+                            {{ title | capitalize }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="ingredient in ingredientsQuery" :key="ingredient.id">
+                        <td v-for="title in ingredientsTitle" :key="title">
+                            {{ingredient.ingredient[title]}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </v-container>
 </template>
 <script type="text/x-template" id="grid-template">
@@ -29,7 +49,9 @@ import Header from '../components/HeaderCatalogue.vue'
 
 export default{
     data: ()=> ({
-        query: ""
+        query: "",
+        ingredientsQuery:[],
+        errorMessage:""
     }),
     filters: {
           capitalize: function(str) {
@@ -59,8 +81,15 @@ export default{
     },
     methods: {
         searchQuery(query){
-            console.log(query)
-            this.$store.dispatch("getQueryIngredients", query)
+            console.log(query);
+            if(query == ''){
+                this.errorMessage = "Veuillez saisir un mot de recherche.";
+                console.log(this.errorMessage);
+            }else{
+                this.$store.dispatch("getQueryIngredients", query);
+                //this.ingredientsQuery = this.$store.state.ingredientsQuery
+                
+            }
         },
         sortBy(key) {
             this.sortKey = key;

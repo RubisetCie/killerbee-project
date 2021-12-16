@@ -5,15 +5,15 @@ export async function postMethod(method, accessToken){
     try{
         const response = await axios.post(baseUrl+"method/",
         {
+            headers: { // Faut-il rajouter qqch?
+              Authorization: "Bearer " + accessToken
+            }
+        },
+        {
             name: method.name,
             description: method.description,
             model: method.modelId,
             steps: method.steps
-        },
-        {
-            headers: { // Faut-il rajouter qqch?
-              Authorization: "Bearer " + accessToken
-            }
         })
         console.log("postMethod")
         console.log(response.status)
@@ -37,7 +37,7 @@ export async function getMethods(){// url+'/'
 }
 export async function getByIdMethods(id){// url+'/:id'
     try{
-        const response = await axios.get(baseUrl+"method/"+id)
+        const response = await axios.getById(baseUrl+"method/"+id)
         console.log("getByIdMethods")
         console.log(response.status)
         return response.data
@@ -48,7 +48,7 @@ export async function getByIdMethods(id){// url+'/:id'
 }
 export async function getQueryMethods(query){// url+'/query'
     try{
-        const response = await axios.get(baseUrl+"method/query",{
+        const response = await axios.getQuery(baseUrl+"method/query",{
             query: query
         })
         console.log("getQueryMethods")
@@ -63,15 +63,15 @@ export async function putMethod(id, method, accessToken){// url+'/:id'
     try{
         const response = await axios.put(baseUrl+"method/"+id,
         {
+            headers: {
+              Authorization: "Bearer " + accessToken
+            }
+        },
+        {
             name: method.name,
             description: method.description,
             model: method.modelId,
             steps: method.steps
-        },
-        {
-            headers: {
-              Authorization: "Bearer " + accessToken
-            }
         })
         console.log("putMethod")
         console.log(response.status)

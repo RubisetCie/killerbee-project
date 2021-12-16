@@ -28,6 +28,8 @@ export default new Vuex.Store({
       lift: Number,
       needs:[]
     },
+    modelChoice:[],
+    modelsQuery:[],
     ingredientsTitle:{
       name: "name",
       description: "description",
@@ -49,6 +51,7 @@ export default new Vuex.Store({
       young: Number
     },
     ingredients:[],
+    ingredientsQuery:[],
     methods:[],
     method:{
       name: String,
@@ -56,16 +59,21 @@ export default new Vuex.Store({
       modelId: Object,
       steps:[]
     },
+    methodsQuery:[],
     account:[]
   },
   getters:{
     account: state => state.account,
     models: state => state.models,
     model: state => state.model,
+    modelChoice: state => state.modelChoice,
+    modelsQuery: state => state.modelsQuery,
     ingredients: state => state.ingredients,
     ingredient: state => state.ingredient,
+    ingredientsQuery: state => state.ingredientsQuery,
     methods: state => state.methods,
     method: state => state.method,
+    methodsQuery: state => state.methodsQuery,
     step: state => state.step
   },
   mutations: {
@@ -126,7 +134,7 @@ export default new Vuex.Store({
       state.model = payload
     },
     GETQUERYMODEL(state, payload){
-      state.model = payload
+      state.modelsQuery = payload
     },
     // INGREDIENT
     GETALLINGREDIENTS(state, payload){
@@ -137,7 +145,7 @@ export default new Vuex.Store({
       state.ingredient = payload
     },
     GETQUERYINGREDIENT(state, payload){
-      state.ingredient = payload
+      state.ingredientsQuery = payload
     },
     // METHOD
     GETALLMETHODS(state, payload){
@@ -147,9 +155,9 @@ export default new Vuex.Store({
       state.method = payload
     },
     GETQUERYMETHOD(state, payload){
-      state.method = payload
+      state.methodsQuery = payload
     }
-    //STEP
+    //STEP  
   },
   actions: {
     // SESSION - Connexion of the user
@@ -257,9 +265,8 @@ export default new Vuex.Store({
     getQueryIngredients({ commit }, query){
       try{
         console.log('je suis passé dans index.js')
-        console.log('Token: '+this.state.session.accessToken)
+        
         return getQueryIngredients(query, this.state.session.accessToken).then(res =>{
-          console.log(res)
           commit('GETQUERYINGREDIENT', res);
         })
       }catch (err) {

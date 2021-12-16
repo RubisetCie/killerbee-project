@@ -13,25 +13,29 @@
                     <li>Gamme : {{model.model.variety}}</li>
                     <li>Masse: {{model.model.mass}} kg</li>
                     <li>Couleur: 
-                        <ol> Rouge: {{model.model.color.r}}; </ol>
-                        <ol> Vert: {{model.model.color.g}}; </ol>
-                        <ol> Bleu: {{model.model.color.b}};</ol>
+                        <ul>
+                            <li> Rouge: {{model.model.color.r}}; </li>
+                            <li> Vert: {{model.model.color.g}}; </li>
+                            <li> Bleu: {{model.model.color.b}};</li>
+                        </ul>
                     </li>
                     <li>Dimensions: 
-                        <ol>Largeur: {{model.model.dimensions.width}} m; </ol>
-                        <ol>Longueur: {{model.model.dimensions.length}} m; </ol>
-                        <ol>Hauteur: {{model.model.dimensions.height}} m;</ol>
+                        <ul>
+                            <li>Largeur: {{model.model.dimensions.width}} m; </li>
+                            <li>Longueur: {{model.model.dimensions.length}} m; </li>
+                            <li>Hauteur: {{model.model.dimensions.height}} m;</li>
+                        </ul>
                     </li>
                     <li>Coefficient de Portance: {{model.model.lift}} kg.m/s^2</li>
                     <li>Prix: {{model.model.price}} €</li>
                 </ul>
             </v-card-text>
             <v-card-actions>
-            <v-btn color="deep-purple lighten-2" text @click="$router.push({ name: 'FreezeBeeFabrications' })">
+            <v-btn color="deep-purple lighten-2" text @click="fabrication(model.model)">
                 Fabrication
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="deep-purple lighten-2" text @click="$router.push({ name: 'FreezeBeeDetails' })">
+            <v-btn color="deep-purple lighten-2" text @click="details(model.model)">
                 Détails
             </v-btn>
             </v-card-actions>
@@ -50,5 +54,17 @@
             type: Object
         }
     },
+    methods:{
+        fabrication(model){
+            console.log(model)
+            this.$store.state.modelChoice = model
+            this.$router.push({ name: 'FreezeBeeFabrications' })
+        },
+        details(model){
+            console.log(model)
+            this.$store.state.modelChoice = model
+            this.$router.push({ name: 'FreezeBeeDetails' })
+        }
+    }
   }
 </script>

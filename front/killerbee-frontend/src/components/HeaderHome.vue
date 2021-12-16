@@ -24,6 +24,13 @@
                     <v-list-item-title>CATALOGUE <br> DES INGREDIENTS</v-list-item-title>
                 </v-list-item>
 
+                <v-list-item  @click="$router.push({ name: 'Recherche' }).catch((err) => {})" >
+                    <v-list-item-icon>
+                    <v-icon>mdi-magnify</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title>RECHERCHE AVANCEE</v-list-item-title>
+                </v-list-item>
+
                 <v-list-item @click="$router.push({ name: 'Modification' }).catch((err) => {})">
                     <v-list-item-icon>
                     <v-icon>mdi-tools</v-icon>

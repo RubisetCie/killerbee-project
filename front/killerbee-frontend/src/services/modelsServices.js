@@ -5,6 +5,11 @@ export async function postModel(model, accessToken){// url+'/' et bsn d'un param
     try{
         const response = await axios.post(baseUrl+"model/",
         {
+            headers: { // Faut-il rajouter qqch?
+              Authorization: "Bearer " + accessToken
+            }
+        },
+        {
             name: model.name,
             description: model.description,
             reference: model.reference,
@@ -15,11 +20,6 @@ export async function postModel(model, accessToken){// url+'/' et bsn d'un param
             mass: model.mass,
             lift: model.lift,
             needs: model.needs
-        },
-        {
-            headers: { // Faut-il rajouter qqch?
-              Authorization: "Bearer " + accessToken
-            }
         })
         console.log("postModel")
         console.log(response.status)
@@ -47,7 +47,7 @@ export async function getModels(accessToken){// url+'/'
 }
 export async function getByIdModels(id, accessToken){// url+'/:id'
     try{
-        const response = await axios.get(baseUrl+"model/"+id, {
+        const response = await axios.getById(baseUrl+"model/"+id, {
             headers: {
               Authorization: "Bearer " + accessToken
             }
@@ -62,13 +62,14 @@ export async function getByIdModels(id, accessToken){// url+'/:id'
 }
 export async function getQueryModels(query, accessToken){// url+'/query' et bsn d'un param (body)
     try{
-        const response = await axios.get(baseUrl+"model/query",{
-            query: query
-        },
+        const response = await axios.getQuery(baseUrl+"model/query",
         {
             headers: {
               Authorization: "Bearer " + accessToken
             }
+        },
+        {
+            query: query
         })
         console.log("getQueryModels")
         console.log(response.status)
@@ -82,6 +83,11 @@ export async function putByIdModel(id, model, accessToken){// url+'/:id' et bsn 
     try{
         const response = await axios.put(baseUrl+"model/"+id,
         {
+            headers: {
+              Authorization: "Bearer " + accessToken
+            }
+        },
+        {
             name: model.name,
             description: model.description,
             reference: model.reference,
@@ -92,11 +98,6 @@ export async function putByIdModel(id, model, accessToken){// url+'/:id' et bsn 
             mass: model.mass,
             lift: model.lift,
             needs: model.needs
-        },
-        {
-            headers: {
-              Authorization: "Bearer " + accessToken
-            }
         })
         console.log("putByIdModel")
         console.log(response.status)

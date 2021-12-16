@@ -3,8 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Authentification from '../views/Authentification.vue'
 import Applications from '../views/Applications.vue'
-import Fabrications from '../views/FreezeBeeFabrications.vue'
-import Details from '../views/FreezeBeeDetails.vue'
+import FreezeBeeFabrications from '../views/FreezeBeeFabrications.vue'
+import FreezeBeeDetails from '../views/FreezeBeeDetails.vue'
 import Catalogue from '../views/Catalogue.vue'
 
 Vue.use(VueRouter)
@@ -27,13 +27,13 @@ const routes = [
   },
   {
     path: '/home/fabrications',
-    name: 'Fabrications',
-    component: Fabrications
+    name: 'FreezeBeeFabrications',
+    component: FreezeBeeFabrications
   },
   {
     path: '/home/details',
-    name: 'Details',
-    component: Details
+    name: 'FreezeBeeDetails',
+    component: FreezeBeeDetails
   },
   {
     path: '/catalogue',

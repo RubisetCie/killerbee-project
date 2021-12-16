@@ -25,6 +25,9 @@
             </table>
         </div>
         <div v-else>
+            <div>
+                {{ingredientsQuery}}
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -87,8 +90,7 @@ export default{
                 console.log(this.errorMessage);
             }else{
                 this.$store.dispatch("getQueryIngredients", query);
-                //this.ingredientsQuery = this.$store.state.ingredientsQuery
-                
+                this.ingredientsQuery = this.$store.state.ingredientsQuery
             }
         },
         sortBy(key) {

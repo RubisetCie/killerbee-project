@@ -21,6 +21,7 @@ export async function postModel(model, accessToken){// url+'/' et bsn d'un param
               Authorization: "Bearer " + accessToken
             }
         })
+        console.log("postModel")
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -36,6 +37,7 @@ export async function getModels(accessToken){// url+'/'
               Authorization: "Bearer " + accessToken
             }
         })
+        console.log("getModels")
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -50,6 +52,7 @@ export async function getByIdModels(id, accessToken){// url+'/:id'
               Authorization: "Bearer " + accessToken
             }
         })
+        console.log("getByIdModels")
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -67,6 +70,7 @@ export async function getQueryModels(query, accessToken){// url+'/query' et bsn 
               Authorization: "Bearer " + accessToken
             }
         })
+        console.log("getQueryModels")
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -94,6 +98,7 @@ export async function putByIdModel(id, model, accessToken){// url+'/:id' et bsn 
               Authorization: "Bearer " + accessToken
             }
         })
+        console.log("putByIdModel")
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -109,6 +114,7 @@ export async function deleteModel(id, accessToken){// url+'/:id'
               Authorization: "Bearer " + accessToken
             }
         })
+        console.log("deleteModel")
         console.log(response.status)
         return response.status
       } catch (e) {

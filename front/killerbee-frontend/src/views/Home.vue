@@ -22,6 +22,7 @@ export default({
     },
     computed: {
         models(){
+            console.log(typeof(this.$store.state.models))
             return this.$store.state.models;
         }
     }

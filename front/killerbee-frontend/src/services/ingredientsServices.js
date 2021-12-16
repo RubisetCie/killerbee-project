@@ -1,9 +1,14 @@
 import axios from 'axios';
 const baseUrl = 'http://localhost:3000/'
 
-export async function getAllIngredients(){ // url+'/'
+export async function getAllIngredients(accessToken){ // url+'/'
     try{
-        const response = await axios.get(baseUrl+"ingredient/")
+        const response = await axios.get(baseUrl+"ingredient/", {
+            headers: {
+              Authorization: "Bearer " + accessToken
+            }
+        })
+        console.log("getAllIngredients")
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -12,9 +17,14 @@ export async function getAllIngredients(){ // url+'/'
       }
 }
 
-export async function getByIdIngredients(id){ // url+'/:id'
+export async function getByIdIngredients(id, accessToken){ // url+'/:id'
     try{
-        const response = await axios.get(baseUrl+"ingredient/"+id)
+        const response = await axios.get(baseUrl+"ingredient/"+id,{
+            headers: {
+              Authorization: "Bearer " + accessToken
+            }
+        })
+        console.log("getByIdIngredients")
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -22,11 +32,17 @@ export async function getByIdIngredients(id){ // url+'/:id'
           return e.response.data
       }
 }
-export async function getQueryIngredients(query){ // url+'/query'
+export async function getQueryIngredients(query, accessToken){ // url+'/query'
     try{
         const response = await axios.get(baseUrl+"ingredient/query",{
             query: query
+        }, 
+        {
+            headers: {
+              Authorization: "Bearer " + accessToken
+            }
         })
+        console.log("getQueryIngredients")
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -52,6 +68,7 @@ export async function putByIdIngredient(id, accessToken, ingredient){ // url+'/:
               Authorization: "Bearer " + accessToken
             }
         })
+        console.log("putByIdIngredient")
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -67,6 +84,7 @@ export async function deleteByIdIngredient(id, accessToken){ // url+'/:id'
               Authorization: "Bearer " + accessToken
             }
         })
+        console.log("deleteByIdIngredient")
         console.log(response.status)
         return response.status
       } catch (e) {
@@ -92,6 +110,7 @@ export async function postIngredient(ingredient, accessToken){ // url+'/'
               Authorization: "Bearer " + accessToken
             }
         })
+        console.log("postIngredient")
         console.log(response.status)
         return response.data
       } catch (e) {

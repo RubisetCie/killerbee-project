@@ -9,12 +9,12 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {    
     session: {
-      toaccessTokenken: localStorage.accessToken,
-      refreshToken: localStorage.refreshToken,
-      username: localStorage.username,
-      password: localStorage.password,
+      accessToken: String,
+      refreshToken: String,
+      username: String,
+      password: String,
       id: localStorage.id,
-      role: localStorage.role
+      role: String
     },
     models:[],
     model:{
@@ -27,6 +27,16 @@ export default new Vuex.Store({
       mass: Number,
       lift: Number,
       needs:[]
+    },
+    ingredientsTitle:{
+      name: "name",
+      description: "description",
+      brand: "brand",
+      type: "type",
+      color: "color",
+      price: "price",
+      density: "density",
+      young: "young"
     },
     ingredient:{
       name: String,
@@ -52,7 +62,9 @@ export default new Vuex.Store({
     account: state => state.account,
     models: state => state.models,
     model: state => state.model,
-    ingredient: state => state.model,
+    ingredients: state => state.ingredients,
+    ingredient: state => state.ingredient,
+    methods: state => state.methods,
     method: state => state.method,
     step: state => state.step
   },
@@ -66,7 +78,7 @@ export default new Vuex.Store({
         localStorage.username = state.username
         localStorage.password = state.password
 
-        //console.log("LocalStorage: \n"+ JSON.stringify(localStorage))
+        console.log("LocalStorage: \n"+ JSON.stringify(localStorage))
 
         //Vuex Store
         //state.session.id = res.id
@@ -74,7 +86,7 @@ export default new Vuex.Store({
         //state.session.role = res.role
         state.session.refreshtoken = res.refreshToken
         
-        //console.log("Session: \n"+ JSON.stringify(state.session))
+        console.log("Session: \n"+ JSON.stringify(state.session))
     },
     //ACCOUNT - get role of user
     /*GETINFOACCOUNT(state, payload) {
@@ -97,8 +109,6 @@ export default new Vuex.Store({
       localStorage.removeItem("loglevel:webpack-dev-server");
       localStorage.removeItem("pb_forms");
 
-      console.log("LocalStorage: \n"+ JSON.stringify(localStorage))
-
       state.session.id = null;
       state.session.token = null;
       state.session.refreshtoken = null;
@@ -106,12 +116,10 @@ export default new Vuex.Store({
       state.session.username = null;
       state.session.password = null;
       
-      console.log("Session: \n"+ JSON.stringify(state.session))
     },
     
     //MODEL
     GETALLMODELS(state, payload){
-      console.log(payload)
       state.models = payload.models
     },
     GETBYIDMODEL(state, payload){
@@ -122,7 +130,8 @@ export default new Vuex.Store({
     },
     // INGREDIENT
     GETALLINGREDIENTS(state, payload){
-      state.ingredients = payload
+      state.ingredients = payload.ingredients
+      console.log(state.ingredients)
     },
     GETBYIDINGREDIENT(state, payload){
       state.ingredient = payload
@@ -196,7 +205,6 @@ export default new Vuex.Store({
   //MODELS
     getAllModels({ commit }){
       try{
-        console.log('Hello')
         return getModels(this.state.session.accessToken).then(res => {
           commit('GETALLMODELS', res);
         })
@@ -248,7 +256,10 @@ export default new Vuex.Store({
     },
     getQueryIngredients({ commit }, query){
       try{
+        console.log('je suis passé dans index.js')
+        console.log('Token: '+this.state.session.accessToken)
         return getQueryIngredients(query, this.state.session.accessToken).then(res =>{
+          console.log(res)
           commit('GETQUERYINGREDIENT', res);
         })
       }catch (err) {

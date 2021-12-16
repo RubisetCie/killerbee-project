@@ -15,6 +15,7 @@ export async function postMethod(method, accessToken){
               Authorization: "Bearer " + accessToken
             }
         })
+        console.log("postMethod")
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -26,6 +27,7 @@ export async function postMethod(method, accessToken){
 export async function getMethods(){// url+'/'
     try{
         const response = await axios.get(baseUrl+"method/")
+        console.log("getMethods")
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -36,6 +38,7 @@ export async function getMethods(){// url+'/'
 export async function getByIdMethods(id){// url+'/:id'
     try{
         const response = await axios.get(baseUrl+"method/"+id)
+        console.log("getByIdMethods")
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -48,6 +51,7 @@ export async function getQueryMethods(query){// url+'/query'
         const response = await axios.get(baseUrl+"method/query",{
             query: query
         })
+        console.log("getQueryMethods")
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -69,6 +73,7 @@ export async function putMethod(id, method, accessToken){// url+'/:id'
               Authorization: "Bearer " + accessToken
             }
         })
+        console.log("putMethod")
         console.log(response.status)
         return response.data
       } catch (e) {
@@ -84,6 +89,7 @@ export async function deleteMethod(id, accessToken){// url+'/:id'
               Authorization: "Bearer " + accessToken
             }
         })
+        console.log("deleteMethod")
         console.log(response.status)
         return response.status
       } catch (e) {

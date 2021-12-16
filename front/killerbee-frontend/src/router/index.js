@@ -3,6 +3,9 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Authentification from '../views/Authentification.vue'
 import Applications from '../views/Applications.vue'
+import Fabrications from '../views/FreezeBeeFabrications.vue'
+import Details from '../views/FreezeBeeDetails.vue'
+import Catalogue from '../views/Catalogue.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +24,21 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/home/fabrications',
+    name: 'Fabrications',
+    component: Fabrications
+  },
+  {
+    path: '/home/details',
+    name: 'Details',
+    component: Details
+  },
+  {
+    path: '/catalogue',
+    name: 'Catalogue',
+    component: Catalogue
   }
 ]
 

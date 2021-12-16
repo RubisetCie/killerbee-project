@@ -27,11 +27,11 @@
                 </ul>
             </v-card-text>
             <v-card-actions>
-            <v-btn color="deep-purple lighten-2" text @click="fabrication()">
+            <v-btn color="deep-purple lighten-2" text @click="$router.push({ name: 'FreezeBeeFabrications' })">
                 Fabrication
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="deep-purple lighten-2" text @click="details()">
+            <v-btn color="deep-purple lighten-2" text @click="$router.push({ name: 'FreezeBeeDetails' })">
                 Détails
             </v-btn>
             </v-card-actions>
@@ -49,14 +49,6 @@
         model:{
             type: Object
         }
-    },
-    methods: {
-      fabrication() {
-          this.$router.push({name: "Fabrications"});
-      },
-       details() {
-          this.$router.push({ name: "Details" });
-      },
     },
   }
 </script>

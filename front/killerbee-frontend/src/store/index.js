@@ -60,6 +60,17 @@ export default new Vuex.Store({
       steps:[]
     },
     methodsQuery:[],
+    fabricationsTitle:{
+      name: "name",
+      description: "description",
+      brand: "brand",
+      type: "type",
+      color: "color",
+      price: "price",
+      density: "density",
+      young: "young",
+      dosing: "dosing", 
+    },
     account:[]
   },
   getters:{

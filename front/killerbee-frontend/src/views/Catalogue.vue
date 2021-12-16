@@ -2,7 +2,7 @@
     <v-container>
         <Header />
         <form id="search">
-            <h3>Search:</h3><input name="query" placeholder="modifiez-moi" v-model="query" required style="font-style: italic;"/>
+            <h3>Search:</h3><input name="query" placeholder="modifiez-moi" v-model="query" required/>
             <v-icon v-on:click="searchQuery(query)">mdi-magnify</v-icon>
         </form>
         <br>
@@ -69,11 +69,6 @@ export default{
 
     },
     computed:{
-        paramQuery(){
-            return {
-                query: this.query,
-            };
-        },
         ingredients(){
             console.log(typeof(this.$store.state.ingredients))
             return this.$store.state.ingredients

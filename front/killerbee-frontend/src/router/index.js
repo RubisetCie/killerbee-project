@@ -39,7 +39,7 @@ const routes = [
     path: '/catalogue',
     name: 'Catalogue',
     component: Catalogue
-  }
+  },
 ]
 
 const router = new VueRouter({

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { login } from '../services/authServices'
+import { boolean } from 'yup'
+import { login, logout } from '../services/authServices'
 import { getAllIngredients,getByIdIngredients,getQueryIngredients} from '../services/ingredientsServices'
 import { getMethods, getByIdMethods, getQueryMethods} from '../services/methodsService'
 import { getModels, getByIdModels, getQueryModels} from '../services/modelsServices'
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     },
     modelChoice:[],
     modelsQuery:[],
+    modelSelected: boolean,
     ingredientsTitle:{
       name: "name",
       description: "description",
@@ -52,6 +54,7 @@ export default new Vuex.Store({
     },
     ingredients:[],
     ingredientsQuery:[],
+    ingerdientSelected: boolean,  
     methods:[],
     method:{
       name: String,
@@ -207,11 +210,11 @@ export default new Vuex.Store({
         console.warn(err)
       }
     },
-    *//*
+    */
     //ACCOUNT - Disconnect the current acount
     logout({ commit }) {
       try {
-        return logout(this.state.session.token, this.state.session.refreshtoken).then(res => {
+        return logout(this.state.session.accessToken, this.state.session.refreshToken).then(res => {
             commit('LOGOUT')
             return res.success
         })
@@ -220,7 +223,7 @@ export default new Vuex.Store({
         console.warn(err);
         this.$router.push('Login')
       }
-    },*/
+    },
   //MODELS
     getAllModels({ commit }){
       try{

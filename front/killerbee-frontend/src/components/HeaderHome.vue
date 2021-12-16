@@ -3,7 +3,7 @@
         <v-app-bar app color="#087A57" dark>
             <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
             <v-spacer></v-spacer>
-            <h2 style="text-decoration: cursive">HOME</h2>
+            <h2 style="text-decoration: cursive">CATALOGUE DES FREEZEBEE</h2>
             <v-spacer></v-spacer>
             <h2 style="text-decoration: cursive">Killerbee</h2>
         </v-app-bar>
@@ -12,9 +12,9 @@
                 <v-list-item-group>
                 <v-list-item  @click="$router.push({ name: 'Home' }).catch((err) => {})" >
                     <v-list-item-icon>
-                    <v-icon>mdi-home</v-icon>
+                    <v-icon>mdi-ballot-outline</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-title>HOME</v-list-item-title>
+                    <v-list-item-title>CATALOGUE <br> DES FREEZEBEE</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item  @click="$router.push({ name: 'Catalogue' }).catch((err) => {})" >
@@ -22,20 +22,6 @@
                     <v-icon>mdi-ballot</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title>CATALOGUE <br> DES INGREDIENTS</v-list-item-title>
-                </v-list-item>
-
-                <v-list-item  @click="$router.push({ name: 'Recherche' }).catch((err) => {})" >
-                    <v-list-item-icon>
-                    <v-icon>mdi-magnify</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title>RECHERCHE AVANCEE</v-list-item-title>
-                </v-list-item>
-
-                <v-list-item @click="$router.push({ name: 'Modification' }).catch((err) => {})">
-                    <v-list-item-icon>
-                    <v-icon>mdi-tools</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title>MODIFICATION</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item @click="logout()">

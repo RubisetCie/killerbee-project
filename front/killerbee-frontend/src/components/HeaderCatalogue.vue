@@ -3,7 +3,7 @@
         <v-app-bar app color="#087A57" dark>
             <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
             <v-spacer></v-spacer>
-            <h2 style="text-decoration: cursive">CATALOGUE DES FREEZEBEE</h2>
+            <h2 style="text-decoration: cursive">CATALOGUE DES INGREDIENTS</h2>
             <v-spacer></v-spacer>
             <h2 style="text-decoration: cursive">Killerbee</h2>
         </v-app-bar>
@@ -45,7 +45,7 @@
 
 <script>
 export default {
-  name: "HeaderHome",
+  name: "HeaderCatalogue",
   data: () => ({
     drawer: false,
   }),

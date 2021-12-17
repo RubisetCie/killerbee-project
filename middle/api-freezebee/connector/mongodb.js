@@ -6,6 +6,7 @@
 const MongoClient = require("mongodb").MongoClient;
 
 // Model components
+const User = require("../model/user");
 //! if (deployModel) {
 const Model = require("../model/model");
 const ModelResponse = require("../model/response/modelResponse");
@@ -36,6 +37,35 @@ const client = new MongoClient(process.env.MONGO_HOST, {
     useUnifiedTopology: true
 });
 
+// Select model by ID
+module.exports.selectUserByUsername = function(username) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        
+        db.collection("user").findOne({ username: username }, async function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                if (!result)
+                    throw new ApiError("Username not found", 400);
+                
+                const user = new User;
+                
+                user.id = result["_id"];
+                user.email = result["email"];
+                user.username = result["username"];
+                user.password = result["password"];
+                user.role = result["role"];
+                
+                resolve(user);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
+
 //! if (deployModel) {
 // Insert model
 module.exports.insertModel = function(model) {
@@ -49,7 +79,7 @@ module.exports.insertModel = function(model) {
                 
                 const response = new InsertResponse;
                 response.insertedId = result["insertedId"];
-                console.log(result["insertedCount"] + " rows inserted");
+                console.log("QUERY FINISHED : " + result["insertedCount"] + " rows inserted");
                 resolve(response);
             } catch (err) {
                 reject(err);
@@ -125,7 +155,7 @@ module.exports.selectModel = function() {
                     count++;
                 }
                 
-                console.log(count + " rows returned");
+                console.log("QUERY FINISHED : " + count + " rows returned");
                 resolve(response);
             } catch (err) {
                 reject(err);
@@ -195,7 +225,7 @@ module.exports.selectModelById = function(id) {
                     }
                 }
                 
-                console.log("Request finished");
+                console.log("QUERY FINISHED");
                 resolve(model);
             } catch (err) {
                 reject(err);
@@ -280,7 +310,7 @@ module.exports.selectModelByQuery = function(request) {
                     count++;
                 }
                 
-                console.log(count + " rows returned");
+                console.log("QUERY FINISHED : " + count + " rows returned");
                 resolve(response);
             } catch (err) {
                 reject(err);
@@ -303,7 +333,7 @@ module.exports.updateModelById = function(id, model) {
                     throw new ApiError("Query affected nothing", 400);
                 }
                 
-                console.log(count + " rows modified");
+                console.log("QUERY FINISHED : " + count + " rows modified");
                 resolve();
             } catch (err) {
                 reject(err);
@@ -326,7 +356,7 @@ module.exports.deleteModelById = function(id) {
                     throw new ApiError("Query affected nothing", 400);
                 }
 
-                console.log(count + " rows deleted");
+                console.log("QUERY FINISHED : " + count + " rows deleted");
                 resolve();
             } catch (err) {
                 reject(err);
@@ -348,7 +378,7 @@ module.exports.insertIngredient = function(ingredient) {
                 
                 const response = new InsertResponse;
                 response.insertedId = result["insertedId"];
-                console.log(result["insertedCount"] + " rows inserted");
+                console.log("QUERY FINISHED : " + result["insertedCount"] + " rows inserted");
                 resolve(response);
             } catch (err) {
                 reject(err);
@@ -387,7 +417,7 @@ module.exports.selectIngredient = function() {
                     count++;
                 }
                 
-                console.log(count + " rows returned");
+                console.log("QUERY FINISHED : " + count + " rows returned");
                 resolve(response);
             } catch (err) {
                 reject(err);
@@ -414,7 +444,7 @@ module.exports.selectIngredientById = function(id) {
                 ingredient.id = result["_id"];
                 ingredient.ingredient = Ingredient.fromJson(result);
                 
-                console.log("Request finished");
+                console.log("QUERY FINISHED");
                 resolve(ingredient);
             } catch (err) {
                 reject(err);
@@ -462,7 +492,7 @@ module.exports.selectIngredientByQuery = function(request) {
                     count++;
                 }
                 
-                console.log(count + " rows returned");
+                console.log("QUERY FINISHED : " + count + " rows returned");
                 resolve(response);
             } catch (err) {
                 reject(err);
@@ -485,7 +515,7 @@ module.exports.updateIngredientById = function(id, ingredient) {
                     throw new ApiError("Query affected nothing", 400);
                 }
                 
-                console.log(count + " rows modified");
+                console.log("QUERY FINISHED : " + count + " rows modified");
                 resolve();
             } catch (err) {
                 reject(err);
@@ -508,7 +538,7 @@ module.exports.deleteIngredientById = function(id) {
                     throw new ApiError("Query affected nothing", 400);
                 }
 
-                console.log(count + " rows deleted");
+                console.log("QUERY FINISHED : " + count + " rows deleted");
                 resolve();
             } catch (err) {
                 reject(err);
@@ -530,7 +560,7 @@ module.exports.insertMethod = function(method) {
                 
                 const response = new InsertResponse;
                 response.insertedId = result["insertedId"];
-                console.log(result["insertedCount"] + " rows inserted");
+                console.log("QUERY FINISHED : " + result["insertedCount"] + " rows inserted");
                 resolve(response);
             } catch (err) {
                 reject(err);
@@ -580,7 +610,7 @@ module.exports.selectMethod = function() {
                     count++;
                 }
                 
-                console.log(count + " rows returned");
+                console.log("QUERY FINISHED : " + count + " rows returned");
                 resolve(response);
             } catch (err) {
                 reject(err);
@@ -624,7 +654,7 @@ module.exports.selectMethodById = function(id) {
                 method.id = res["_id"];
                 method.method = Method.fromJson(res);
                 
-                console.log("Request finished");
+                console.log("QUERY FINISHED");
                 resolve(method);
             } catch (err) {
                 reject(err);
@@ -683,7 +713,7 @@ module.exports.selectMethodByQuery = function(request) {
                     count++;
                 }
                 
-                console.log(count + " rows returned");
+                console.log("QUERY FINISHED : " + count + " rows returned");
                 resolve(response);
             } catch (err) {
                 reject(err);
@@ -706,7 +736,7 @@ module.exports.updateMethodById = function(id, method) {
                     throw new ApiError("Query affected nothing", 400);
                 }
                 
-                console.log(count + " rows modified");
+                console.log("QUERY FINISHED : " + count + " rows modified");
                 resolve();
             } catch (err) {
                 reject(err);
@@ -729,7 +759,7 @@ module.exports.deleteMethodById = function(id) {
                     throw new ApiError("Query affected nothing", 400);
                 }
 
-                console.log(count + " rows deleted");
+                console.log("QUERY FINISHED : " + count + " rows deleted");
                 resolve();
             } catch (err) {
                 reject(err);

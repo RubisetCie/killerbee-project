@@ -1,0 +1,30 @@
+{
+	"email": "matthieu.carteron@killerbee.fr",
+	"username": "matthieu",
+	"password": "$2y$10$fuouo3i5iEZAaHEigg9ZvOESVeu3lrNQ7Lr168huu3KuV9/8DyFMi",
+	"role": "DBA"
+}
+{
+	"email": "killian.deroche@killerbee.fr",
+	"username": "killian",
+	"password": "$2y$10$S3OzUYilD0HvDqjVN7Iv1uJE31Zx3c.Tbkl53czbGtCPCvC.gJdje",
+	"role": ""
+}
+{
+	"email": "charafein.mohamed@killerbee.fr",
+	"username": "charafein",
+	"password": "$2y$10$JR83v1Hg/wdzkTWjn0uYm.sEsqJYS3/wOxe1x27WS3qiZ59oE8Vs.",
+	"role": "BCK"
+}
+{
+	"email": "jacques.mveng-mveng@killerbee.fr",
+	"username": "jacques",
+	"password": "$2y$10$JFGmVo/9/3WgVM7WjJz8xe1.5YK4Zt2SlTWPzWAuPBy9LSXdZaxlK",
+	"role": "BCK"
+}
+{
+	"email": "andrea.landemarre@killerbee.fr",
+	"username": "andrea",
+	"password": "$2y$10$qRxn/LTP/cCvRgOZL16VeOZ3U3qcCTZ/g8YvVp8Kq3McqufPtZ4Xm",
+	"role": "DBA"
+}

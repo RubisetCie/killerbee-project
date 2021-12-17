@@ -17,19 +17,22 @@
             </div>
         </div>
         <br>
-        <div v-if="query == ''">
+        <div  v-for="method in methods" :key="method.id">
+            {{method}}
+        </div>
+        <!--<div v-if="query == ''">
             <table>
                 <thead>
                     <tr>
-                        <th v-for="title in ingredientsTitle" :key="title">
+                        <th v-for="title in methodsTitle" :key="title">
                             {{ title | capitalize }}
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="ingredient in ingredients" :key="ingredient.id">
-                        <td v-for="title in ingredientsTitle" :key="title">
-                            {{ingredient.ingredient[title]}}
+                    <tr v-for="method in methods" :key="method.id">
+                        <td v-for="title in methodsTitle" :key="title">
+                            {{method.method[title]}}
                         </td>
                     </tr>
                 </tbody>
@@ -37,55 +40,50 @@
         </div>
         <div v-else>
             <div>
-                {{ingredientsQuery}}
+                {{processusQuery}}
             </div>
             <table>
                 <thead>
                     <tr>
-                        <th v-for="title in ingredientsTitle" :key="title">
+                        <th v-for="title in methodsTitle" :key="title">
                             {{ title | capitalize }}
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="ingredient in ingredientsQuery" :key="ingredient.id">
-                        <td v-for="title in ingredientsTitle" :key="title">
-                            {{ingredient.ingredient[title]}}
+                    <tr v-for="method in methodsQuery" :key="method.id">
+                        <td v-for="title in methodsTitle" :key="title">
+                            {{method.method[title]}}
                         </td>
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div>-->
     </v-container>
 </template>
 <script type="text/x-template" id="grid-template">
-import Header from '../components/HeaderCatalogue.vue'
+import Header from '../components/HeaderProcessus.vue';
 
 export default{
     data: ()=> ({
         query: "",
-        ingredientsQuery:[],
+        methodsQuery:[],
         errorMessage:""
     }),
-    filters: {
-          capitalize: function(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-          }
-    },
     components:{
         Header
     },
     mounted(){
-      this.$store.dispatch("getAllIngredients");
+      this.$store.dispatch("getAllMethods");
 
     },
     computed:{
-        ingredients(){
-            console.log(typeof(this.$store.state.ingredients))
-            return this.$store.state.ingredients
+        methods(){
+            console.log(this.$store.state.methods)  
+            return this.$store.state.methods
         },
-        ingredientsTitle(){
-            return this.$store.state.ingredientsTitle
+        methodsTitle(){
+            return this.$store.state.methodsTitle
         }
     },
     methods: {
@@ -95,8 +93,8 @@ export default{
                 this.errorMessage = "Veuillez saisir un mot de recherche.";
                 console.log(this.errorMessage);
             }else{
-                this.$store.dispatch("getQueryIngredients", query);
-                this.ingredientsQuery = this.$store.state.ingredientsQuery
+                this.$store.dispatch("getQueryMethods", query);
+                this.methodsQuery = this.$store.state.methodsQuery
             }
         },
         sortBy(key) {

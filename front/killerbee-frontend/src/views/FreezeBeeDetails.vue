@@ -2,8 +2,17 @@
     <v-container>
         <Header/>
         HOME > DETAILS
-        <div id="title">
-            <h1 style="text-align: center">Freezebee - {{model.name}}</h1>
+        <div id="head-content">
+            <div id="title">
+                <h1 style="text-align: center">Freezebee - {{model.name}}</h1>
+            </div>
+            <v-spacer></v-spacer>
+            <div id="modification">
+                <!--<div v-if="role == 'DBA'"></div>-->
+                <v-btn v-on:click="$router.push({ name: 'ModificationDetailsModel' }).catch((err) => {})" color="#FFBB33" style="float: right;">
+                    MODIFIER
+                </v-btn>
+            </div>
         </div>
         <div id="contenu">
             <!--<div id="imagefreezebee2">
@@ -15,6 +24,11 @@
                         <h2>Description: </h2>
                         <p class="detailsText">{{model.description}}</p>
                     </li>
+                </ul>
+            </div>
+            <v-spacer></v-spacer>
+            <div id="caracteristiques">
+                <ul>
                     <li class="detailsSubTitle">
                         <h2>Caractéristiques: </h2>
                         <ul class="detailsText">

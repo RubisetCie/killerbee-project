@@ -23,7 +23,7 @@ export async function postModel(model, accessToken){// url+'/' et bsn d'un param
         })
         console.log("postModel")
         console.log(response.status)
-        return response.data
+        return response.status
       } catch (e) {
           console.warn(e)
           return e.response.data

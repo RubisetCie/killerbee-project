@@ -4,7 +4,7 @@ import { boolean } from 'yup'
 import { login, logout } from '../services/authServices'
 import { getAllIngredients,getByIdIngredients,getQueryIngredients} from '../services/ingredientsServices'
 import { getMethods, getByIdMethods, getQueryMethods} from '../services/methodsService'
-import { getModels, getByIdModels, getQueryModels} from '../services/modelsServices'
+import { getModels, getByIdModels, getQueryModels, postModel} from '../services/modelsServices'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -31,6 +31,7 @@ export default new Vuex.Store({
     },
     modelChoice:[],
     modelsQuery:[],
+    modelId:[],
     modelSelected: boolean,
     ingredientsTitle:{
       name: "name",
@@ -54,6 +55,7 @@ export default new Vuex.Store({
     },
     ingredients:[],
     ingredientsQuery:[],
+    ingredientId:[],
     ingerdientSelected: boolean,  
     methods:[],
     method:{
@@ -63,6 +65,13 @@ export default new Vuex.Store({
       steps:[]
     },
     methodsQuery:[],
+    methodId: [],
+    methodsTitle:{
+      name: "name",
+      description: "description",
+      modelId: "ID du modèle",
+      steps:"étape du processus"
+    },
     fabricationsTitle:{
       name: "name",
       description: "description",
@@ -145,7 +154,7 @@ export default new Vuex.Store({
       state.models = payload.models
     },
     GETBYIDMODEL(state, payload){
-      state.model = payload
+      state.modelId = payload
     },
     GETQUERYMODEL(state, payload){
       state.modelsQuery = payload
@@ -156,7 +165,7 @@ export default new Vuex.Store({
       console.log(state.ingredients)
     },
     GETBYIDINGREDIENT(state, payload){
-      state.ingredient = payload
+      state.ingredientId = payload
     },
     GETQUERYINGREDIENT(state, payload){
       state.ingredientsQuery = payload
@@ -166,7 +175,7 @@ export default new Vuex.Store({
       state.methods = payload
     },
     GETBYIDMETHOD(state, payload){
-      state.method = payload
+      state.methodId = payload
     },
     GETQUERYMETHOD(state, payload){
       state.methodsQuery = payload
@@ -225,6 +234,7 @@ export default new Vuex.Store({
       }
     },
   //MODELS
+        /// GET
     getAllModels({ commit }){
       try{
         return getModels(this.state.session.accessToken).then(res => {
@@ -255,6 +265,25 @@ export default new Vuex.Store({
         this.$router.push('Login')
       }
     },
+        ///POST
+    postModel(newModel){
+      try{
+        postModel(newModel, this.state.session.accessToken).then(res =>{
+          if(res == 200){
+            this.$router.push({ name: 'Home' })
+          }
+          else{
+            console.log("Tentative de POST MODEL échoué")
+          }
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
+      }
+    },
+        ///PUT
+
+        ///DELETE
     // INGREDIENTS
     getAllIngredients({ commit }){
       try{

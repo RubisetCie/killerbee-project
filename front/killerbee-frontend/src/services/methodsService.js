@@ -24,9 +24,14 @@ export async function postMethod(method, accessToken){
       }
 }
 
-export async function getMethods(){// url+'/'
+export async function getMethods(accessToken){// url+'/'
     try{
-        const response = await axios.get(baseUrl+"method/")
+        const response = await axios.get(baseUrl+"method/", 
+        {
+            headers: { // Faut-il rajouter qqch?
+              Authorization: "Bearer " + accessToken
+            }
+        })
         console.log("getMethods")
         console.log(response.status)
         return response.data
@@ -35,9 +40,14 @@ export async function getMethods(){// url+'/'
           return e.response.data
     }
 }
-export async function getByIdMethods(id){// url+'/:id'
+export async function getByIdMethods(id, accessToken){// url+'/:id'
     try{
-        const response = await axios.getById(baseUrl+"method/"+id)
+        const response = await axios.getById(baseUrl+"method/"+id, 
+        {
+            headers: { // Faut-il rajouter qqch?
+              Authorization: "Bearer " + accessToken
+            }
+        })
         console.log("getByIdMethods")
         console.log(response.status)
         return response.data
@@ -46,10 +56,15 @@ export async function getByIdMethods(id){// url+'/:id'
           return e.response.data
       }
 }
-export async function getQueryMethods(query){// url+'/query'
+export async function getQueryMethods(query, accessToken){// url+'/query'
     try{
         const response = await axios.getQuery(baseUrl+"method/query",{
             query: query
+        },
+        {
+            headers: { // Faut-il rajouter qqch?
+              Authorization: "Bearer " + accessToken
+            }
         })
         console.log("getQueryMethods")
         console.log(response.status)

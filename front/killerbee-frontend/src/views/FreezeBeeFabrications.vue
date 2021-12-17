@@ -1,7 +1,18 @@
 <template>
     <v-container>
         <Header/>
-        <h1 style="text-align: center">Création du produit: {{model.name}}</h1>
+        <div id="head-content">
+            <div id="title">
+                <h1 style="text-align: center">Création du produit: {{model.name}}</h1>
+            </div>
+            <v-spacer></v-spacer>
+            <div id="modification">
+                <!--<div v-if="role == 'DBA'"></div>-->
+                <v-btn v-on:click="$router.push({ name: 'ModificationFabricationModel' }).catch((err) => {})" color="#FFBB33" style="float: right;">
+                    MODIFIER
+                </v-btn>
+            </div>
+        </div>
         <ul>
             <li><h3>Composants nécessaires: </h3></li>
         <div>

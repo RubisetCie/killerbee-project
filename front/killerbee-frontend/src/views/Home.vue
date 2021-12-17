@@ -1,10 +1,21 @@
 <template>
     <v-container>
         <Header />
-        <form id="search">
-            <h3>Search:</h3><input name="query" placeholder="modifiez-moi" v-model="query" required/>
-            <v-icon v-on:click="searchQuery(query)">mdi-magnify</v-icon>
-        </form>
+        <div id="head-content">
+            <div id="search-content">
+                <form id="search">
+                    <h3>Search:</h3><input name="query" placeholder="modifiez-moi" v-model="query" required/>
+                    <v-icon v-on:click="searchQuery(query)">mdi-magnify</v-icon>
+                </form>
+            </div>
+            <v-spacer></v-spacer>
+            <div id="modification">
+                <!--<div v-if="role == 'DBA'"></div>-->
+                <v-btn v-on:click="$router.push({ name: 'ModificationModel' }).catch((err) => {})" color="#FFBB33" style="float: right;">
+                    MODIFIER
+                </v-btn>
+            </div>
+        </div>
         <div v-if="query == ''">
             <v-row>
                 <v-col cols="12" sm="4" md="4" lg="3" v-for="model in models" :key="model.id" style="margin-left: auto; margin-right: auto;">
@@ -58,3 +69,9 @@ export default({
     }
 })
 </script>
+
+<style>
+    #head-content{
+        display: flex;
+    }
+</style>

@@ -1,6 +1,7 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:3000/'
-
+//const baseUrl = process.env.URL_API1
+const baseUrl = "http://10.10.10.2:3000/"
+//const baseUrl = "http://localhost:3000"
 export async function postModel(model, accessToken){// url+'/' et bsn d'un param (body)
     try{
         console.log(model)

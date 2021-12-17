@@ -1,6 +1,7 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:3000/'
-
+//const baseUrl = process.env.URL_API3
+const baseUrl ="http://10.10.10.2:3002/"
+//const baseUrl = "http://localhost:3000"
 export async function postMethod(method, accessToken){
     try{
         const response = await axios.post(baseUrl+"method/",

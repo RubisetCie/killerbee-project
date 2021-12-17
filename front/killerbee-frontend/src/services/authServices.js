@@ -1,14 +1,18 @@
 import axios from 'axios';
-const baseUrl =  'http://localhost:3000/'
-
+//const baseUrl =  process.env.URL_API1
+const baseUrl="http://10.10.10.2:3000/"
+//const baseUrl = "http://localhost:3000"
 //CONNECTION OF USER
 export async function login(username, password) {
   try {
+        console.log(username)
+        console.log(password)
+        console.log(baseUrl+"login/")
         const response = await axios.post(baseUrl+"login/", {
           username: username,
           password: password
         })
-        console.log()
+        console.log(login)
         console.log(response.status)
         const res = {status: response.status, body: response.data}
         return res

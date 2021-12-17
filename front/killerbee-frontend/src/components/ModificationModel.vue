@@ -75,9 +75,9 @@ export default ({
             description: "",
             variety:"",
             color:{
-                red:"",
-                green:"",
-                blue:"",
+                r:"",
+                g:"",
+                b:"",
             },
             price:"",
             dimensions:{
@@ -115,9 +115,9 @@ export default ({
             }
         },
         valider(newModel){
-            this.newModel.color.red = parseInt(this.newModel.color.red)
-            this.newModel.color.green = parseInt(this.newModel.color.green)
-            this.newModel.color.blue = parseInt(this.newModel.color.blue)
+            this.newModel.color.r = parseInt(this.newModel.color.r)
+            this.newModel.color.g = parseInt(this.newModel.color.g)
+            this.newModel.color.b = parseInt(this.newModel.color.b)
             this.newModel.dimensions.height = parseInt(this.newModel.dimensions.height)
             this.newModel.dimensions.length = parseInt(this.newModel.dimensions.length)
             this.newModel.dimensions.width = parseInt(this.newModel.dimensions.width)

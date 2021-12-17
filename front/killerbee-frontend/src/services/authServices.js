@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:3000/'
+const baseUrl =  'http://localhost:3000/'
 
 //CONNECTION OF USER
 export async function login(username, password) {
@@ -8,7 +8,7 @@ export async function login(username, password) {
           username: username,
           password: password
         })
-        console.log('login')
+        console.log()
         console.log(response.status)
         const res = {status: response.status, body: response.data}
         return res

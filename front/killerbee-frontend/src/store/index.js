@@ -2,10 +2,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { boolean } from 'yup'
 import { login, logout } from '../services/authServices'
-import { getAllIngredients,getByIdIngredients,getQueryIngredients} from '../services/ingredientsServices'
+import { getAllIngredients,getByIdIngredients,getQueryIngredients, postIngredient} from '../services/ingredientsServices'
 import { getMethods, getByIdMethods, getQueryMethods} from '../services/methodsService'
 import { getModels, getByIdModels, getQueryModels, postModel} from '../services/modelsServices'
 Vue.use(Vuex)
+
+require("dotenv").config();
 
 export default new Vuex.Store({
   state: {    
@@ -160,6 +162,10 @@ export default new Vuex.Store({
     GETQUERYMODEL(state, payload){
       state.modelsQuery = payload
     },
+    POSTMODEL(state, payload){
+      state.insertion = false
+      state.insertion = payload
+    },
     // INGREDIENT
     GETALLINGREDIENTS(state, payload){
       state.ingredients = payload.ingredients
@@ -171,7 +177,8 @@ export default new Vuex.Store({
     GETQUERYINGREDIENT(state, payload){
       state.ingredientsQuery = payload
     },
-    POSTMODEL(state, payload){
+    POSTINGREDIENT(state, payload){
+      state.insertion = false
       state.insertion = payload
     },
     // METHOD
@@ -323,7 +330,23 @@ export default new Vuex.Store({
         this.$router.push('Login')
       }
     },
-
+    postIngredient({commit},payload){
+      try{
+        console.log("Store: postModel");
+        console.log(payload)
+        postIngredient(payload.newIngredient, this.state.session.accessToken).then(res =>{
+            if(res == 200){
+              commit("POSTINGREDIENT", res)
+          }
+          else{
+            console.log("Tentative de POST MODEL échoué")
+          }
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
+      }
+    },
     //METHODS
     getAllMethods({ commit }){
       try{

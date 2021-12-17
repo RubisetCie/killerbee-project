@@ -4,7 +4,6 @@
 
 // External modules
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 
 // Internal modules
 const service = require("../service/authService");
@@ -40,33 +39,28 @@ module.exports.login = function(req, res) {
         const request = LoginRequest.fromJson(req.body);
 
         request.check();
-        service.getByUsername(request.username).then(async function(user) {
-            if (await bcrypt.compare(request.password, user.password)) {
+        service.authenticateUser(request.username, request.password).then((user) => {
+            // Access token generation
+            const accessToken = jwt.sign({
+                id: user.id,
+                username: user.username,
+                role: user.role
+            }, ACCESSTOKENSECRET, { expiresIn: TOKENEXPIRATION });
 
-                // Access token generation
-                const accessToken = jwt.sign({
-                    id: user.id,
-                    username: user.username,
-                    role: user.role
-                }, ACCESSTOKENSECRET, { expiresIn: TOKENEXPIRATION });
-                
-                // Refresh token generation
-                const refreshToken = jwt.sign({
-                    id: user.id,
-                    username: user.username,
-                    role: user.usertype
-                }, REFRESHTOKENSECRET);
-                
-                const response = new LoginResponse;
-                
-                refreshTokens.push(refreshToken);
-                response.accessToken = accessToken;
-                response.refreshToken = refreshToken;
-                
-                res.json(response.toJson());
-            } else {
-                throw new ApiError("Password mismatch", 400);
-            }
+            // Refresh token generation
+            const refreshToken = jwt.sign({
+                id: user.id,
+                username: user.username,
+                role: user.usertype
+            }, REFRESHTOKENSECRET);
+
+            const response = new LoginResponse;
+
+            refreshTokens.push(refreshToken);
+            response.accessToken = accessToken;
+            response.refreshToken = refreshToken;
+
+            res.json(response.toJson());
         }).catch((error) => {
             handleError(error, res, "authController.login");
         });

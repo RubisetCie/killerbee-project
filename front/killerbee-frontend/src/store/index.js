@@ -83,7 +83,8 @@ export default new Vuex.Store({
       young: "young",
       dosing: "dosing", 
     },
-    account:[]
+    account:[],
+    insertion: boolean
   },
   getters:{
     account: state => state.account,
@@ -169,6 +170,9 @@ export default new Vuex.Store({
     },
     GETQUERYINGREDIENT(state, payload){
       state.ingredientsQuery = payload
+    },
+    POSTMODEL(state, payload){
+      state.insertion = payload
     },
     // METHOD
     GETALLMETHODS(state, payload){
@@ -266,11 +270,13 @@ export default new Vuex.Store({
       }
     },
         ///POST
-    postModel(newModel){
+    postModel({commit},payload){
       try{
-        postModel(newModel, this.state.session.accessToken).then(res =>{
-          if(res == 200){
-            this.$router.push({ name: 'Home' })
+        console.log("Store: postModel");
+        console.log(payload)
+        postModel(payload.newModel, this.state.session.accessToken).then(res =>{
+            if(res == 200){
+              commit("POSTMODEL", res)
           }
           else{
             console.log("Tentative de POST MODEL échoué")

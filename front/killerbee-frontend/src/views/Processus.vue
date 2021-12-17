@@ -17,8 +17,8 @@
             </div>
         </div>
         <br>
-        <div  v-for="method in methods" :key="method.id">
-            {{method}}
+        <div  v-for="method in methods" :key="method">
+            {{method["method"]}}
         </div>
         <!--<div v-if="query == ''">
             <table>

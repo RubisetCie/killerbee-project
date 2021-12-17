@@ -34,9 +34,9 @@
                         <input name="newModel.variety" placeholder="Gamme du freezebee" v-model="newModel.variety" required/>
                     </li>
                     <li>Couleur (RGB): 
-                        Rouge: <input name="newModel.color.red" placeholder="Hauteur du freezebee" v-model="newModel.color.red" required/>
-                        Vert: <input name="newModel.color.green" placeholder="Longueur du freezebee" v-model="newModel.color.green" required/>
-                        Bleu: <input name="newModel.color.blue" placeholder="Largeur du freezebee" v-model="newModel.color.blue" required/>
+                        Rouge: <input name="newModel.color.r" placeholder="Hauteur du freezebee" v-model="newModel.color.r" required/>
+                        Vert: <input name="newModel.color.g" placeholder="Longueur du freezebee" v-model="newModel.color.g" required/>
+                        Bleu: <input name="newModel.color.b" placeholder="Largeur du freezebee" v-model="newModel.color.b" required/>
                     </li>
                     <li>Prix (en €): 
                         <input name="newModel.price" placeholder="Prix du freezebee" v-model="newModel.price" required/>
@@ -53,7 +53,7 @@
                         <input name="newModel.lift" placeholder="Coefficient de portance du freezebee" v-model="newModel.lift" required/>
                     </li>
                 </ul>
-                <v-btn v-on:click="valider()" color="#FFBB33" style="float: right;">
+                <v-btn v-on:click="valider(newModel)" color="#FFBB33" style="float: right;">
                     VALIDER
                 </v-btn>
             </form>
@@ -86,7 +86,8 @@ export default ({
                 width:"",
             },
             mass:"",
-            lift:""
+            lift:"",
+            needs:[]
         }
     }),
     components:{
@@ -113,7 +114,7 @@ export default ({
                 this.modelId = this.$store.state.modelId
             }
         },
-        valider(){
+        valider(newModel){
             this.newModel.color.red = parseInt(this.newModel.color.red)
             this.newModel.color.green = parseInt(this.newModel.color.green)
             this.newModel.color.blue = parseInt(this.newModel.color.blue)
@@ -124,7 +125,9 @@ export default ({
             this.newModel.mass = parseInt(this.newModel.mass)
             this.newModel.lift = parseInt(this.newModel.lift)
             console.log(this.newModel)
-            this.$store.dispatch(this.newModel)
+            console.log(newModel)
+            this.$store.dispatch("postModel",{newModel: newModel});
+            this.$router.push({ name: 'Home' })
         }
     }
 })

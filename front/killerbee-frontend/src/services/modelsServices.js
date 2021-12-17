@@ -3,13 +3,8 @@ const baseUrl = 'http://localhost:3000/'
 
 export async function postModel(model, accessToken){// url+'/' et bsn d'un param (body)
     try{
-        const response = await axios.post(baseUrl+"model/",
-        {
-            headers: { // Faut-il rajouter qqch?
-              Authorization: "Bearer " + accessToken
-            }
-        },
-        {
+        console.log(model)
+        const request = {
             name: model.name,
             description: model.description,
             reference: model.reference,
@@ -20,7 +15,23 @@ export async function postModel(model, accessToken){// url+'/' et bsn d'un param
             mass: model.mass,
             lift: model.lift,
             needs: model.needs
+        }
+
+        console.log("postModel")
+        console.log(request)
+        console.log("postModel")
+        console.log(typeof(request))
+        const header = {
+            "Authorization": "Bearer " + accessToken,
+            "Content-Type": "application/json"
+        }
+        console.log("Header")
+        console.log(header)
+        const response = await axios.post(baseUrl+"model/",request,
+        {
+            headers: header
         })
+        
         console.log("postModel")
         console.log(response.status)
         return response.status

@@ -6,6 +6,7 @@
 const MongoClient = require("mongodb").MongoClient;
 
 // Model components
+const User = require("../model/user");
 //! if (deployModel) {
 const Model = require("../model/model");
 const ModelResponse = require("../model/response/modelResponse");
@@ -35,6 +36,35 @@ const client = new MongoClient(process.env.MONGO_HOST, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
+
+// Select model by ID
+module.exports.selectUserByUsername = function(username) {
+    return new Promise((resolve, reject) => {
+        const db = client.db(DATABASE);
+        
+        db.collection("user").findOne({ username: username }, async function(err, result) {
+            try {
+                if (err)
+                    throw err;
+                
+                if (!result)
+                    throw new ApiError("Username not found", 400);
+                
+                const user = new User;
+                
+                user.id = result["_id"];
+                user.email = result["email"];
+                user.username = result["username"];
+                user.password = result["password"];
+                user.role = result["role"];
+                
+                resolve(user);
+            } catch (err) {
+                reject(err);
+            }
+        });
+    });
+};
 
 //! if (deployModel) {
 // Insert model

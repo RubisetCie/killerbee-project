@@ -39,6 +39,7 @@ db.createUser({
 mongoimport --config=config.yaml --db=killerbee --collection=model models.json
 mongoimport --config=config.yaml --db=killerbee --collection=ingredient ingredients.json
 mongoimport --config=config.yaml --db=killerbee --collection=method methods.json
+mongoimport --config=config.yaml --db=killerbee --collection=user users.json
 
 # Index creation
 db.model.createIndex({ name: "text", description: "text" })

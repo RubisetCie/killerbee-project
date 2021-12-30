@@ -28,7 +28,7 @@
                     <v-list-item-icon>
                     <v-icon>mdi-ballot-outline</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-title>GESTION <br> DES PROCESSUS</v-list-item-title>
+                    <v-list-item-title>CATALOGUE <br> DES PROCESSUS</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item @click="logout()">

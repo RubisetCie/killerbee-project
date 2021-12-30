@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Header from './HeaderHome.vue'
+import Header from './HeaderProcessus.vue'
  export default ({
      components: {
          Header

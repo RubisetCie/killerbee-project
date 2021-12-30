@@ -1,9 +1,10 @@
 <template>
     <v-container>
         <Header/>
+        HOME > {{model.name}} > DETAILS
         <div id="head-content">
             <div id="title">
-                <h1 style="text-align: center">Création du produit: {{model.name}}</h1>
+                <h1 style="text-align: center">Création du Freezebee: {{model.name}}</h1>
             </div>
             <v-spacer></v-spacer>
             <div id="modification">

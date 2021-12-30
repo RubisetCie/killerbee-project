@@ -9,6 +9,13 @@
                 </form>
             </div>
             <v-spacer></v-spacer>
+            <div id="search-content-id">
+                <form class="search">
+                    <h3>Search:</h3><input name="id" placeholder="Recherche par id" v-model="id" required/>
+                    <v-icon v-on:click="searchById(id)">mdi-magnify</v-icon>
+                </form> 
+            </div>
+            <v-spacer></v-spacer>
             <div id="modification">
                 <!--<div v-if="role == 'DBA'"></div>-->
                 <v-btn v-on:click="$router.push({ name: 'ModificationModel' }).catch((err) => {})" color="#FFBB33" style="float: right;">
@@ -18,14 +25,14 @@
         </div>
         <div v-if="query == ''">
             <v-row>
-                <v-col cols="12" sm="4" md="4" lg="3" v-for="model in models" :key="model.id" style="margin-left: auto; margin-right: auto;">
+                <v-col cols="12" sm="4" md="4" lg="3" v-for="model in models" :key="model.model.id" style="margin-left: auto; margin-right: auto;">
                     <FreezeBee :model="model" />
                 </v-col>
             </v-row>
         </div>
         <div v-else>
             <v-row>
-                <v-col cols="12" sm="4" md="4" lg="3" v-for="modelq in modelsQuery" :key="modelq.id" style="margin-left: auto; margin-right: auto;">
+                <v-col cols="12" sm="4" md="4" lg="3" v-for="modelq in modelsQuery" :key="modelq.modelq.id" style="margin-left: auto; margin-right: auto;">
                     <FreezeBee :modelq="modelq" />
                 </v-col>
             </v-row>
@@ -40,7 +47,8 @@ export default({
     data: ()=> ({
         query: "",
         modelsQuery:[],
-        errorMessage:""
+        errorMessage:"",
+        id: null
     }),
     components:{
         FreezeBee,

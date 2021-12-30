@@ -1,8 +1,8 @@
 <template>
     <v-container>
         <Header />
-        HOME > MODIFIER
-        <div id="head-content">
+        HOME > CATALOGUE DES FREEZEBEE > MODIFIER
+        <!--<div id="head-content">
             <div id="search-content-word">
                 <form class="search">
                     <h3>Search:</h3><input name="query" placeholder="Recherche par mot" v-model="query" required/>
@@ -16,8 +16,8 @@
                     <v-icon v-on:click="searchById(id)">mdi-magnify</v-icon>
                 </form>
             </div>
-        </div>
-        <div v-if="query != ''|| id != null">
+        </div>-->
+        <!--<div v-if="query != ''|| id != null">-->
             <h1 style="text-align: center;">Modèle de freezebee à modifier:</h1>
             <form>
                 <ul>
@@ -57,7 +57,7 @@
                     VALIDER
                 </v-btn>
             </form>
-        </div>
+        <!--</div>-->
     </v-container>
 </template>
 <script>

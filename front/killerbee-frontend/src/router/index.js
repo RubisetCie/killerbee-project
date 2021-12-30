@@ -5,7 +5,7 @@ import Authentification from '../views/Authentification.vue'
 import Applications from '../views/Applications.vue'
 import FreezeBeeFabrications from '../views/FreezeBeeFabrications.vue'
 import FreezeBeeDetails from '../views/FreezeBeeDetails.vue'
-import Catalogue from '../views/Catalogue.vue'
+import CatalogueIngredients from '../views/CatalogueIngredients.vue'
 import Processus from '../views/Processus.vue'
 import ModificationModel from '../components/ModificationModel.vue'
 import ModificationIngredient from '../components/ModificationIngredient.vue'
@@ -44,12 +44,12 @@ const routes = [
     component: ModificationModel
   },
   {
-    path: '/catalogue',
-    name: 'Catalogue',
-    component: Catalogue
+    path: '/ingerdients',
+    name: 'CatalogueIngredients',
+    component: CatalogueIngredients
   },
   {
-    path: '/catalogue/modifications',
+    path: '/ingredients/modifications',
     name: 'ModificationIngredient',
     component: ModificationIngredient
   },
@@ -67,8 +67,8 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
-  //base: process.env.BASE_URL,// a changer
-  base: process.env.URL_APP,
+  base: process.env.BASE_URL,// a changer
+  //base: process.env.URL_APP,
   routes
 })
 

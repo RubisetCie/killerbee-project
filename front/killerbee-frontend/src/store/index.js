@@ -183,7 +183,7 @@ export default new Vuex.Store({
     },
     // METHOD
     GETALLMETHODS(state, payload){
-      state.methods = payload
+      state.methods = payload.methods
     },
     GETBYIDMETHOD(state, payload){
       state.methodId = payload
@@ -249,6 +249,7 @@ export default new Vuex.Store({
     getAllModels({ commit }){
       try{
         return getModels(this.state.session.accessToken).then(res => {
+          console.log(res)
           commit('GETALLMODELS', res);
         })
       }catch (err) {
@@ -301,6 +302,7 @@ export default new Vuex.Store({
     getAllIngredients({ commit }){
       try{
         return getAllIngredients(this.state.session.accessToken).then(res => {
+          console.log(res)
           commit('GETALLINGREDIENTS', res);
         })
       }catch (err) {
@@ -336,6 +338,7 @@ export default new Vuex.Store({
         console.log(payload)
         postIngredient(payload.newIngredient, this.state.session.accessToken).then(res =>{
             if(res == 200){
+              console.log(res)
               commit("POSTINGREDIENT", res)
           }
           else{
@@ -351,6 +354,7 @@ export default new Vuex.Store({
     getAllMethods({ commit }){
       try{
         return getMethods(this.state.session.accessToken).then(res => {
+          console.log(res)
           commit('GETALLMETHODS', res);
         })
       }catch (err) {

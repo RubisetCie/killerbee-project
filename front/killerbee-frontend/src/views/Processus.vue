@@ -9,18 +9,25 @@
                 </form>
             </div>
             <v-spacer></v-spacer>
+            <div id="search-content-id">
+                <form class="search">
+                    <h3>Search:</h3><input name="id" placeholder="Recherche par id" v-model="id" required/>
+                    <v-icon v-on:click="searchById(id)">mdi-magnify</v-icon>
+                </form>
+            </div>  
+            <v-spacer></v-spacer>
             <div id="modification">
                 <!--<div v-if="role == 'DBA'"></div>-->
-                <v-btn v-on:click="$router.push({ name: 'ModificationModel' }).catch((err) => {})" color="#FFBB33" style="float: right;">
+                <v-btn v-on:click="$router.push({ name: 'ModificationProcessus' }).catch((err) => {})" color="#FFBB33" style="float: right;">
                     MODIFIER
                 </v-btn>
             </div>
         </div>
         <br>
-        <div  v-for="method in methods" :key="method">
-            {{method["method"]}}
-        </div>
-        <!--<div v-if="query == ''">
+        <!--<div  v-for="method in methods" :key="method.id">
+            {{method}}
+        </div> --> 
+        <!--<div v-if="query == ''">-->
             <table>
                 <thead>
                     <tr>
@@ -37,7 +44,7 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+<!--</div>
         <div v-else>
             <div>
                 {{processusQuery}}
@@ -68,7 +75,8 @@ export default{
     data: ()=> ({
         query: "",
         methodsQuery:[],
-        errorMessage:""
+        errorMessage:"", 
+        id: null
     }),
     components:{
         Header
@@ -100,7 +108,12 @@ export default{
         sortBy(key) {
             this.sortKey = key;
           }
-    }
+    },
+    filters: {
+          capitalize: function(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+          }
+    },
 }
 </script>
 

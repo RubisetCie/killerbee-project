@@ -17,7 +17,7 @@
                     <v-list-item-title>HOME</v-list-item-title>
                 </v-list-item>
 
-                <v-list-item  @click="$router.push({ name: 'Catalogue' }).catch((err) => {})" >
+                <v-list-item  @click="$router.push({ name: 'CatalogueIngredients' }).catch((err) => {})" >
                     <v-list-item-icon>
                     <v-icon>mdi-ballot</v-icon>
                     </v-list-item-icon>

@@ -1,7 +1,7 @@
 import axios from 'axios';
 //const baseUrl = process.env.URL_API2
-const baseUrl ="http://10.10.10.2:3001/"
-//const baseUrl = "http://localhost:3000"
+const baseUrl =  "http://localhost:3000/"
+//const baseUrl ="http://10.10.10.2:3001/"
 export async function getAllIngredients(accessToken){ // url+'/'
     try{
         const response = await axios.get(baseUrl+"ingredient/", {
@@ -11,6 +11,7 @@ export async function getAllIngredients(accessToken){ // url+'/'
         })
         console.log("getAllIngredients")
         console.log(response.status)
+        console.log(response.data)
         return response.data
       } catch (e) {
           console.warn(e)
@@ -22,30 +23,36 @@ export async function getByIdIngredients(id, accessToken){ // url+'/:id'
     try{
         const response = await axios.get(baseUrl+"ingredient/"+id,{
             headers: {
-              Authorization: "Bearer " + accessToken
+              Authorization: "Bearer " + accessToken,
+              "Content-Type": "application/json"
             }
         })
         console.log("getByIdIngredients")
         console.log(response.status)
+        console.log(response.data)
         return response.data
       } catch (e) {
           console.warn(e)
           return e.response.data
       }
 }
-export async function getQueryIngredients(payload, accessToken){ // url+'/query'
+export async function getQueryIngredients(query, accessToken){ // url+'/query'
     try{
         console.log('Token: '+ accessToken)
-        console.log('Query: '+ payload)
-        console.log('Typeof Query: '+typeof(payload))
-        console.log(payload)           
-        const response = await axios.get(baseUrl+"ingredient/query", 
+        console.log('Query: '+ query)
+        console.log('Header')
+        const header = {
+            Authorization: "Bearer " + accessToken,
+            "Content-Type": "application/json"
+        }
+        console.log(header) 
+        const request = {
+            query: query
+        }
+        console.log(request)           
+        const response = await axios.get(baseUrl+"ingredient/query", request,
         {
-            headers: {
-              Authorization: "Bearer " + accessToken
-            }
-        },{
-            query: JSON.stringify(payload),
+            headers: header
         })
         console.log("getQueryIngredients")
         console.log(response.status)
@@ -62,7 +69,8 @@ export async function putByIdIngredient(id, accessToken, ingredient){ // url+'/:
         const response = await axios.put(baseUrl+"ingredient/"+id,
         {
             headers: {
-              Authorization: "Bearer " + accessToken
+              Authorization: "Bearer " + accessToken,
+              "Content-Type": "application/json"
             }
         },
         {
@@ -88,7 +96,8 @@ export async function deleteByIdIngredient(id, accessToken){ // url+'/:id'
         const response = await axios.delete(baseUrl+"ingredient/"+id,
         {
             headers: {
-              Authorization: "Bearer " + accessToken
+              Authorization: "Bearer " + accessToken,
+              "Content-Type": "application/json"
             }
         })
         console.log("deleteByIdIngredient")
@@ -101,12 +110,8 @@ export async function deleteByIdIngredient(id, accessToken){ // url+'/:id'
 }
 export async function postIngredient(ingredient, accessToken){ // url+'/'
     try{
+        console.log(ingredient)
         const response = await axios.post(baseUrl+"ingredient/",
-        {
-            headers: { // Faut-il rajouter qqch?
-              Authorization: "Bearer " + accessToken
-            }
-        },
         {
             name: ingredient.name,
             description: ingredient.description,
@@ -116,6 +121,12 @@ export async function postIngredient(ingredient, accessToken){ // url+'/'
             price: ingredient.price,
             density: ingredient.density,
             young: ingredient.young
+        },
+        {
+            headers: { 
+              Authorization: "Bearer " + accessToken,
+              "Content-Type": "application/json"
+            }
         })
         console.log("postIngredient")
         console.log(response.status)

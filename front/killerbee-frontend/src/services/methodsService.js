@@ -1,7 +1,7 @@
 import axios from 'axios';
 //const baseUrl = process.env.URL_API3
-const baseUrl ="http://10.10.10.2:3002/"
-//const baseUrl = "http://localhost:3000"
+const baseUrl =  "http://localhost:3000/"
+//const baseUrl ="http://10.10.10.2:3002/"
 export async function postMethod(method, accessToken){
     try{
         const response = await axios.post(baseUrl+"method/",
@@ -45,8 +45,9 @@ export async function getByIdMethods(id, accessToken){// url+'/:id'
     try{
         const response = await axios.getById(baseUrl+"method/"+id, 
         {
-            headers: { // Faut-il rajouter qqch?
-              Authorization: "Bearer " + accessToken
+            headers: {
+              Authorization: "Bearer " + accessToken,
+              "Content-Type": "application/json"
             }
         })
         console.log("getByIdMethods")
@@ -63,8 +64,9 @@ export async function getQueryMethods(query, accessToken){// url+'/query'
             query: query
         },
         {
-            headers: { // Faut-il rajouter qqch?
-              Authorization: "Bearer " + accessToken
+            headers: {
+              Authorization: "Bearer " + accessToken,
+              "Content-Type": "application/json"
             }
         })
         console.log("getQueryMethods")
@@ -80,7 +82,8 @@ export async function putMethod(id, method, accessToken){// url+'/:id'
         const response = await axios.put(baseUrl+"method/"+id,
         {
             headers: {
-              Authorization: "Bearer " + accessToken
+              Authorization: "Bearer " + accessToken,
+              "Content-Type": "application/json"
             }
         },
         {
@@ -102,7 +105,8 @@ export async function deleteMethod(id, accessToken){// url+'/:id'
         const response = await axios.delete(baseUrl+"method/"+id,
         {
             headers: {
-              Authorization: "Bearer " + accessToken
+              Authorization: "Bearer " + accessToken,
+              "Content-Type": "application/json"
             }
         })
         console.log("deleteMethod")

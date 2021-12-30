@@ -9,9 +9,16 @@
                 </form>
             </div>
             <v-spacer></v-spacer>
+            <div id="search-content-id">
+                <form class="search">
+                    <h3>Search:</h3><input name="id" placeholder="Recherche par id" v-model="id" required/>
+                    <v-icon v-on:click="searchById(id)">mdi-magnify</v-icon>
+                </form>
+            </div>
+            <v-spacer></v-spacer>
             <div id="modification">
                 <!--<div v-if="role == 'DBA'"></div>-->
-                <v-btn v-on:click="$router.push({ name: 'ModificationModel' }).catch((err) => {})" color="#FFBB33" style="float: right;">
+                <v-btn v-on:click="$router.push({ name: 'ModificationIngredient' }).catch((err) => {})" color="#FFBB33" style="float: right;">
                     MODIFIER
                 </v-btn>
             </div>
@@ -27,7 +34,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="ingredient in ingredients" :key="ingredient.id">
+                    <tr v-for="ingredient in ingredients" :key="ingredient.ingredient.id">
                         <td v-for="title in ingredientsTitle" :key="title">
                             {{ingredient.ingredient[title]}}
                         </td>
@@ -65,7 +72,8 @@ export default{
     data: ()=> ({
         query: "",
         ingredientsQuery:[],
-        errorMessage:""
+        errorMessage:"",
+        id: null
     }),
     filters: {
           capitalize: function(str) {

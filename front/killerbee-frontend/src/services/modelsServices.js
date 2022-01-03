@@ -59,14 +59,14 @@ export async function getModels(accessToken){// url+'/'
 }
 export async function getByIdModels(id, accessToken){// url+'/:id'
     try{
-        const response = await axios.getById(baseUrl+"model/"+id, {
+        const response = await axios.get(baseUrl+"model/"+id, {
             headers: {
-              Authorization: "Bearer " + accessToken,
-              "Content-Type": "application/json"
+              Authorization: "Bearer " + accessToken
             }
         })
         console.log("getByIdModels")
         console.log(response.status)
+        console.log(response.data)
         return response.data
       } catch (e) {
           console.warn(e)
@@ -76,14 +76,16 @@ export async function getByIdModels(id, accessToken){// url+'/:id'
 export async function getQueryModels(query, accessToken){// url+'/query' et bsn d'un param (body)
     try{
         const header = {
-            Authorization: "Bearer " + accessToken,
+            "Authorization": "Bearer " + accessToken,
             "Content-Type": "application/json"
         }
+        console.log("Header - getQueryModels")
         console.log(header) 
         const request = {
             query: query
-        }
-        console.log(request)   
+        } 
+        console.log("Request - getQueryModels")
+        console.log(request)
         const response = await axios.get(baseUrl+"model/query",
         request,
         {
@@ -91,6 +93,7 @@ export async function getQueryModels(query, accessToken){// url+'/query' et bsn 
         })
         console.log("getQueryModels")
         console.log(response.status)
+        console.log(response.data)
         return response.data
       } catch (e) {
           console.warn(e)

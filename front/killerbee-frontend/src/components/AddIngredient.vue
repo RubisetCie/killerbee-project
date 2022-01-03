@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <Header />
-        HOME > CATALOGUE DES INGREDIENTS > MODIFIER UN INGREDIENT > 
+        HOME > CATALOGUE DES INGREDIENTS > AJOUTER UN INGREDIENT
         <div id="head-content">
             <!--<div id="search-content-word">
                 <form class="search">

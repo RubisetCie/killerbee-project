@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <Header />
-        HOME > CATALOGUE DES FREEZEBEE > MODIFIER UN FREEZEBEE > 
+        HOME > CATALOGUE DES FREEZEBEE > AJOUTER UN FREEZEBEE
         <br>
         <!--<div id="head-content">
             <div id="search-content-word">

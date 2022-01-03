@@ -23,8 +23,7 @@ export async function getByIdIngredients(id, accessToken){ // url+'/:id'
     try{
         const response = await axios.get(baseUrl+"ingredient/"+id,{
             headers: {
-              Authorization: "Bearer " + accessToken,
-              "Content-Type": "application/json"
+              Authorization: "Bearer " + accessToken
             }
         })
         console.log("getByIdIngredients")

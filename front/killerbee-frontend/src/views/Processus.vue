@@ -18,8 +18,16 @@
             <v-spacer></v-spacer>
             <div id="modification">
                 <!--<div v-if="role == 'DBA'"></div>-->
-                <v-btn v-on:click="$router.push({ name: 'ModificationProcessus' }).catch((err) => {})" color="#FFBB33" style="float: right;">
-                    MODIFIER
+                <v-btn v-on:click="$router.push({ name: 'AddProcessus' }).catch((err) => {})" color="#FFBB33" style="float: right;">
+                   <v-icon>mdi-pencil</v-icon>
+                    AJOUTER
+                </v-btn>
+            </div>
+            <div id="delete">
+                <!--<div v-if="role == 'DBA'"></div>-->
+                <v-btn v-on:click="$router.push({ name: 'DeleteProcessus' }).catch((err) => {})" color="#C70039" style="float: right;">
+                    <v-icon>mdi-trash-can</v-icon>
+                    DELETE
                 </v-btn>
             </div>
         </div>

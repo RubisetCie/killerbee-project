@@ -43,15 +43,15 @@ export async function getMethods(accessToken){// url+'/'
 }
 export async function getByIdMethods(id, accessToken){// url+'/:id'
     try{
-        const response = await axios.getById(baseUrl+"method/"+id, 
+        const response = await axios.get(baseUrl+"method/"+id, 
         {
             headers: {
-              Authorization: "Bearer " + accessToken,
-              "Content-Type": "application/json"
+              Authorization: "Bearer " + accessToken
             }
         })
         console.log("getByIdMethods")
         console.log(response.status)
+        console.log(response.data)
         return response.data
       } catch (e) {
           console.warn(e)
@@ -60,7 +60,7 @@ export async function getByIdMethods(id, accessToken){// url+'/:id'
 }
 export async function getQueryMethods(query, accessToken){// url+'/query'
     try{
-        const response = await axios.getQuery(baseUrl+"method/query",{
+        const response = await axios.get(baseUrl+"method/query",{
             query: query
         },
         {

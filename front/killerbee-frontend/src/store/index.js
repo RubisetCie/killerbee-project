@@ -33,7 +33,7 @@ export default new Vuex.Store({
     },
     modelChoice:[],
     modelsQuery:[],
-    modelId:[],
+    modelId:{},
     modelSelected: boolean,
     ingredientsTitle:{
       name: "name",
@@ -157,7 +157,7 @@ export default new Vuex.Store({
       state.models = payload.models
     },
     GETBYIDMODEL(state, payload){
-      state.modelId = payload
+      state.modelId = payload.model
     },
     GETQUERYMODEL(state, payload){
       state.modelsQuery = payload
@@ -257,10 +257,11 @@ export default new Vuex.Store({
         this.$router.push('Login')
       }
     },
-    getByIdModel({ commit }, id){
+    getByIdModel({ commit }, payload){
       try{
-        return getByIdModels(id, this.state.session.accessToken).then(res =>{
-          commit('GETBYIDMODELS', res);
+        return getByIdModels(payload.id, this.state.session.accessToken).then(res =>{
+          console.log(res)
+          commit('GETBYIDMODEL', res);
         })
       }catch (err) {
         console.warn(err);

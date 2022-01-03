@@ -7,9 +7,12 @@ import FreezeBeeFabrications from '../views/FreezeBeeFabrications.vue'
 import FreezeBeeDetails from '../views/FreezeBeeDetails.vue'
 import CatalogueIngredients from '../views/CatalogueIngredients.vue'
 import Processus from '../views/Processus.vue'
-import ModificationModel from '../components/ModificationModel.vue'
-import ModificationIngredient from '../components/ModificationIngredient.vue'
-import ModificationProcessus from '../components/ModificationProcessus.vue'
+import AddModel from '../components/AddModel.vue'
+import AddIngredient from '../components/AddIngredient.vue'
+import AddProcessus from '../components/AddProcessus.vue'
+import DeleteModel from '../components/DeleteModel.vue'
+import DeleteIngredient from '../components/DeleteIngredient.vue'
+import DeleteProcessus from '../components/DeleteProcessus.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -39,9 +42,14 @@ const routes = [
     component: FreezeBeeDetails
   },
   {
-    path: '/home/modifications',
-    name: 'ModificationModel',
-    component: ModificationModel
+    path: '/home/addmodel',
+    name: 'AddModel',
+    component: AddModel
+  },
+  {
+    path: '/home/deletemodel',
+    name: 'DeleteModel',
+    component: DeleteModel
   },
   {
     path: '/ingerdients',
@@ -49,9 +57,14 @@ const routes = [
     component: CatalogueIngredients
   },
   {
-    path: '/ingredients/modifications',
-    name: 'ModificationIngredient',
-    component: ModificationIngredient
+    path: '/ingredients/addingredient',
+    name: 'AddIngredient',
+    component: AddIngredient
+  },
+  {
+    path: '/ingredients/deleteingredient',
+    name: 'DeleteIngredient',
+    component: DeleteIngredient
   },
   {
     path: '/processus',
@@ -59,9 +72,14 @@ const routes = [
     component: Processus
   },
   {
-    path: '/processus/modifications',
-    name: 'ModificationProcessus',
-    component: ModificationProcessus
+    path: '/processus/addprocessus',
+    name: 'AddProcessus',
+    component: AddProcessus
+  },
+  {
+    path: '/processus/deleteprocessus',
+    name: 'DeleteProcessus',
+    component: DeleteProcessus
   },
 ]
 

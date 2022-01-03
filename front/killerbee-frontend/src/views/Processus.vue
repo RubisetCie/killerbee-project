@@ -32,26 +32,46 @@
             </div>
         </div>
         <br>
-        <!--<div v-if="query == ''">-->
-            <table>
-                <thead>
-                    <tr>
-                        <th v-for="title in methodsTitle" :key="title">
-                            {{ title | capitalize }}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="method in methods" :key="method.id">
-                        <td v-for="title in methodsTitle" :key="title">
-                            {{method.method[title]}}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-<!--</div>
+        <div v-if="query == ''">
+            <div v-if="id == null">
+                <table>
+                    <thead>
+                        <tr>
+                            <th v-for="title in methodsTitle" :key="title">
+                                {{ title | capitalize }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="method in methods" :key="method.id">
+                            <td v-for="title in methodsTitle" :key="title">
+                                {{method.method[title]}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div v-else>
+                <table>
+                    <thead>
+                        <tr>
+                            <th v-for="title in methodsTitle" :key="title">
+                                {{ title | capitalize }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="method in methodID" :key="method.id">
+                            <td v-for="title in methodsTitle" :key="title">
+                                {{method[title]}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div v-else>
-            <div>
+            <!--<div>
                 {{processusQuery}}
             </div>
             <table>
@@ -69,8 +89,8 @@
                         </td>
                     </tr>
                 </tbody>
-            </table>
-        </div>-->
+            </table>-->
+        </div>
     </v-container>
 </template>
 <script type="text/x-template" id="grid-template">
@@ -97,6 +117,9 @@ export default{
         },
         methodsTitle(){
             return this.$store.state.methodsTitle
+        },
+        methodID(){
+            return this.$store.state.methodId
         }
     },
     methods: {
@@ -112,7 +135,16 @@ export default{
         },
         sortBy(key) {
             this.sortKey = key;
-          }
+        },
+        searchById(id){
+            console.log("ID saisi: "+ id)
+            if(id== ''){
+                this.errorMessage = "Veuillez saisir un mot de recherche.";
+                console.log(this.errorMessage);
+            }else{
+                this.$store.dispatch("getByIdMethod", {id: id});
+            }
+        },
     },
     filters: {
           capitalize: function(str) {

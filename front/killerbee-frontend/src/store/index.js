@@ -260,7 +260,6 @@ export default new Vuex.Store({
     getByIdModel({ commit }, payload){
       try{
         return getByIdModels(payload.id, this.state.session.accessToken).then(res =>{
-          console.log(res)
           commit('GETBYIDMODEL', res);
         })
       }catch (err) {
@@ -311,9 +310,10 @@ export default new Vuex.Store({
         this.$router.push('Login')
       }
     },
-    getByIdIngredient({ commit }, id){
+    getByIdIngredient({ commit }, payload){
       try{
-        return getByIdIngredients(id, this.state.session.accessToken).then(res =>{
+        return getByIdIngredients(payload.id, this.state.session.accessToken).then(res =>{
+          console.log(res)
           commit('GETBYIDINGREDIENT', res);
         })
       }catch (err) {
@@ -363,9 +363,9 @@ export default new Vuex.Store({
         this.$router.push('Login')
       }
     },
-    getByIdMethod({ commit }, id){
+    getByIdMethod({ commit }, payload){
       try{
-        return getByIdMethods(id, this.state.session.accessToken).then(res =>{
+        return getByIdMethods(payload.id, this.state.session.accessToken).then(res =>{
           commit('GETBYIDMETHOD', res);
         })
       }catch (err) {

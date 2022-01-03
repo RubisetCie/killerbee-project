@@ -4,16 +4,16 @@
         <div id="head-content">
             <div id="search-content">
                 <form id="search">
-                    <h3>Search:</h3><input name="query" placeholder="modifiez-moi" v-model="query" required/>
+                    <h3>Search:</h3><input placeholder="modifiez-moi" v-model="query" required/>
                     <v-icon v-on:click="searchQuery(query)">mdi-magnify</v-icon>
                 </form>
             </div>
             <v-spacer></v-spacer>
             <div id="search-content-id">
                 <form class="search">
-                    <h3>Search:</h3><input name="id" placeholder="Recherche par id" v-model="id" required/>
+                    <h3>Search:</h3><input placeholder="Recherche par id" v-model="id" required/>
                     <v-icon v-on:click="searchById(id)">mdi-magnify</v-icon>
-                </form>
+                </form> 
             </div>
             <v-spacer></v-spacer>
             <div id="modification">
@@ -33,22 +33,42 @@
         </div>
         <br>
         <div v-if="query == ''">
-            <table>
-                <thead>
-                    <tr>
-                        <th v-for="title in ingredientsTitle" :key="title">
-                            {{ title | capitalize }}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="ingredient in ingredients" :key="ingredient.ingredient.id">
-                        <td v-for="title in ingredientsTitle" :key="title">
-                            {{ingredient.ingredient[title]}}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div v-if="id == null">
+                <table>
+                    <thead>
+                        <tr>
+                            <th v-for="title in ingredientsTitle" :key="title">
+                                {{ title | capitalize }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="ingredient in ingredients" :key="ingredient.ingredient.id">
+                            <td v-for="title in ingredientsTitle" :key="title">
+                                {{ingredient.ingredient[title]}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div v-else>
+                <table>
+                    <thead>
+                        <tr>
+                            <th v-for="title in ingredientsTitle" :key="title">
+                                {{ title | capitalize }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="ingredient in ingredientID" :key="ingredient.id">
+                            <td v-for="title in ingredientsTitle" :key="title">
+                                {{ingredient[title]}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div v-else>
             <div>
@@ -102,6 +122,9 @@ export default{
         },
         ingredientsTitle(){
             return this.$store.state.ingredientsTitle
+        },
+        ingredientID(){
+            return this.$store.state.ingredientId
         }
     },
     methods: {
@@ -117,7 +140,16 @@ export default{
         },
         sortBy(key) {
             this.sortKey = key;
-          }
+        },
+        searchById(id){
+            console.log("ID saisi: "+ id)
+            if(id== ''){
+                this.errorMessage = "Veuillez saisir un mot de recherche.";
+                console.log(this.errorMessage);
+            }else{
+                this.$store.dispatch("getByIdIngredient", {id: id});
+            }
+        },
     }
 }
 </script>

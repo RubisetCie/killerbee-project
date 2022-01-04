@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import { boolean } from 'yup'
 import { login, logout } from '../services/authServices'
 import { getAllIngredients,getByIdIngredients,getQueryIngredients, postIngredient, deleteIngredient} from '../services/ingredientsServices'
-import { getMethods, getByIdMethods, getQueryMethods, deleteMethod} from '../services/methodsService'
+import { getMethods, getByIdMethods, getQueryMethods, deleteMethod, postMethod} from '../services/methodsService'
 import { getModels, getByIdModels, getQueryModels, postModel, deleteModel} from '../services/modelsServices'
 Vue.use(Vuex)
 
@@ -71,8 +71,12 @@ export default new Vuex.Store({
     methodsTitle:{
       name: "name",
       description: "description",
-      modelId: "ID du modèle",
+      modelId: "nom du modèle",
       steps:"étape du processus"
+    },
+    stepTitle:{
+      description: "description",
+      validation: "validation"
     },
     fabricationsTitle:{
       name: "name",
@@ -157,6 +161,7 @@ export default new Vuex.Store({
     //MODEL
     GETALLMODELS(state, payload){
       state.models = payload.models
+      state.insertion = false
       state.deleteSuccess = false
     },
     GETBYIDMODEL(state, payload){
@@ -166,7 +171,6 @@ export default new Vuex.Store({
       state.modelsQuery = payload
     },
     POSTMODEL(state, payload){
-      state.insertion = false
       state.insertion = payload
     },
     DELETEMODEL(state){
@@ -175,6 +179,7 @@ export default new Vuex.Store({
     // INGREDIENT
     GETALLINGREDIENTS(state, payload){
       state.ingredients = payload.ingredients
+      state.insertion = false
       state.deleteSuccess = false
     },
     GETBYIDINGREDIENT(state, payload){
@@ -184,7 +189,6 @@ export default new Vuex.Store({
       state.ingredientsQuery = payload
     },
     POSTINGREDIENT(state, payload){
-      state.insertion = false
       state.insertion = payload
     },
     DELETEINGREDIENT(state){
@@ -194,6 +198,7 @@ export default new Vuex.Store({
     GETALLMETHODS(state, payload){
       state.methods = payload.methods
       state.deleteSuccess = false
+      state.insertion = false
     },
     GETBYIDMETHOD(state, payload){
       state.methodId = payload
@@ -203,6 +208,9 @@ export default new Vuex.Store({
     },
     DELETEMETHOD(state){
       state.deleteSuccess = true
+    },
+    POSTMETHOD(state, payload){
+      state.insertion = payload
     },
     //STEP  
   },
@@ -309,7 +317,7 @@ export default new Vuex.Store({
         console.log("Store: postModel");
         console.log(payload)
         postModel(payload.newModel, this.state.session.accessToken).then(res =>{
-            if(res == 200){
+            if(res == 200 || res == 201 || res == 204){
               commit("POSTMODEL", res)
           }
           else{
@@ -364,8 +372,9 @@ export default new Vuex.Store({
         console.log("Store: postModel");
         console.log(payload)
         postIngredient(payload.newIngredient, this.state.session.accessToken).then(res =>{
-            if(res == 200){
+            if(res == 200 || res == 201 || res == 204){
               console.log(res)
+              console.log(res.id)
               commit("POSTINGREDIENT", res)
           }
           else{
@@ -419,6 +428,25 @@ export default new Vuex.Store({
       }catch (err) {
         console.warn(err);
         this.$router.push('Login')
+    }
+  },
+  postMethod({commit}, payload){
+    try{
+      console.log("Store: postModel");
+      console.log(payload)
+      postMethod(payload.newMethod, this.state.session.accessToken).then(res =>{
+          if(res == 200 || res == 201 || res == 204){
+            console.log(res)
+            console.log(res.id)
+            commit("POSTMETHOD", res)
+        }
+        else{
+          console.log("Tentative de POST MODEL échoué")
+        }
+      })
+    }catch (err) {
+      console.warn(err);
+      this.$router.push('Login')
     }
   },
   deleteMethod({commit}, payload){

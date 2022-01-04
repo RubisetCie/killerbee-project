@@ -4,21 +4,26 @@ const baseUrl =  "http://localhost:3000/"
 //const baseUrl ="http://10.10.10.2:3002/"
 export async function postMethod(method, accessToken){
     try{
-        const response = await axios.post(baseUrl+"method/",
-        {
-            headers: { // Faut-il rajouter qqch?
-              Authorization: "Bearer " + accessToken
-            }
-        },
-        {
+        const requestBody = {
             name: method.name,
             description: method.description,
-            model: method.modelId,
-            steps: method.steps
+            model: method.modelID,
+            steps: [method.steps]
+        }
+        console.log("MethodService")
+        console.log(requestBody)
+        const header = {
+            Authorization: "Bearer " + accessToken,
+            "Content-Type": "application/json"
+        }
+        const response = await axios.post(baseUrl+"method/",
+        requestBody,
+        {
+            headers: header
         })
         console.log("postMethod")
         console.log(response.status)
-        return response.data
+        return response.status
       } catch (e) {
           console.warn(e)
           return e.response.data

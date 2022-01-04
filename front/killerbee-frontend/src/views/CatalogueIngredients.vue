@@ -23,13 +23,6 @@
                     AJOUTER
                 </v-btn>
             </div>
-            <div id="delete">
-                <!--<div v-if="role == 'DBA'"></div>-->
-                <v-btn v-on:click="$router.push({ name: 'DeleteIngredient' }).catch((err) => {})" color="#C70039" style="float: right;">
-                    <v-icon>mdi-trash-can</v-icon>
-                    DELETE
-                </v-btn>
-            </div>
         </div>
         <br>
         <div v-if="query == ''">
@@ -40,6 +33,7 @@
                             <th v-for="title in ingredientsTitle" :key="title">
                                 {{ title | capitalize }}
                             </th>
+                            <th>SUPPRIMER?</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,6 +41,13 @@
                             <td v-for="title in ingredientsTitle" :key="title">
                                 {{ingredient.ingredient[title]}}
                             </td>
+                            <div id="delete">
+                                <!--<div v-if="role == 'DBA'"></div>-->
+                                <v-btn v-on:click="deleteIngredient(ingredient.id)" color="#C70039">
+                                    <v-icon>mdi-trash-can</v-icon>
+                                    DELETE
+                                </v-btn>
+                            </div>
                         </tr>
                     </tbody>
                 </table>
@@ -58,6 +59,7 @@
                             <th v-for="title in ingredientsTitle" :key="title">
                                 {{ title | capitalize }}
                             </th>
+                            <th>SUPPRIMER?</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,6 +67,13 @@
                             <td v-for="title in ingredientsTitle" :key="title">
                                 {{ingredient[title]}}
                             </td>
+                            <div id="delete">
+                                <!--<div v-if="role == 'DBA'"></div>-->
+                                <v-btn v-on:click="deleteIngredient(ingredient.id)" color="#C70039">
+                                    <v-icon>mdi-trash-can</v-icon>
+                                    DELETE
+                                </v-btn>
+                            </div>
                         </tr>
                     </tbody>
                 </table>
@@ -80,6 +89,7 @@
                         <th v-for="title in ingredientsTitle" :key="title">
                             {{ title | capitalize }}
                         </th>
+                        <th>SUPPRIMER?</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,6 +97,13 @@
                         <td v-for="title in ingredientsTitle" :key="title">
                             {{ingredient.ingredient[title]}}
                         </td>
+                        <div id="delete">
+                            <!--<div v-if="role == 'DBA'"></div>-->
+                            <v-btn v-on:click="deleteIngredient(ingredient.id)" color="#C70039">
+                                <v-icon>mdi-trash-can</v-icon>
+                                DELETE
+                            </v-btn>
+                        </div>
                     </tr>
                 </tbody>
             </table>
@@ -150,6 +167,12 @@ export default{
                 this.$store.dispatch("getByIdIngredient", {id: id});
             }
         },
+        deleteIngredient(id){
+            console.log("Freezebee.vue")
+            console.log("Delete Ingredient:")
+            console.log(id)
+            this.$store.dispatch("deleteIngredient", {id: id});
+        }
     }
 }
 </script>

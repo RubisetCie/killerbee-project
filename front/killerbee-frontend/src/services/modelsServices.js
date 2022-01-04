@@ -59,6 +59,7 @@ export async function getModels(accessToken){// url+'/'
 }
 export async function getByIdModels(id, accessToken){// url+'/:id'
     try{
+        console.log(id)
         const response = await axios.get(baseUrl+"model/"+id, {
             headers: {
               Authorization: "Bearer " + accessToken
@@ -86,6 +87,8 @@ export async function getQueryModels(query, accessToken){// url+'/query' et bsn 
         } 
         console.log("Request - getQueryModels")
         console.log(request)
+        console.log("URL")
+        console.log(baseUrl+"model/query")
         const response = await axios.get(baseUrl+"model/query",
         request,
         {

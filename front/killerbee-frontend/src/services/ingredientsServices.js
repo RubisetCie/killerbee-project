@@ -1,7 +1,7 @@
 import axios from 'axios';
 //const baseUrl = process.env.URL_API2
-const baseUrl =  "http://localhost:3000/"
-//const baseUrl ="http://10.10.10.2:3001/"
+//const baseUrl =  "http://localhost:3000/"
+const baseUrl ="http://10.10.10.2:3001/"
 export async function getAllIngredients(accessToken){ // url+'/'
     try{
         const response = await axios.get(baseUrl+"ingredient/", {

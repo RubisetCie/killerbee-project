@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { boolean } from 'yup'
 import { login, logout } from '../services/authServices'
-import { getAllIngredients,getByIdIngredients,getQueryIngredients, postIngredient} from '../services/ingredientsServices'
-import { getMethods, getByIdMethods, getQueryMethods} from '../services/methodsService'
-import { getModels, getByIdModels, getQueryModels, postModel} from '../services/modelsServices'
+import { getAllIngredients,getByIdIngredients,getQueryIngredients, postIngredient, deleteIngredient} from '../services/ingredientsServices'
+import { getMethods, getByIdMethods, getQueryMethods, deleteMethod} from '../services/methodsService'
+import { getModels, getByIdModels, getQueryModels, postModel, deleteModel} from '../services/modelsServices'
 Vue.use(Vuex)
 
 require("dotenv").config();
@@ -86,7 +86,8 @@ export default new Vuex.Store({
       dosing: "dosing", 
     },
     account:[],
-    insertion: boolean
+    insertion: boolean, 
+    deleteSuccess: false
   },
   getters:{
     account: state => state.account,
@@ -100,7 +101,8 @@ export default new Vuex.Store({
     methods: state => state.methods,
     method: state => state.method,
     methodsQuery: state => state.methodsQuery,
-    step: state => state.step
+    step: state => state.step,
+    deleteSuccess: state => state.deleteSuccess
   },
   mutations: {
     // SESSION - Connection of the user
@@ -155,6 +157,7 @@ export default new Vuex.Store({
     //MODEL
     GETALLMODELS(state, payload){
       state.models = payload.models
+      state.deleteSuccess = false
     },
     GETBYIDMODEL(state, payload){
       state.modelId = payload.model
@@ -166,10 +169,13 @@ export default new Vuex.Store({
       state.insertion = false
       state.insertion = payload
     },
+    DELETEMODEL(state){
+      state.deleteSuccess = true
+    },
     // INGREDIENT
     GETALLINGREDIENTS(state, payload){
       state.ingredients = payload.ingredients
-      console.log(state.ingredients)
+      state.deleteSuccess = false
     },
     GETBYIDINGREDIENT(state, payload){
       state.ingredientId = payload
@@ -181,16 +187,23 @@ export default new Vuex.Store({
       state.insertion = false
       state.insertion = payload
     },
+    DELETEINGREDIENT(state){
+      state.deleteSuccess = true
+    },
     // METHOD
     GETALLMETHODS(state, payload){
       state.methods = payload.methods
+      state.deleteSuccess = false
     },
     GETBYIDMETHOD(state, payload){
       state.methodId = payload
     },
     GETQUERYMETHOD(state, payload){
       state.methodsQuery = payload
-    }
+    },
+    DELETEMETHOD(state){
+      state.deleteSuccess = true
+    },
     //STEP  
   },
   actions: {
@@ -277,6 +290,19 @@ export default new Vuex.Store({
         this.$router.push('Login')
       }
     },
+    //DELETE
+    deleteModel({commit},payload){
+      try{
+        console.log("Store:")
+        console.log(payload.id)
+        return deleteModel(payload.id,this.state.session.accessToken).then(res =>{
+          commit('DELETEMODEL', res);
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
+      }
+    },
         ///POST
     postModel({commit},payload){
       try{
@@ -351,6 +377,18 @@ export default new Vuex.Store({
         this.$router.push('Login')
       }
     },
+    deleteIngredient({commit}, payload){
+      try{
+        console.log("Store:")
+        console.log(payload.id)
+        return deleteIngredient(payload.id,this.state.session.accessToken).then(res =>{
+          commit('DELETEINGREDIENT', res);
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
+      }
+    },
     //METHODS
     getAllMethods({ commit }){
       try{
@@ -383,6 +421,18 @@ export default new Vuex.Store({
         this.$router.push('Login')
     }
   },
+  deleteMethod({commit}, payload){
+    try{
+      console.log("Store:")
+      console.log(payload.id)
+      return deleteMethod(payload.id,this.state.session.accessToken).then(res =>{
+        commit('DELETEMETHOD', res);
+      })
+    }catch (err) {
+      console.warn(err);
+      this.$router.push('Login')
+    }
+  }
 }, 
   modules: {
   }

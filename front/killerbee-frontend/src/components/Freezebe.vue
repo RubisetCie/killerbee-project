@@ -4,6 +4,9 @@
             <template slot="progress">
             <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
             </template>
+            <v-btn absolute color="#C70039" fab large right top @click="deleteModel(model.id)">
+                <v-icon>mdi-trash-can</v-icon>
+            </v-btn>
             <v-img class="img" :src= srcPicture></v-img>
             <v-divider class="mx-4"></v-divider>
             <v-card-title>Freezebee: {{model.model.name}}</v-card-title>
@@ -64,6 +67,12 @@
             console.log(model)
             this.$store.state.modelChoice = model
             this.$router.push({ name: 'FreezeBeeDetails' })
+        },
+        deleteModel(id){
+            console.log("Freezebee.vue")
+            console.log("Delete Model:")
+            console.log(id)
+            this.$store.dispatch("deleteModel", {id: id});
         }
     }
   }

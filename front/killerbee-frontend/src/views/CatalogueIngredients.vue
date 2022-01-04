@@ -4,7 +4,7 @@
         <div id="head-content">
             <div id="search-content">
                 <form id="search">
-                    <h3>Search:</h3><input placeholder="modifiez-moi" v-model="query" required/>
+                    <h3>Search:</h3><input placeholder="Recherche par mot" v-model="query" required/>
                     <v-icon v-on:click="searchQuery(query)">mdi-magnify</v-icon>
                 </form>
             </div>

@@ -4,7 +4,7 @@
         <div id="head-content">
             <div id="search-content">
                 <form id="search">
-                    <h3>Search:</h3><input placeholder="modifiez-moi" v-model="query" required/>
+                    <h3>Search:</h3><input placeholder="Recherche par mot" v-model="query" required/>
                     <v-icon v-on:click="searchQuery(query)">mdi-magnify</v-icon>
                 </form>
             </div>
@@ -23,13 +23,13 @@
                     AJOUTER
                 </v-btn>
             </div>
-            <div id="delete">
-                <!--<div v-if="role == 'DBA'"></div>-->
+            <!--<div id="delete">
+                <div v-if="role == 'DBA'"></div>
                 <v-btn v-on:click="$router.push({ name: 'DeleteModel' }).catch((err) => {})" color="#C70039" style="float: right;">
                     <v-icon>mdi-trash-can</v-icon>
                     DELETE
                 </v-btn>
-            </div>
+            </div>-->
         </div>
         <div v-if="query == ''">
             <div v-if="id == null">

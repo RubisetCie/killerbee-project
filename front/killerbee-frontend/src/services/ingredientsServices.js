@@ -90,7 +90,7 @@ export async function putByIdIngredient(id, accessToken, ingredient){ // url+'/:
           return e.response.data
       }
 }
-export async function deleteByIdIngredient(id, accessToken){ // url+'/:id'
+export async function deleteIngredient(id, accessToken){ // url+'/:id'
     try{
         const response = await axios.delete(baseUrl+"ingredient/"+id,
         {

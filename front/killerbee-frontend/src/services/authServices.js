@@ -1,6 +1,6 @@
 import axios from 'axios';
-const baseUrl =  "http://localhost:3000/"
-//const baseUrl="http://10.10.10.2:3000/"
+//const baseUrl =  "http://localhost:3000/"
+const baseUrl="http://10.10.10.2:3000/"
 //CONNECTION OF USER
 export async function login(username, password) {
   try {

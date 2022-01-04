@@ -4,41 +4,38 @@
             <template slot="progress">
             <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
             </template>
-            <v-btn absolute color="#C70039" fab large right top @click="deleteModel(model.id)">
-                <v-icon>mdi-trash-can</v-icon>
-            </v-btn>
             <v-img class="img" :src= srcPicture></v-img>
             <v-divider class="mx-4"></v-divider>
-            <v-card-title>Freezebee: {{model.model.name}}</v-card-title>
+            <v-card-title>Freezebee: {{modelID.model.name}}</v-card-title>
             <v-card-text>
                 <ul>
-                    <li>Ref: {{model.model.reference}}</li>
-                    <li>Gamme : {{model.model.variety}}</li>
-                    <li>Masse: {{model.model.mass}} kg</li>
+                    <li>Ref: {{modelID.model.reference}}</li>
+                    <li>Gamme : {{modelID.model.variety}}</li>
+                    <li>Masse: {{modelID.model.mass}} kg</li>
                     <li>Couleur: 
                         <ul>
-                            <li> Rouge: {{model.model.color.r}}; </li>
-                            <li> Vert: {{model.model.color.g}}; </li>
-                            <li> Bleu: {{model.model.color.b}};</li>
+                            <li> Rouge: {{modelID.model.color.r}}; </li>
+                            <li> Vert: {{modelID.model.color.g}}; </li>
+                            <li> Bleu: {{modelID.model.color.b}};</li>
                         </ul>
                     </li>
                     <li>Dimensions: 
                         <ul>
-                            <li>Largeur: {{model.model.dimensions.width}} m; </li>
-                            <li>Longueur: {{model.model.dimensions.length}} m; </li>
-                            <li>Hauteur: {{model.model.dimensions.height}} m;</li>
+                            <li>Largeur: {{modelID.model.dimensions.width}} m; </li>
+                            <li>Longueur: {{modelID.model.dimensions.length}} m; </li>
+                            <li>Hauteur: {{modelID.model.dimensions.height}} m;</li>
                         </ul>
                     </li>
-                    <li>Coefficient de Portance: {{model.model.lift}} kg.m/s^2</li>
-                    <li>Prix: {{model.model.price}} €</li>
+                    <li>Coefficient de Portance: {{modelID.model.lift}} kg.m/s^2</li>
+                    <li>Prix: {{modelID.model.price}} €</li>
                 </ul>
             </v-card-text>
             <v-card-actions>
-            <v-btn color="deep-purple lighten-2" text @click="fabrication(model.model)">
+            <v-btn color="deep-purple lighten-2" text @click="fabrication(modelID.model)">
                 Fabrication
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="deep-purple lighten-2" text @click="details(model.model)">
+            <v-btn color="deep-purple lighten-2" text @click="details(modelID.model)">
                 Détails
             </v-btn>
             </v-card-actions>
@@ -53,7 +50,7 @@
       srcPicture: require("../assets/img/freezebee.jpg"),
     }),
     props:{
-        model:{
+        modelID:{
             type: Object
         }
     },
@@ -67,12 +64,6 @@
             console.log(model)
             this.$store.state.modelChoice = model
             this.$router.push({ name: 'FreezeBeeDetails' })
-        },
-        deleteModel(id){
-            console.log("Freezebee.vue")
-            console.log("Delete Model:")
-            console.log(id)
-            this.$store.dispatch("deleteModel", {id: id});
         }
     }
   }

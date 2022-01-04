@@ -1,7 +1,7 @@
 import axios from 'axios';
 //const baseUrl = process.env.URL_API1
+//const baseUrl =  "http://localhost:3000/"
 const baseUrl = "http://10.10.10.2:3000/"
-//const baseUrl = "http://localhost:3000"
 export async function postModel(model, accessToken){// url+'/' et bsn d'un param (body)
     try{
         console.log(model)
@@ -59,13 +59,15 @@ export async function getModels(accessToken){// url+'/'
 }
 export async function getByIdModels(id, accessToken){// url+'/:id'
     try{
-        const response = await axios.getById(baseUrl+"model/"+id, {
+        console.log(id)
+        const response = await axios.get(baseUrl+"model/"+id, {
             headers: {
               Authorization: "Bearer " + accessToken
             }
         })
         console.log("getByIdModels")
         console.log(response.status)
+        console.log(response.data)
         return response.data
       } catch (e) {
           console.warn(e)
@@ -74,17 +76,27 @@ export async function getByIdModels(id, accessToken){// url+'/:id'
 }
 export async function getQueryModels(query, accessToken){// url+'/query' et bsn d'un param (body)
     try{
-        const response = await axios.getQuery(baseUrl+"model/query",
-        {
-            headers: {
-              Authorization: "Bearer " + accessToken
-            }
-        },
-        {
+        const header = {
+            "Authorization": "Bearer " + accessToken,
+            "Content-Type": "application/json"
+        }
+        console.log("Header - getQueryModels")
+        console.log(header) 
+        const request = {
             query: query
+        } 
+        console.log("Request - getQueryModels")
+        console.log(request)
+        console.log("URL")
+        console.log(baseUrl+"model/query")
+        const response = await axios.get(baseUrl+"model/query",
+        request,
+        {
+            headers: header
         })
         console.log("getQueryModels")
         console.log(response.status)
+        console.log(response.data)
         return response.data
       } catch (e) {
           console.warn(e)

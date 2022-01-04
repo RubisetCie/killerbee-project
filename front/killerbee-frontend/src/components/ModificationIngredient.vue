@@ -1,9 +1,9 @@
 <template>
     <v-container>
         <Header />
-        HOME > MODIFIER
+        HOME > CATALOGUE DES INGREDIENTS > MODIFIER UN INGREDIENT > 
         <div id="head-content">
-            <div id="search-content-word">
+            <!--<div id="search-content-word">
                 <form class="search">
                     <h3>Search:</h3><input name="query" placeholder="Recherche par mot" v-model="query" required/>
                     <v-icon v-on:click="searchQuery(query)">mdi-magnify</v-icon>
@@ -15,10 +15,10 @@
                     <h3>Search:</h3><input name="id" placeholder="Recherche par id" v-model="id" required/>
                     <v-icon v-on:click="searchById(id)">mdi-magnify</v-icon>
                 </form>
-            </div>
+            </div>-->
         </div>
-        <div v-if="query != ''|| id != null">
-            <h1 style="text-align: center;">Ingrédient à modifier:</h1>
+        <!--<div v-if="query != ''|| id != null">-->
+            <h1 style="text-align: center;">Ingrédient à ajouter:</h1>
             <form>
                 <ul>
                     <li>Nom: 
@@ -52,7 +52,7 @@
                     VALIDER
                 </v-btn>
             </form>
-        </div>
+        <!--</div>-->
     </v-container>
 </template>
 <script>

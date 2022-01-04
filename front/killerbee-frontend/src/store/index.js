@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { boolean } from 'yup'
 import { login, logout } from '../services/authServices'
-import { getAllIngredients,getByIdIngredients,getQueryIngredients, postIngredient} from '../services/ingredientsServices'
-import { getMethods, getByIdMethods, getQueryMethods} from '../services/methodsService'
-import { getModels, getByIdModels, getQueryModels, postModel} from '../services/modelsServices'
+import { getAllIngredients,getByIdIngredients,getQueryIngredients, postIngredient, deleteIngredient} from '../services/ingredientsServices'
+import { getMethods, getByIdMethods, getQueryMethods, deleteMethod, postMethod} from '../services/methodsService'
+import { getModels, getByIdModels, getQueryModels, postModel, deleteModel} from '../services/modelsServices'
 Vue.use(Vuex)
 
 require("dotenv").config();
@@ -33,7 +33,7 @@ export default new Vuex.Store({
     },
     modelChoice:[],
     modelsQuery:[],
-    modelId:[],
+    modelId:{},
     modelSelected: boolean,
     ingredientsTitle:{
       name: "name",
@@ -71,8 +71,12 @@ export default new Vuex.Store({
     methodsTitle:{
       name: "name",
       description: "description",
-      modelId: "ID du modèle",
+      modelId: "nom du modèle",
       steps:"étape du processus"
+    },
+    stepTitle:{
+      description: "description",
+      validation: "validation"
     },
     fabricationsTitle:{
       name: "name",
@@ -86,7 +90,8 @@ export default new Vuex.Store({
       dosing: "dosing", 
     },
     account:[],
-    insertion: boolean
+    insertion: boolean, 
+    deleteSuccess: false
   },
   getters:{
     account: state => state.account,
@@ -100,7 +105,8 @@ export default new Vuex.Store({
     methods: state => state.methods,
     method: state => state.method,
     methodsQuery: state => state.methodsQuery,
-    step: state => state.step
+    step: state => state.step,
+    deleteSuccess: state => state.deleteSuccess
   },
   mutations: {
     // SESSION - Connection of the user
@@ -155,21 +161,26 @@ export default new Vuex.Store({
     //MODEL
     GETALLMODELS(state, payload){
       state.models = payload.models
+      state.insertion = false
+      state.deleteSuccess = false
     },
     GETBYIDMODEL(state, payload){
-      state.modelId = payload
+      state.modelId = payload.model
     },
     GETQUERYMODEL(state, payload){
       state.modelsQuery = payload
     },
     POSTMODEL(state, payload){
-      state.insertion = false
       state.insertion = payload
+    },
+    DELETEMODEL(state){
+      state.deleteSuccess = true
     },
     // INGREDIENT
     GETALLINGREDIENTS(state, payload){
       state.ingredients = payload.ingredients
-      console.log(state.ingredients)
+      state.insertion = false
+      state.deleteSuccess = false
     },
     GETBYIDINGREDIENT(state, payload){
       state.ingredientId = payload
@@ -178,19 +189,29 @@ export default new Vuex.Store({
       state.ingredientsQuery = payload
     },
     POSTINGREDIENT(state, payload){
-      state.insertion = false
       state.insertion = payload
+    },
+    DELETEINGREDIENT(state){
+      state.deleteSuccess = true
     },
     // METHOD
     GETALLMETHODS(state, payload){
-      state.methods = payload
+      state.methods = payload.methods
+      state.deleteSuccess = false
+      state.insertion = false
     },
     GETBYIDMETHOD(state, payload){
       state.methodId = payload
     },
     GETQUERYMETHOD(state, payload){
       state.methodsQuery = payload
-    }
+    },
+    DELETEMETHOD(state){
+      state.deleteSuccess = true
+    },
+    POSTMETHOD(state, payload){
+      state.insertion = payload
+    },
     //STEP  
   },
   actions: {
@@ -249,6 +270,7 @@ export default new Vuex.Store({
     getAllModels({ commit }){
       try{
         return getModels(this.state.session.accessToken).then(res => {
+          console.log(res)
           commit('GETALLMODELS', res);
         })
       }catch (err) {
@@ -256,10 +278,10 @@ export default new Vuex.Store({
         this.$router.push('Login')
       }
     },
-    getByIdModel({ commit }, id){
+    getByIdModel({ commit }, payload){
       try{
-        return getByIdModels(id, this.state.session.accessToken).then(res =>{
-          commit('GETBYIDMODELS', res);
+        return getByIdModels(payload.id, this.state.session.accessToken).then(res =>{
+          commit('GETBYIDMODEL', res);
         })
       }catch (err) {
         console.warn(err);
@@ -276,13 +298,26 @@ export default new Vuex.Store({
         this.$router.push('Login')
       }
     },
+    //DELETE
+    deleteModel({commit},payload){
+      try{
+        console.log("Store:")
+        console.log(payload.id)
+        return deleteModel(payload.id,this.state.session.accessToken).then(res =>{
+          commit('DELETEMODEL', res);
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
+      }
+    },
         ///POST
     postModel({commit},payload){
       try{
         console.log("Store: postModel");
         console.log(payload)
         postModel(payload.newModel, this.state.session.accessToken).then(res =>{
-            if(res == 200){
+            if(res == 200 || res == 201 || res == 204){
               commit("POSTMODEL", res)
           }
           else{
@@ -301,6 +336,7 @@ export default new Vuex.Store({
     getAllIngredients({ commit }){
       try{
         return getAllIngredients(this.state.session.accessToken).then(res => {
+          console.log(res)
           commit('GETALLINGREDIENTS', res);
         })
       }catch (err) {
@@ -308,9 +344,10 @@ export default new Vuex.Store({
         this.$router.push('Login')
       }
     },
-    getByIdIngredient({ commit }, id){
+    getByIdIngredient({ commit }, payload){
       try{
-        return getByIdIngredients(id, this.state.session.accessToken).then(res =>{
+        return getByIdIngredients(payload.id, this.state.session.accessToken).then(res =>{
+          console.log(res)
           commit('GETBYIDINGREDIENT', res);
         })
       }catch (err) {
@@ -335,7 +372,9 @@ export default new Vuex.Store({
         console.log("Store: postModel");
         console.log(payload)
         postIngredient(payload.newIngredient, this.state.session.accessToken).then(res =>{
-            if(res == 200){
+            if(res == 200 || res == 201 || res == 204){
+              console.log(res)
+              console.log(res.id)
               commit("POSTINGREDIENT", res)
           }
           else{
@@ -347,10 +386,23 @@ export default new Vuex.Store({
         this.$router.push('Login')
       }
     },
+    deleteIngredient({commit}, payload){
+      try{
+        console.log("Store:")
+        console.log(payload.id)
+        return deleteIngredient(payload.id,this.state.session.accessToken).then(res =>{
+          commit('DELETEINGREDIENT', res);
+        })
+      }catch (err) {
+        console.warn(err);
+        this.$router.push('Login')
+      }
+    },
     //METHODS
     getAllMethods({ commit }){
       try{
         return getMethods(this.state.session.accessToken).then(res => {
+          console.log(res)
           commit('GETALLMETHODS', res);
         })
       }catch (err) {
@@ -358,9 +410,9 @@ export default new Vuex.Store({
         this.$router.push('Login')
       }
     },
-    getByIdMethod({ commit }, id){
+    getByIdMethod({ commit }, payload){
       try{
-        return getByIdMethods(id, this.state.session.accessToken).then(res =>{
+        return getByIdMethods(payload.id, this.state.session.accessToken).then(res =>{
           commit('GETBYIDMETHOD', res);
         })
       }catch (err) {
@@ -378,6 +430,37 @@ export default new Vuex.Store({
         this.$router.push('Login')
     }
   },
+  postMethod({commit}, payload){
+    try{
+      console.log("Store: postModel");
+      console.log(payload)
+      postMethod(payload.newMethod, this.state.session.accessToken).then(res =>{
+          if(res == 200 || res == 201 || res == 204){
+            console.log(res)
+            console.log(res.id)
+            commit("POSTMETHOD", res)
+        }
+        else{
+          console.log("Tentative de POST MODEL échoué")
+        }
+      })
+    }catch (err) {
+      console.warn(err);
+      this.$router.push('Login')
+    }
+  },
+  deleteMethod({commit}, payload){
+    try{
+      console.log("Store:")
+      console.log(payload.id)
+      return deleteMethod(payload.id,this.state.session.accessToken).then(res =>{
+        commit('DELETEMETHOD', res);
+      })
+    }catch (err) {
+      console.warn(err);
+      this.$router.push('Login')
+    }
+  }
 }, 
   modules: {
   }

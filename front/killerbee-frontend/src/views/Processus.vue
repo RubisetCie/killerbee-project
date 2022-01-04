@@ -4,42 +4,114 @@
         <div id="head-content">
             <div id="search-content">
                 <form id="search">
-                    <h3>Search:</h3><input name="query" placeholder="modifiez-moi" v-model="query" required/>
+                    <h3>Search:</h3><input name="query" placeholder="Recherche par mot" v-model="query" required/>
                     <v-icon v-on:click="searchQuery(query)">mdi-magnify</v-icon>
                 </form>
             </div>
             <v-spacer></v-spacer>
+            <div id="search-content-id">
+                <form class="search">
+                    <h3>Search:</h3><input name="id" placeholder="Recherche par id" v-model="id" required/>
+                    <v-icon v-on:click="searchById(id)">mdi-magnify</v-icon>
+                </form>
+            </div>  
+            <v-spacer></v-spacer>
             <div id="modification">
                 <!--<div v-if="role == 'DBA'"></div>-->
-                <v-btn v-on:click="$router.push({ name: 'ModificationModel' }).catch((err) => {})" color="#FFBB33" style="float: right;">
-                    MODIFIER
+                <v-btn v-on:click="$router.push({ name: 'AddProcessus' }).catch((err) => {})" color="#FFBB33" style="float: right;">
+                   <v-icon>mdi-pencil</v-icon>
+                    AJOUTER
                 </v-btn>
             </div>
         </div>
         <br>
-        <div  v-for="method in methods" :key="method">
-            {{method["method"]}}
-        </div>
-        <!--<div v-if="query == ''">
-            <table>
-                <thead>
-                    <tr>
-                        <th v-for="title in methodsTitle" :key="title">
-                            {{ title | capitalize }}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="method in methods" :key="method.id">
-                        <td v-for="title in methodsTitle" :key="title">
-                            {{method.method[title]}}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div v-if="query == ''">
+            <div v-if="id == null">
+                <table>
+                    <thead>
+                        <tr>
+                            <th v-for="title in methodsTitle" :key="title">
+                                {{ title | capitalize }}
+                            </th>
+                            <th>SUPPRIMER?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="method in methods" :key="method.id">
+                            <td v-for="title in methodsTitle" :key="title">
+                                <div v-if="title == 'étape du processus'">
+                                   <div v-for="(step, idx) in method.method.steps" :key="idx">
+                                        <tr>
+                                            <strong>Description:</strong> {{step.description}}<br>
+                                            <strong>Validation: </strong> {{step.validation}}
+                                        </tr>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    <div v-if="title == 'nom du modèle'">
+                                        {{method.method.model.name}}
+                                    </div>
+                                    <div v-else>
+                                        {{method.method[title]}}
+                                    </div>
+                                </div>
+                            </td>
+                            <div id="delete">
+                                <!--<div v-if="role == 'DBA'"></div>-->
+                                <v-btn v-on:click="deleteMethod(method.id)" color="#C70039">
+                                    <v-icon>mdi-trash-can</v-icon>
+                                    DELETE
+                                </v-btn>
+                            </div>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div v-else>
+                <!--<div v-for="(champ, idx) in methodID" :key="idx">
+                        {{champ.name}}
+                        {{champ.description}}
+                </div>-->
+                <table>
+                    <thead>
+                        <tr>
+                            <th v-for="title in methodsTitle" :key="title">
+                                {{ title | capitalize }}
+                            </th>
+                            <th>SUPPRIMER?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(method, index) in methodID" :key="index">
+                            <td>
+                                {{method.name}}
+                            </td>
+                            <td>
+                                {{method.description}}
+                            </td>
+                            <td>
+                                {{method.model}}
+                            </td>
+                            <td>
+                                <div v-for="(step, idx) in method.steps" :key="idx">
+                                        <strong>Description:</strong> {{step.description}}<br>
+                                        <strong>Validation: </strong> {{step.validation}}
+                                </div>
+                            </td>
+                            <div id="delete">
+                                <!--<div v-if="role == 'DBA'"></div>-->
+                                <v-btn v-on:click="deleteMethod(method.id)" color="#C70039">
+                                    <v-icon>mdi-trash-can</v-icon>
+                                    DELETE
+                                </v-btn>
+                            </div>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div v-else>
-            <div>
+            <!--<div>
                 {{processusQuery}}
             </div>
             <table>
@@ -53,12 +125,25 @@
                 <tbody>
                     <tr v-for="method in methodsQuery" :key="method.id">
                         <td v-for="title in methodsTitle" :key="title">
-                            {{method.method[title]}}
+                            <div v-if="title == 'étape du processus'">
+                                <div v-for="step in method.method.steps" :key="step">
+                                    <strong>Description:</strong> {{step.description}}<br>
+                                    <strong>Validation: </strong> {{step.validation}}
+                                </div>
+                            </div>
+                            <div v-else>
+                                <div v-if="title == 'nom du modèle'">
+                                    {{method.method.model.name}}
+                                </div>
+                                <div v-else>
+                                    {{method.method[title]}}
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
-            </table>
-        </div>-->
+            </table>-->
+        </div>
     </v-container>
 </template>
 <script type="text/x-template" id="grid-template">
@@ -68,7 +153,8 @@ export default{
     data: ()=> ({
         query: "",
         methodsQuery:[],
-        errorMessage:""
+        errorMessage:"", 
+        id: null
     }),
     components:{
         Header
@@ -84,6 +170,12 @@ export default{
         },
         methodsTitle(){
             return this.$store.state.methodsTitle
+        },
+        stepTitle(){
+            return this.$store.state.stepTitle
+        },
+        methodID(){
+            return this.$store.state.methodId
         }
     },
     methods: {
@@ -99,8 +191,28 @@ export default{
         },
         sortBy(key) {
             this.sortKey = key;
+        },
+        searchById(id){
+            console.log("ID saisi: "+ id)
+            if(id== ''){
+                this.errorMessage = "Veuillez saisir un mot de recherche.";
+                console.log(this.errorMessage);
+            }else{
+                this.$store.dispatch("getByIdMethod", {id: id});
+            }
+        },
+        deleteMethod(id){
+            console.log("Processus.vue")
+            console.log("Delete Method:")
+            console.log(id)
+            this.$store.dispatch("deleteMethod", {id: id});
+        }
+    },
+    filters: {
+          capitalize: function(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
           }
-    }
+    },
 }
 </script>
 

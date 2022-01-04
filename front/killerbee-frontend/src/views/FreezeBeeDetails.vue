@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <Header/>
-        HOME > DETAILS
+        HOME > {{model.name}} > DETAILS
         <div id="head-content">
             <div id="title">
                 <h1 style="text-align: center">Freezebee - {{model.name}}</h1>

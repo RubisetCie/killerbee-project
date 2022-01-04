@@ -3,7 +3,7 @@
         <v-app-bar app color="#087A57" dark>
             <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
             <v-spacer></v-spacer>
-            <h2 style="text-decoration: cursive">GESTION DES PROCESSUS</h2>
+            <h2 style="text-decoration: cursive">CATALOGUE DES PROCESSUS</h2>
             <v-spacer></v-spacer>
             <h2 style="text-decoration: cursive">Killerbee</h2>
         </v-app-bar>
@@ -17,7 +17,7 @@
                     <v-list-item-title>CATALOGUE <br> DES FREEZEBEE</v-list-item-title>
                 </v-list-item>
 
-                <v-list-item  @click="$router.push({ name: 'Catalogue' }).catch((err) => {})" >
+                <v-list-item  @click="$router.push({ name: 'CatalogueIngredients' }).catch((err) => {})" >
                     <v-list-item-icon>
                     <v-icon>mdi-ballot</v-icon>
                     </v-list-item-icon>
@@ -28,7 +28,7 @@
                     <v-list-item-icon>
                     <v-icon>mdi-ballot-outline</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-title>GESTION <br> DES PROCESSUS</v-list-item-title>
+                    <v-list-item-title>CATALOGUE <br> DES PROCESSUS</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item @click="logout()">

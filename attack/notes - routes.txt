@@ -1,0 +1,3 @@
+- L'API est située sur "http://10.0.0.6/api"
+- La requête d'authentification est "api/auth/login"
+- L'interface Proxmox a été trouvée (10.0.0.2:8006)

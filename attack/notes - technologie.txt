@@ -1,0 +1,3 @@
+[APPLICATION WEB: 10.0.0.6]
+	- AngularJS
+	- Zone.js
